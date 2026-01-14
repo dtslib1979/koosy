@@ -4,11 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#0F1F15" />
-  <title>KOOSY | CELEB Story Broadcasting</title>
-  <meta name="description" content="Bluffing based editing broadcasting CELEB story" />
+  <title>dtslib | 보일러플레이트</title>
+  <meta name="description" content="GitHub Pages 보일러플레이트 템플릿" />
   <link rel="icon" href="./assets/icons/logo.png" />
   <link rel="apple-touch-icon" href="./assets/icons/logo.png" />
-  <link rel="manifest" href="./assets/manifest.json" />
   <style>
     :root {
       --bg: #0F1F15;
@@ -22,21 +21,30 @@
       --text-muted: rgba(245,245,240,.5);
       --border: rgba(245,245,240,.1);
       --border-gold: rgba(212,175,55,.3);
+
       --space-xs: 4px;
       --space-sm: 8px;
       --space-md: 16px;
       --space-lg: 24px;
       --space-xl: 32px;
       --space-2xl: 48px;
+
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
       --radius-full: 9999px;
+
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow-x: hidden; }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 15px;
@@ -45,29 +53,62 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
+
     a { color: inherit; text-decoration: none; }
     button { font: inherit; cursor: pointer; }
+
     .container {
       width: 100%;
       max-width: 480px;
       margin: 0 auto;
       padding: calc(var(--safe-top) + var(--space-md)) var(--space-md) calc(var(--safe-bottom) + var(--space-lg));
     }
-    header { text-align: center; padding: var(--space-xl) 0; }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: var(--space-lg) 0;
+    }
+
     .logo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto var(--space-md);
+      width: 100px;
+      height: 100px;
+      margin: 0 auto var(--space-sm);
       border-radius: var(--radius-full);
       border: 2px solid var(--gold);
       box-shadow: 0 4px 20px rgba(212,175,55,.2);
       overflow: hidden;
       background: var(--bg-elevated);
+      position: relative;
+    }
+
+    .logo iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+    }
+
+    .logo-emoji {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 56px;
+      font-size: 48px;
     }
+
+    .site-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Slogan */
     .slogan {
       font-size: 11px;
       font-weight: 600;
@@ -76,6 +117,8 @@
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: var(--space-sm);
+      position: relative;
+      display: inline-block;
       background: linear-gradient(90deg, var(--gold), #FFD700, var(--gold));
       background-size: 200% auto;
       -webkit-background-clip: text;
@@ -83,38 +126,400 @@
       background-clip: text;
       animation: shimmer 3s ease-in-out infinite;
     }
+
     @keyframes shimmer {
       0%, 100% { background-position: 0% center; }
       50% { background-position: 200% center; }
     }
-    .site-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
-    .site-desc { font-size: 13px; color: var(--text-secondary); margin-top: var(--space-xs); }
-    .hero-section {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius-lg);
-      padding: var(--space-xl);
-      margin: var(--space-lg) 0;
-      text-align: center;
+
+    .slogan::before,
+    .slogan::after {
+      content: '—';
+      margin: 0 8px;
+      opacity: 0.5;
     }
-    .hero-title { font-size: 20px; font-weight: 600; margin-bottom: var(--space-sm); }
-    .hero-subtitle { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-    .features {
+
+    /* Phase Notice */
+    .phase-notice {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(212,175,55,.08);
+      border: 1px dashed var(--border-gold);
+      border-radius: var(--radius-md);
+      font-size: 11px;
+    }
+
+    .phase-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .phase-text {
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .phase-text strong {
+      color: var(--gold);
+    }
+
+    /* Phase Accordion */
+    .phase-accordion {
+      margin-top: var(--space-md);
+      background: rgba(212,175,55,.05);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .phase-header::-webkit-details-marker { display: none; }
+
+    .phase-title {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .phase-toggle {
+      font-size: 10px;
+      color: var(--gold);
+      transition: transform 0.2s;
+    }
+
+    .phase-accordion[open] .phase-toggle {
+      transform: rotate(180deg);
+    }
+
+    .phase-content {
+      padding: 0 var(--space-md) var(--space-md);
+    }
+
+    .phase-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: var(--space-md);
+      font-style: italic;
+    }
+
+    .platform-category {
+      margin-bottom: var(--space-sm);
+    }
+
+    .category-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .platform-links {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-sm);
-      justify-content: center;
-      margin-top: var(--space-lg);
+      gap: 6px;
     }
-    .feature-tag {
+
+    .platform-chip {
       font-size: 11px;
       font-weight: 500;
-      color: var(--gold);
-      background: var(--gold-dim);
-      border: 1px solid var(--border-gold);
+      color: var(--text-secondary);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
       border-radius: var(--radius-full);
-      padding: var(--space-xs) var(--space-md);
+      padding: 4px 10px;
+      transition: all 0.2s;
     }
+
+    .platform-chip:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: rgba(212,175,55,.1);
+    }
+
+    /* ========== 명함 카드 (buddies.kr style) ========== */
+    @keyframes cardShimmer {
+      0%, 100% { background-position: 200% 0; }
+      50% { background-position: -200% 0; }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(212,175,55,.25); }
+      50% { box-shadow: 0 4px 30px rgba(212,175,55,.45), 0 0 40px rgba(212,175,55,.2); }
+    }
+
+    .business-card-wrapper {
+      margin: var(--space-md) 0 var(--space-xl);
+    }
+
+    .business-card {
+      background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+      border: 1px solid rgba(212,175,55,.4);
+      border-radius: 16px;
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 0 80px rgba(212,175,55,.08);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .business-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #D4AF37 0%, #F4E4A6 25%, #D4AF37 50%, #B8962E 75%, #D4AF37 100%);
+      background-size: 200% 100%;
+      animation: cardShimmer 3s ease-in-out infinite;
+    }
+
+    .business-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.6), 0 0 100px rgba(212,175,55,.12);
+    }
+
+    .card-logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      overflow: hidden;
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .card-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-brand {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .card-brand-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #D4AF37 0%, #F4E4A6 25%, #D4AF37 50%, #B8962E 75%, #D4AF37 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: cardShimmer 3s ease-in-out infinite;
+      margin-bottom: 4px;
+    }
+
+    .card-tagline {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(245,245,240,.5);
+      text-transform: uppercase;
+    }
+
+    .card-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,.4), transparent);
+      margin: 16px 0;
+    }
+
+    .card-quote {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    .card-quote span {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .card-contact {
+      text-align: center;
+    }
+
+    .card-contact-item {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .card-contact-item a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .card-contact-item a:hover {
+      color: var(--gold);
+    }
+
+    .card-contact-icon {
+      display: inline-block;
+      width: 18px;
+      font-size: 12px;
+      text-align: center;
+      margin-right: 4px;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .card-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: transparent;
+      border: 1px solid rgba(212,175,55,.4);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .card-btn:hover {
+      background: rgba(212,175,55,.1);
+      border-color: var(--gold);
+    }
+
+    .card-btn.primary {
+      background: var(--gold);
+      color: #0A0A0A;
+      border-color: var(--gold);
+    }
+
+    .card-btn.primary:hover {
+      background: #E8C547;
+      box-shadow: 0 4px 20px rgba(212,175,55,.3);
+    }
+
+    .card-license-section {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .card-license-toggle {
+      font-size: 10px;
+      color: rgba(245,245,240,.5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .card-license-toggle:hover {
+      color: var(--gold);
+    }
+
+    /* 사업자등록증 모달 */
+    .license-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .license-modal.show {
+      display: flex;
+    }
+
+    .license-modal-content {
+      position: relative;
+      max-width: 500px;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .license-modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .license-close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 32px;
+      height: 32px;
+      background: var(--gold);
+      color: #0A0A0A;
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    .license-close:hover {
+      transform: scale(1.1);
+    }
+
+    .card-footer-note {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 10px;
+      color: rgba(245,245,240,.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* Section Title */
     .section-title {
       font-size: 11px;
       font-weight: 700;
@@ -124,7 +529,428 @@
       margin-bottom: var(--space-md);
       padding-left: var(--space-xs);
     }
-    .linktree { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-xl); }
+
+    /* Rolls-Royce Dashboard */
+    .dashboard-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .dashboard-container {
+      background: linear-gradient(145deg, #0a1510 0%, #1a2e22 50%, #0f1f15 100%);
+      border: 2px solid rgba(212,175,55,.2);
+      border-radius: 24px;
+      padding: var(--space-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .dashboard-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.7;
+    }
+
+    .dashboard-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .dashboard-panel {
+      background: rgba(0,0,0,.3);
+      border: 1px solid rgba(212,175,55,.15);
+      border-radius: 16px;
+      padding: var(--space-md);
+      position: relative;
+    }
+
+    .dashboard-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,.4), transparent);
+    }
+
+    .panel-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: var(--space-sm);
+      padding-bottom: var(--space-xs);
+      border-bottom: 1px solid rgba(245,245,240,.05);
+    }
+
+    .panel-tools {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tool-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 10px 12px;
+      background: rgba(212,175,55,.05);
+      border: 1px solid rgba(212,175,55,.1);
+      border-radius: 10px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .tool-btn:hover {
+      background: rgba(212,175,55,.12);
+      border-color: rgba(212,175,55,.3);
+      transform: translateY(-1px);
+    }
+
+    .tool-btn:active {
+      transform: translateY(0);
+    }
+
+    .tool-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(212,175,55,.5);
+      flex-shrink: 0;
+    }
+
+    .tool-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .dashboard-footer {
+      display: flex;
+      justify-content: center;
+      margin-top: var(--space-md);
+      padding-top: var(--space-sm);
+      border-top: 1px solid rgba(245,245,240,.05);
+    }
+
+    .secret-door {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      transition: all 0.3s;
+    }
+
+    .door-frame {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(180deg, #2a1810 0%, #1a0f08 100%);
+      border: 3px solid #4a3020;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        inset 0 0 20px rgba(0,0,0,.5),
+        0 4px 12px rgba(0,0,0,.4);
+      overflow: hidden;
+    }
+
+    .door-frame::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 6px var(--gold);
+    }
+
+    .door-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: transform 0.3s;
+    }
+
+    .door-glow {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(212,175,55,.1) 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .fingerprint-frame {
+      background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+      border-color: var(--gold);
+    }
+
+    .fingerprint-frame::before {
+      display: none;
+    }
+
+    .fingerprint-icon {
+      width: 48px;
+      height: 48px;
+      transition: all 0.3s;
+    }
+
+    .secret-door:hover .fingerprint-icon {
+      stroke: var(--gold-light);
+      filter: drop-shadow(0 0 8px rgba(212,175,55,.5));
+      transform: scale(1.1);
+    }
+
+    .secret-door:hover .door-frame {
+      border-color: var(--gold);
+      box-shadow:
+        inset 0 0 20px rgba(0,0,0,.5),
+        0 0 20px rgba(212,175,55,.3);
+    }
+
+    .secret-door:hover .door-img {
+      transform: scale(1.05);
+    }
+
+    .secret-door:hover .door-glow {
+      opacity: 1;
+    }
+
+    .door-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .secret-door:hover .door-label {
+      color: var(--gold);
+    }
+
+    /* YouTube Carousel */
+    .youtube-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.4s ease;
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel-slide iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .carousel-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .carousel-placeholder .icon {
+      font-size: 48px;
+      opacity: 0.5;
+    }
+
+    .carousel-nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .carousel-dot.active {
+      background: var(--gold);
+      width: 24px;
+    }
+
+    /* YouTube Shorts Carousel */
+    .shorts-carousel {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+    }
+
+    .shorts-track {
+      display: flex;
+      gap: var(--space-sm);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 var(--space-sm);
+    }
+
+    .shorts-track::-webkit-scrollbar { display: none; }
+
+    .shorts-slide {
+      flex: 0 0 auto;
+      width: 180px;
+      aspect-ratio: 9/16;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      scroll-snap-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .shorts-slide iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .shorts-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .shorts-placeholder span:first-child {
+      font-size: 32px;
+      opacity: 0.5;
+    }
+
+    .shorts-nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .shorts-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .shorts-dot.active {
+      background: var(--gold);
+      width: 16px;
+    }
+
+    .carousel-arrows {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 var(--space-sm);
+      pointer-events: none;
+    }
+
+    .carousel-arrow {
+      width: 36px;
+      height: 36px;
+      background: rgba(15,31,21,.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.2s;
+    }
+
+    .carousel-arrow:hover {
+      background: var(--bg-elevated);
+      border-color: var(--gold);
+    }
+
+    /* Link Tree */
+    .linktree-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .linktree {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
     .link-item {
       display: flex;
       align-items: center;
@@ -135,85 +961,482 @@
       padding: var(--space-md) var(--space-lg);
       transition: all 0.2s;
     }
-    .link-item:hover { border-color: var(--gold); transform: translateX(4px); }
-    .link-icon { font-size: 24px; width: 32px; text-align: center; }
-    .link-text { flex: 1; }
-    .link-name { font-size: 14px; font-weight: 600; }
-    .link-desc { font-size: 11px; color: var(--text-muted); }
-    .link-arrow { color: var(--text-muted); font-size: 14px; }
-    footer { text-align: center; padding: var(--space-lg) 0; border-top: 1px solid var(--border); }
-    .footer-text { font-size: 11px; color: var(--text-muted); }
-    @media (min-width: 768px) { .container { max-width: 600px; } }
+
+    .link-item:hover {
+      border-color: var(--gold);
+      transform: translateX(4px);
+    }
+
+    .link-icon {
+      font-size: 24px;
+      width: 32px;
+      text-align: center;
+    }
+
+    .link-text {
+      flex: 1;
+    }
+
+    .link-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .link-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .link-arrow {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: var(--space-lg) 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-elevated);
+      border: 1px solid var(--gold);
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      color: var(--gold);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 768px) {
+      .container { max-width: 600px; }
+      .dashboard-container { padding: var(--space-xl); }
+      .dashboard-panels { gap: var(--space-lg); }
+    }
   </style>
 </head>
 <body>
+
 <div class="container">
   <header>
-    <div class="slogan">Bluffing Based Broadcasting</div>
-    <div class="logo">🎬</div>
-    <h1 class="site-title">KOOSY</h1>
-    <p class="site-desc">CELEB Story Broadcasting</p>
+    <div class="slogan">Mobile-first AI Builder</div>
+    <div class="logo" role="img" aria-label="dtslib 로고">
+      <iframe src="https://www.youtube.com/embed/SRkRmx4G5Gc?autoplay=1&mute=1&loop=1&playlist=SRkRmx4G5Gc&controls=0&showinfo=0" allow="autoplay; encrypted-media"></iframe>
+    </div>
+    <h1 class="site-title">dtslib</h1>
   </header>
 
-  <section class="hero-section">
-    <h2 class="hero-title">Bluffing Based Editing</h2>
-    <p class="hero-subtitle">셀럽 스토리를 방송합니다.<br>블러핑 기반 편집 브로드캐스팅.</p>
-    <div class="features">
-      <span class="feature-tag">CELEB Story</span>
-      <span class="feature-tag">Broadcasting</span>
-      <span class="feature-tag">Bluffing Editing</span>
+  <!-- 명함 카드 (buddies.kr style) -->
+  <div class="business-card-wrapper">
+    <article class="business-card" id="businessCard">
+      <!-- Profile Photo -->
+      <div class="card-logo">
+        <img src="./assets/icons/1768353694540.jpg" alt="DIMAS" loading="eager">
+      </div>
+
+      <!-- Brand -->
+      <div class="card-brand">
+        <h1 class="card-brand-name">DIMAS</h1>
+        <p class="card-tagline">AI Automation Consultant</p>
+      </div>
+
+      <div class="card-divider"></div>
+
+      <!-- Quote -->
+      <p class="card-quote">"<span>AI</span>로 당신의 업무를 자동화합니다."</p>
+
+      <div class="card-divider"></div>
+
+      <!-- Contact -->
+      <div class="card-contact">
+        <p class="card-contact-item">
+          <a href="https://dtslib.com" target="_blank" rel="noopener">
+            <span class="card-contact-icon">🌐</span>dtslib.com
+          </a>
+        </p>
+        <p class="card-contact-item">
+          <a href="mailto:dimas@dtslib.com">
+            <span class="card-contact-icon">✉️</span>dimas@dtslib.com
+          </a>
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="card-actions">
+        <button class="card-btn" id="saveContactBtn" onclick="saveContact()">
+          <span>📇</span>
+          Save Contact
+        </button>
+        <a href="mailto:dimas@dtslib.com?subject=Proposal%20Inquiry&body=안녕하세요%2C%20DIMAS에%20문의드립니다." class="card-btn primary">
+          <span>✉️</span>
+          Proposal
+        </a>
+      </div>
+
+      <!-- Business License -->
+      <div class="card-license-section">
+        <button class="card-license-toggle" onclick="toggleLicense()">사업자등록증 보기</button>
+      </div>
+    </article>
+
+    <p class="card-footer-note">Tap card to copy link</p>
+  </div>
+
+  <!-- 사업자등록증 모달 -->
+  <div class="license-modal" id="licenseModal" onclick="closeLicenseModal(event)">
+    <div class="license-modal-content">
+      <button class="license-close" onclick="toggleLicense()">&times;</button>
+      <img src="./assets/icons/Screenshot_20251223_215007_Gallery(1).jpg" alt="사업자등록증">
+    </div>
+  </div>
+
+  <!-- YouTube Films -->
+  <section class="youtube-section">
+    <h2 class="section-title">Films</h2>
+    <div class="shorts-carousel">
+      <div class="shorts-track" id="shortsTrack">
+        <div class="shorts-slide">
+          <iframe src="https://www.youtube.com/embed/ex50PdCReRc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="shorts-slide">
+          <iframe src="https://www.youtube.com/embed/SRkRmx4G5Gc?start=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="shorts-slide">
+          <div class="shorts-placeholder">
+            <span>🎬</span>
+            <span>Add Short</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shorts-nav" id="shortsNav">
+      <button class="shorts-dot active" data-index="0"></button>
+      <button class="shorts-dot" data-index="1"></button>
+      <button class="shorts-dot" data-index="2"></button>
     </div>
   </section>
 
-  <section>
+  <!-- Rolls-Royce Dashboard -->
+  <section class="dashboard-section">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <div class="dashboard-title">Control Panel</div>
+      </div>
+
+      <div class="dashboard-panels">
+        <!-- Writing Tools -->
+        <div class="dashboard-panel">
+          <div class="panel-label">Writing</div>
+          <div class="panel-tools">
+            <a href="./tools/webpage-prompt.html" class="tool-btn">
+              <span class="tool-indicator"></span>
+              <span class="tool-name">WebPrompt</span>
+            </a>
+            <a href="./tools/html-poster.html" class="tool-btn">
+              <span class="tool-indicator"></span>
+              <span class="tool-name">HTMLPost</span>
+            </a>
+            <a href="./articles/" class="tool-btn">
+              <span class="tool-indicator"></span>
+              <span class="tool-name">Articles</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Media Tools -->
+        <div class="dashboard-panel">
+          <div class="panel-label">Media</div>
+          <div class="panel-tools">
+            <a href="./tools/image-manager.html" class="tool-btn">
+              <span class="tool-indicator"></span>
+              <span class="tool-name">ImageUp</span>
+            </a>
+            <a href="./tools/audio-manager.html" class="tool-btn">
+              <span class="tool-indicator"></span>
+              <span class="tool-name">AudioUp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-footer">
+        <a href="./staff/" class="secret-door">
+          <div class="door-frame fingerprint-frame">
+            <svg class="fingerprint-icon" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round">
+              <path d="M12 2a6 6 0 0 0-6 6v4c0 4 2 8 6 8"/>
+              <path d="M18 8a6 6 0 0 0-6-6"/>
+              <path d="M18 8v4c0 2.5-1 5-2 6.5"/>
+              <path d="M6 12c0 2 .5 4 2 6"/>
+              <path d="M12 5a3 3 0 0 0-3 3v3"/>
+              <path d="M15 8a3 3 0 0 0-3-3"/>
+              <path d="M15 8v4c0 2-1 4-2 5"/>
+              <path d="M9 11v3c0 2 1 4 2 5"/>
+              <path d="M12 7v9"/>
+            </svg>
+            <div class="door-glow"></div>
+          </div>
+          <span class="door-label">Secret Office</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Link Tree -->
+  <section class="linktree-section">
     <h2 class="section-title">Links</h2>
     <div class="linktree">
-      <a href="./articles/" class="link-item">
-        <span class="link-icon">📰</span>
+      <a href="#" id="githubLink" target="_blank" class="link-item">
+        <span class="link-icon">🐙</span>
         <div class="link-text">
-          <div class="link-name">Articles</div>
-          <div class="link-desc">콘텐츠 아티클</div>
+          <div class="link-name">GitHub</div>
+          <div class="link-desc">오픈소스 프로젝트</div>
         </div>
         <span class="link-arrow">→</span>
       </a>
-      <a href="./studio/" class="link-item">
-        <span class="link-icon">🎥</span>
+      <a href="#" class="link-item">
+        <span class="link-icon">📺</span>
         <div class="link-text">
-          <div class="link-name">Studio</div>
-          <div class="link-desc">방송 스튜디오</div>
+          <div class="link-name">YouTube</div>
+          <div class="link-desc">Manual but Essential</div>
         </div>
         <span class="link-arrow">→</span>
       </a>
-      <a href="./project/" class="link-item">
-        <span class="link-icon">📁</span>
+      <a href="https://www.tistory.com/" target="_blank" class="link-item">
+        <span class="link-icon">📝</span>
         <div class="link-text">
-          <div class="link-name">Projects</div>
-          <div class="link-desc">프로젝트 목록</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
-      <a href="./card/" class="link-item">
-        <span class="link-icon">📇</span>
-        <div class="link-text">
-          <div class="link-name">Card</div>
-          <div class="link-desc">명함 페이지</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
-      <a href="./staff/" class="link-item">
-        <span class="link-icon">🔐</span>
-        <div class="link-text">
-          <div class="link-name">Staff Portal</div>
-          <div class="link-desc">스태프 전용</div>
+          <div class="link-name">Tistory</div>
+          <div class="link-desc">HTML 블로그</div>
         </div>
         <span class="link-arrow">→</span>
       </a>
     </div>
+    <!-- Phase 2 Notice Accordion -->
+    <details class="phase-accordion">
+      <summary class="phase-header">
+        <span class="phase-badge">PHASE 2</span>
+        <span class="phase-title">GUI Automation Targets</span>
+        <span class="phase-toggle">▼</span>
+      </summary>
+      <div class="phase-content">
+        <p class="phase-desc">Claude in Chrome on Desktop — Coming Soon</p>
+
+        <!-- Essential -->
+        <div class="platform-category">
+          <div class="category-label">Essential</div>
+          <div class="platform-links">
+            <a href="https://www.linkedin.com/post/new/" target="_blank" class="platform-chip">LinkedIn</a>
+            <a href="https://www.instagram.com/create/style/" target="_blank" class="platform-chip">Instagram</a>
+            <a href="https://www.facebook.com/" target="_blank" class="platform-chip">Facebook</a>
+            <a href="https://blog.naver.com/PostWriteForm.naver" target="_blank" class="platform-chip">Naver Blog</a>
+          </div>
+        </div>
+
+        <!-- Premium -->
+        <div class="platform-category">
+          <div class="category-label">Premium</div>
+          <div class="platform-links">
+            <a href="https://brunch.co.kr/write" target="_blank" class="platform-chip">Brunch</a>
+            <a href="https://medium.com/new-story" target="_blank" class="platform-chip">Medium</a>
+            <a href="https://x.com/compose/tweet" target="_blank" class="platform-chip">X</a>
+            <a href="https://www.threads.net/" target="_blank" class="platform-chip">Threads</a>
+          </div>
+        </div>
+
+        <!-- Business -->
+        <div class="platform-category">
+          <div class="category-label">Business</div>
+          <div class="platform-links">
+            <a href="https://www.daangn.com/business" target="_blank" class="platform-chip">Karrot Biz</a>
+            <a href="https://sell.smartstore.naver.com/" target="_blank" class="platform-chip">SmartStore</a>
+            <a href="https://www.notion.so/" target="_blank" class="platform-chip">Notion</a>
+          </div>
+        </div>
+      </div>
+    </details>
   </section>
 
   <footer>
-    <p class="footer-text">© 2026 KOOSY. All rights reserved.</p>
+    <p class="footer-text">© 2026 dtslib. All rights reserved.</p>
   </footer>
 </div>
+
+<div class="toast" id="toast">명함이 복사되었습니다</div>
+
+<script>
+// ========== 명함 기능 (buddies.kr style) ==========
+const businessCard = document.getElementById('businessCard');
+const toast = document.getElementById('toast');
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// 카드 클릭 시 링크 복사
+function copyLink() {
+  const url = 'https://dtslib1979.github.io/dtslib-branch/card/';
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Link copied');
+      if (navigator.vibrate) navigator.vibrate(50);
+    }).catch(() => {
+      fallbackCopy(url);
+    });
+  } else {
+    fallbackCopy(url);
+  }
+}
+
+function fallbackCopy(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    showToast('Link copied');
+    if (navigator.vibrate) navigator.vibrate(50);
+  } catch (err) {
+    showToast('Copy failed');
+  }
+  document.body.removeChild(textarea);
+}
+
+businessCard.addEventListener('click', (e) => {
+  if (e.target.closest('button') || e.target.closest('a')) return;
+  copyLink();
+});
+
+// vCard 저장
+function saveContact() {
+  const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:DIMAS
+ORG:dtslib
+TITLE:AI Automation Consultant
+EMAIL;TYPE=WORK:dimas@dtslib.com
+URL:https://dtslib.com
+NOTE:AI 업무 자동화 전문가
+END:VCARD`;
+
+  const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'DIMAS.vcf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+
+  showToast('Contact saved');
+  if (navigator.vibrate) navigator.vibrate(50);
+}
+
+// 사업자등록증 모달 토글
+function toggleLicense() {
+  const modal = document.getElementById('licenseModal');
+  modal.classList.toggle('show');
+  document.body.style.overflow = modal.classList.contains('show') ? 'hidden' : '';
+}
+
+function closeLicenseModal(event) {
+  if (event.target === event.currentTarget) {
+    toggleLicense();
+  }
+}
+
+// Carousel
+const track = document.getElementById('carouselTrack');
+const dots = document.querySelectorAll('.carousel-dot');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let currentSlide = 0;
+const totalSlides = 3;
+
+function goToSlide(index) {
+  currentSlide = index;
+  track.style.transform = `translateX(-${index * 100}%)`;
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+prevBtn.addEventListener('click', () => {
+  goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+});
+
+nextBtn.addEventListener('click', () => {
+  goToSlide((currentSlide + 1) % totalSlides);
+});
+
+dots.forEach((dot) => {
+  dot.addEventListener('click', () => {
+    goToSlide(parseInt(dot.dataset.index));
+  });
+});
+
+// Touch swipe
+let touchStartX = 0;
+track.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+});
+
+track.addEventListener('touchend', (e) => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) nextBtn.click();
+    else prevBtn.click();
+  }
+});
+
+// =====================
+// 동적 링크 (Staff Portal 설정 연동)
+// =====================
+(function loadDynamicLinks() {
+  const saved = localStorage.getItem('dtslib_repo_config');
+  if (!saved) return;
+
+  const config = JSON.parse(saved);
+  const g = config.githubId || '';
+
+  // Blog 링크
+  const blogLink = document.getElementById('blogLink');
+  if (blogLink && g && config.blogRepo) {
+    blogLink.href = `https://${g}.github.io/${config.blogRepo}/`;
+  }
+
+  // GitHub 링크
+  const githubLink = document.getElementById('githubLink');
+  if (githubLink && g) {
+    githubLink.href = `https://github.com/${g}`;
+  }
+})();
+</script>
+
 </body>
 </html>
