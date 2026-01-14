@@ -965,6 +965,15 @@
       border-radius: 4px;
     }
 
+    .published-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      background: rgba(95,208,104,.2);
+      color: #5fd068;
+      border-radius: 4px;
+    }
+
     .draft-title {
       flex: 1;
       font-size: 13px;
@@ -1141,71 +1150,6 @@
       <h1 class="portal-title">Secret Office</h1>
       <p class="portal-subtitle">KOOSY Admin Dashboard</p>
     </header>
-
-    <!-- Control Panel -->
-    <section class="section control-panel-section">
-      <div class="section-header">
-        <span class="section-badge">Control</span>
-        <h2 class="section-title">Control Panel</h2>
-      </div>
-
-      <div class="control-panels">
-        <!-- Writing Panel -->
-        <div class="control-card">
-          <div class="control-card-header">
-            <span class="control-icon">✍️</span>
-            <span class="control-label">Writing</span>
-          </div>
-          <div class="control-tools">
-            <a href="../articles/" class="control-btn">
-              <span>📚</span>
-              <span>Articles</span>
-            </a>
-            <button class="control-btn" onclick="openHtmlPost()">
-              <span>📄</span>
-              <span>HTMLPost</span>
-            </button>
-            <a href="https://www.tistory.com/manage/newpost/" target="_blank" class="control-btn">
-              <span>📝</span>
-              <span>Tistory</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Media Panel -->
-        <div class="control-card">
-          <div class="control-card-header">
-            <span class="control-icon">🎬</span>
-            <span class="control-label">Media</span>
-          </div>
-          <div class="control-tools">
-            <a href="https://www.youtube.com/upload" target="_blank" class="control-btn">
-              <span>📺</span>
-              <span>YouTube</span>
-            </a>
-            <a href="https://sora.com" target="_blank" class="control-btn">
-              <span>🎬</span>
-              <span>Sora</span>
-            </a>
-            <a href="https://www.canva.com/" target="_blank" class="control-btn">
-              <span>🎨</span>
-              <span>Canva</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Draft Articles Manager -->
-      <div class="draft-manager">
-        <div class="draft-header">
-          <span>📋 Draft Articles</span>
-          <span class="draft-count" id="draftCount">0</span>
-        </div>
-        <div class="draft-list" id="draftList">
-          <!-- Dynamic draft articles -->
-        </div>
-      </div>
-    </section>
 
     <!-- HTMLPost Modal -->
     <div class="htmlpost-modal" id="htmlPostModal">
@@ -1537,16 +1481,71 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
       </div>
     </section>
 
-    <!-- AI 도구 + 갤러리 -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-badge">Tools</span>
-        <h2 class="section-title">AI 동영상 생성</h2>
+    <!-- Control Panel (Accordion) -->
+    <div class="accordion" id="accordionControl">
+      <button class="accordion-header" onclick="toggleAccordion('accordionControl')">
+        <span class="accordion-step">🎛️</span>
+        <div class="accordion-info">
+          <div class="accordion-title">Control Panel</div>
+          <div class="accordion-desc">Writing & Media 도구</div>
+        </div>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <div class="control-panels">
+          <!-- Writing Panel -->
+          <div class="control-card">
+            <div class="control-card-header">
+              <span class="control-icon">✍️</span>
+              <span class="control-label">Writing</span>
+            </div>
+            <div class="control-tools">
+              <a href="../tools/webpage-prompt.html" class="control-btn">
+                <span>🔧</span>
+                <span>WebPrompt</span>
+              </a>
+              <button class="control-btn" onclick="openHtmlPost()">
+                <span>📄</span>
+                <span>HTMLPost</span>
+              </button>
+              <a href="../tools/html-poster.html" class="control-btn">
+                <span>📮</span>
+                <span>HTMLPoster</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Media Panel -->
+          <div class="control-card">
+            <div class="control-card-header">
+              <span class="control-icon">🎬</span>
+              <span class="control-label">Media</span>
+            </div>
+            <div class="control-tools">
+              <a href="../tools/image-manager.html" class="control-btn">
+                <span>🖼️</span>
+                <span>ImageUp</span>
+              </a>
+              <a href="../tools/audio-manager.html" class="control-btn">
+                <span>🎵</span>
+                <span>AudioUp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Articles Manager (All articles with status) -->
+        <div class="draft-manager" style="margin-top: 14px;">
+          <div class="draft-header">
+            <span>📚 All Articles</span>
+            <span class="draft-count" id="allArticleCount">0</span>
+          </div>
+          <div class="draft-list" id="allArticlesList">
+            <!-- Dynamic articles with status -->
+          </div>
+        </div>
       </div>
-      <div class="quick-links" id="quickLinks">
-        <!-- 동적으로 렌더링됨 -->
-      </div>
-    </section>
+    </div>
 
     <!-- KOOSY 프로젝트 안내 -->
     <section class="section">
@@ -2316,39 +2315,44 @@ document.getElementById('htmlPostModal')?.addEventListener('click', (e) => {
 });
 
 // =====================
-// Draft Articles Manager
+// All Articles Manager (with status flags)
 // =====================
-(async function loadDraftArticles() {
-  const draftList = document.getElementById('draftList');
-  const draftCount = document.getElementById('draftCount');
-  if (!draftList) return;
+(async function loadAllArticles() {
+  const articlesList = document.getElementById('allArticlesList');
+  const articleCount = document.getElementById('allArticleCount');
+  if (!articlesList) return;
 
   try {
     const response = await fetch('../articles/articles.json');
     if (!response.ok) throw new Error('Failed to load');
 
     const data = await response.json();
-    const drafts = (data.articles || []).filter(a => a.status === 'draft');
+    const articles = data.articles || [];
 
-    if (draftCount) {
-      draftCount.textContent = drafts.length;
+    if (articleCount) {
+      articleCount.textContent = articles.length;
     }
 
-    if (drafts.length === 0) {
-      draftList.innerHTML = '<div class="draft-empty">No draft articles</div>';
+    if (articles.length === 0) {
+      articlesList.innerHTML = '<div class="draft-empty">No articles yet</div>';
       return;
     }
 
-    draftList.innerHTML = drafts.map(article => `
-      <a href="../articles/${article.file}" class="draft-item">
-        <span class="draft-badge">DRAFT</span>
-        <span class="draft-title">${article.title}</span>
-      </a>
-    `).join('');
+    articlesList.innerHTML = articles.map(article => {
+      const isDraft = article.status === 'draft';
+      const badgeClass = isDraft ? 'draft-badge' : 'published-badge';
+      const badgeText = isDraft ? 'DRAFT' : 'PUBLISHED';
+      return `
+        <a href="../articles/${article.file}" class="draft-item">
+          <span class="${badgeClass}">${badgeText}</span>
+          <span class="draft-title">${article.title}</span>
+        </a>
+      `;
+    }).join('');
 
   } catch (err) {
-    console.log('Draft articles not available:', err);
-    draftList.innerHTML = '<div class="draft-empty">Unable to load drafts</div>';
+    console.log('Articles not available:', err);
+    articlesList.innerHTML = '<div class="draft-empty">Unable to load articles</div>';
   }
 })();
 </script>
