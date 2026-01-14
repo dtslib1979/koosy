@@ -350,6 +350,42 @@
       letter-spacing: 0.08em;
     }
 
+    .section-exit {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .badge-system {
+      background: rgba(255,255,255,.12);
+      color: var(--text-muted);
+    }
+
+    .accordion-exit .accordion-header {
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .accordion-exit .accordion-header:hover,
+    .accordion-exit.open .accordion-header {
+      opacity: 1;
+    }
+
+    .exit-content {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .exit-content p {
+      margin-bottom: 16px;
+    }
+
+    .exit-content .highlight {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
     .section-title { font-size: 18px; font-weight: 700; }
 
     /* APK List */
@@ -1817,6 +1853,46 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
           </div>
           <span class="doc-arrow">→</span>
         </a>
+      </div>
+    </section>
+
+    <!-- SYSTEM: 독립과 양도 -->
+    <section class="section section-exit">
+      <div class="section-header">
+        <span class="section-badge badge-system">SYSTEM</span>
+        <h2 class="section-title">Exit & Transfer</h2>
+      </div>
+
+      <div class="accordion accordion-exit" id="accordionExit">
+        <button class="accordion-header" onclick="toggleAccordion('accordionExit')">
+          <span class="accordion-step">🚪</span>
+          <div class="accordion-info">
+            <div class="accordion-title">독립과 양도</div>
+            <div class="accordion-desc">이 시스템에서 나가고 싶을 때, 당신의 과거를 가져갈 수 있는 선택지입니다.</div>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="exit-content">
+            <p>이 공간은 당신을 붙잡기 위해 존재하지 않습니다.</p>
+
+            <p>KOOSY는<br>
+            당신을 <span class="highlight">'묶는'</span> 구조가 아니라<br>
+            당신이 떠나도 무너지지 않는 구조입니다.</p>
+
+            <p>언젠가 혼자 가고 싶어질 때,<br>
+            당신은 지금까지의 모든 기록과 시스템을<br>
+            <span class="highlight">'구매'</span>하여 독립할 수 있습니다.</p>
+
+            <p>그 비용은,<br>
+            KOOSY가 만들어 준 파이프라인의<br>
+            <span class="highlight">누적 수익 기준 30%</span>입니다.</p>
+
+            <p>그 순간부터,<br>
+            이 시스템은 당신의 것이 됩니다.<br>
+            그리고 나는, 다음 버전을 만듭니다.</p>
+          </div>
+        </div>
       </div>
     </section>
 
