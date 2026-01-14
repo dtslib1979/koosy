@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>KOOSY — Investor Deck</title>
+  <meta name="description" content="KOOSY - Real Money, Real World | Bluffing based editing broadcasting CELEB story">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="KOOSY — Investor Deck">
+  <meta property="og:description" content="Real Money, Real World | EST. 2026.01.13">
+  <meta property="og:image" content="https://dtslib1979.github.io/koosy/assets/icons/profile.jpg">
+
+  <link rel="icon" href="../assets/icons/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #070A12;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.45);
+      --gold: #D4AF37;
+      --gold-glow: rgba(212,175,55,.15);
+      --accent: #4ECDC4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 24px;
+      background: rgba(7,10,18,.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--stroke);
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    .nav-back {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover {
+      color: var(--gold);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, var(--gold-glow), transparent),
+        var(--bg);
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 24px;
+      opacity: 0.9;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--gold) 0%, #F4E4A6 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 32px;
+      font-size: 12px;
+      color: var(--muted2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Sections */
+    .section {
+      padding: 100px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      color: var(--text);
+    }
+
+    .section-text {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      background: var(--panel2);
+      border-color: var(--gold);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 48px 0;
+      padding: 48px;
+      background: var(--panel);
+      border-radius: 20px;
+      border: 1px solid var(--stroke);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Timeline */
+    .timeline {
+      margin: 48px 0;
+      padding-left: 32px;
+      border-left: 2px solid var(--stroke);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 48px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -38px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .timeline-date {
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .timeline-title {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 100px 24px;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 100%, var(--gold-glow), transparent),
+        var(--bg);
+    }
+
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      margin-bottom: 24px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 40px;
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background: #E8C547;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(212,175,55,.3);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--stroke);
+      font-size: 12px;
+      color: var(--muted2);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .hero-meta {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <span class="nav-logo">KOOSY</span>
+    <a href="../" class="nav-back">← Back to Home</a>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-tagline">Real Money, Real World</p>
+    <h1 class="hero-title">KOOSY</h1>
+    <p class="hero-subtitle">
+      Bluffing based editing broadcasting CELEB story —
+      콘텐츠 제작의 새로운 패러다임
+    </p>
+    <div class="hero-meta">
+      <span>EST. 2026.01.13</span>
+      <span>Investor Deck v1.0</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-label">Overview</p>
+    <h2 class="section-title">우리가 해결하는 문제</h2>
+    <p class="section-text">
+      기존 콘텐츠 제작 시장은 높은 진입 장벽, 복잡한 제작 과정,
+      그리고 제작자와 시청자 간의 단절된 관계로 인해 혁신이 필요한 상황입니다.
+    </p>
+    <p class="section-text">
+      KOOSY는 'Bluffing based editing'이라는 새로운 접근 방식으로
+      누구나 쉽게 CELEB 스토리를 만들고 공유할 수 있는 플랫폼을 제공합니다.
+    </p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🎬</div>
+        <h3 class="card-title">Bluffing Editing</h3>
+        <p class="card-desc">
+          직관적인 편집 도구로 전문가 수준의 콘텐츠를
+          누구나 빠르게 제작할 수 있습니다.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⭐</div>
+        <h3 class="card-title">CELEB Story</h3>
+        <p class="card-desc">
+          일반인도 자신만의 스토리를 통해
+          셀럽처럼 영향력을 발휘할 수 있습니다.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3 class="card-title">Real Money</h3>
+        <p class="card-desc">
+          콘텐츠 수익화의 새로운 모델로
+          창작자에게 실질적인 수익을 제공합니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-label">Market</p>
+    <h2 class="section-title">시장 기회</h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">$500B</div>
+        <div class="stat-label">Global Creator Economy</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">50M+</div>
+        <div class="stat-label">Active Creators</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">25%</div>
+        <div class="stat-label">YoY Growth</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-label">Roadmap</p>
+    <h2 class="section-title">성장 계획</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Q1 2026</div>
+        <h4 class="timeline-title">Platform Launch</h4>
+        <p class="timeline-desc">베타 서비스 출시 및 초기 크리에이터 모집</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q2 2026</div>
+        <h4 class="timeline-title">Creator Partnership</h4>
+        <p class="timeline-desc">주요 인플루언서 파트너십 체결 및 콘텐츠 확대</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q3 2026</div>
+        <h4 class="timeline-title">Monetization</h4>
+        <p class="timeline-desc">수익화 기능 출시 및 광고 플랫폼 연동</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q4 2026</div>
+        <h4 class="timeline-title">Global Expansion</h4>
+        <p class="timeline-desc">아시아 시장 확장 및 다국어 지원</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2 class="cta-title">함께 성장할 파트너를 찾습니다</h2>
+    <a href="mailto:koosy@koosy.com?subject=Investment%20Inquiry" class="cta-btn">
+      <span>Contact Us</span>
+      <span>→</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 KOOSY. Real Money, Real World.</p>
+  </footer>
+</body>
+</html>
