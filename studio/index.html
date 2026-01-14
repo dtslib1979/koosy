@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0F1F15" />
+  <title>Studio | dtslib</title>
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-card: #1A2E22;
+      --gold: #D4AF37;
+      --gold-dim: rgba(212,175,55,.15);
+      --text: #F5F5F0;
+      --text-secondary: rgba(245,245,240,.75);
+      --text-muted: rgba(245,245,240,.5);
+      --border: rgba(245,245,240,.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .back-link:hover { color: var(--gold); }
+    .hero {
+      text-align: center;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .hero-icon { font-size: 48px; margin-bottom: 12px; }
+    .hero-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .hero-subtitle { font-size: 14px; color: var(--text-muted); }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .platform-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .platform-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .platform-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .platform-count {
+      font-size: 13px;
+      color: var(--gold);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← 홈으로</a>
+    
+    <div class="hero">
+      <div class="hero-icon">🎬</div>
+      <h1 class="hero-title">dtslib Studio</h1>
+      <p class="hero-subtitle">Platform Universe Overview</p>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">41</div>
+        <div class="stat-label">Platforms</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">24/7</div>
+        <div class="stat-label">Automated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Mobile</div>
+      </div>
+    </div>
+    
+    <p class="section-title">Platforms</p>
+    <div class="platform-list">
+      <div class="platform-item">
+        <span class="platform-name">📺 YouTube</span>
+        <span class="platform-count">8 channels</span>
+      </div>
+      <div class="platform-item">
+        <span class="platform-name">🐙 GitHub</span>
+        <span class="platform-count">12 repos</span>
+      </div>
+      <div class="platform-item">
+        <span class="platform-name">📝 Tistory</span>
+        <span class="platform-count">15 blogs</span>
+      </div>
+      <div class="platform-item">
+        <span class="platform-name">🌐 Domains</span>
+        <span class="platform-count">6 sites</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

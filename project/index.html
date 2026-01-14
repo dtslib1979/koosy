@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0F1F15" />
+  <meta name="description" content="AI 업무 자동화 세팅 - Claude Code를 사용한 업무 환경 구축" />
+  <title>AI 업무 자동화 | dtslib</title>
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-card: #1A2E22;
+      --gold: #D4AF37;
+      --gold-dim: rgba(212,175,55,.15);
+      --text: #F5F5F0;
+      --text-secondary: rgba(245,245,240,.75);
+      --text-muted: rgba(245,245,240,.5);
+      --border: rgba(245,245,240,.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+    .container { max-width: 500px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .back-link:hover { color: var(--gold); }
+    .hero {
+      text-align: center;
+      padding: 40px 0;
+    }
+    .hero-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .price-tag {
+      display: inline-block;
+      background: var(--gold-dim);
+      border: 2px solid var(--gold);
+      padding: 12px 32px;
+      border-radius: 999px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .section {
+      margin-top: 40px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .feature-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .feature-icon {
+      font-size: 24px;
+      width: 40px;
+      text-align: center;
+    }
+    .feature-text {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+    .contact-card {
+      background: var(--bg-card);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .contact-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .contact-info {
+      font-size: 20px;
+      color: var(--gold);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .contact-info:hover {
+      text-decoration: underline;
+    }
+    .contact-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+    .target-badge {
+      display: inline-block;
+      background: var(--gold-dim);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← 홈으로</a>
+    
+    <div class="hero">
+      <div class="hero-icon">🤖</div>
+      <h1 class="hero-title">AI 업무 자동화 세팅</h1>
+      <p class="hero-subtitle">Claude Code를 사용한 업무 자동화 환경 구축</p>
+      <div class="price-tag">25만원 / 2시간</div>
+    </div>
+    
+    <div class="section">
+      <p class="section-title">대상</p>
+      <div class="feature-list">
+        <div class="feature-item">
+          <span class="feature-icon">🏪</span>
+          <span class="feature-text">자영업자 / 소상공인</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">💼</span>
+          <span class="feature-text">스타트업 대표님</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">📱</span>
+          <span class="feature-text">모바일로 업무 보시는 분</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <p class="section-title">포함 내용</p>
+      <div class="feature-list">
+        <div class="feature-item">
+          <span class="feature-icon">⚙️</span>
+          <span class="feature-text">Claude Code 초기 세팅</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">📁</span>
+          <span class="feature-text">GitHub 레포지토리 구성</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🌐</span>
+          <span class="feature-text">웹사이트 기본 템플릿</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">📖</span>
+          <span class="feature-text">사용법 안내</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contact-card">
+      <p class="contact-title">문의하기</p>
+      <p class="contact-info" onclick="copyEmail()">dimas@dtslib.com</p>
+      <p class="contact-note">클릭하면 이메일 주소가 복사됩니다</p>
+    </div>
+  </div>
+  
+  <script>
+    function copyEmail() {
+      navigator.clipboard.writeText('dimas@dtslib.com');
+      alert('이메일 주소가 복사되었습니다');
+    }
+  </script>
+</body>
+</html>

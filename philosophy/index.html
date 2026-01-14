@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F1F15">
+  <title>Philosophy | dtslib</title>
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-card: #1A2E22;
+      --gold: #D4AF37;
+      --text: #F5F5F0;
+      --text-muted: rgba(245,245,240,.6);
+      --border: rgba(245,245,240,.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: -apple-system, sans-serif;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    .back-link:hover { color: var(--gold); }
+    h1 {
+      font-size: 36px;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+    .pillar {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pillar:last-child { border-bottom: none; }
+    .pillar-title {
+      font-size: 24px;
+      color: var(--gold);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+    .pillar-text {
+      font-size: 17px;
+      color: var(--text-muted);
+    }
+    .pillar-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← Back to Home</a>
+    
+    <h1>Philosophy</h1>
+    <p class="subtitle">The principles that guide our work</p>
+    
+    <div class="pillar">
+      <div class="pillar-icon">🌀</div>
+      <h2 class="pillar-title">Reverse Orality</h2>
+      <p class="pillar-text">
+        Voice becomes text becomes code. We speak our thoughts, 
+        let AI transcribe and structure, then refine into systems. 
+        The oldest form of human communication meets the newest technology.
+      </p>
+    </div>
+    
+    <div class="pillar">
+      <div class="pillar-icon">📜</div>
+      <h2 class="pillar-title">Protocol Thinking</h2>
+      <p class="pillar-text">
+        Every workflow is a protocol. Every conversation is a commit. 
+        We document not just what we build, but how we think. 
+        The process is the product.
+      </p>
+    </div>
+    
+    <div class="pillar">
+      <div class="pillar-icon">📱</div>
+      <h2 class="pillar-title">Mobile Sovereignty</h2>
+      <p class="pillar-text">
+        A phone is not a limitation—it's liberation. 
+        Full development capability in your pocket. 
+        No desk required. Create anywhere, anytime.
+      </p>
+    </div>
+    
+    <div class="pillar">
+      <div class="pillar-icon">💬</div>
+      <h2 class="pillar-title">Conversation as Source</h2>
+      <p class="pillar-text">
+        Every chat with AI is source material. 
+        Ideas emerge from dialogue, not isolation. 
+        The conversation log is the first draft of everything.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
