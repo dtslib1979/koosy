@@ -359,6 +359,7 @@
 const STORAGE_KEY = 'troubleshoot_checks';
 const totalItems = document.querySelectorAll('.check-item').length;
 
+// 저장된 상태 불러오기
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
@@ -374,6 +375,7 @@ function loadState() {
   updateStatus();
 }
 
+// 체크 토글
 function toggleCheck(id) {
   const item = document.querySelector(`[data-id="${id}"]`);
   const current = item.classList.contains('checked') ? 'checked' :
@@ -397,6 +399,7 @@ function updateCheckBox(item, state) {
   else box.textContent = '';
 }
 
+// 상태 저장
 function saveState() {
   const state = {};
   document.querySelectorAll('.check-item').forEach(item => {
@@ -407,6 +410,7 @@ function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+// 상태 업데이트
 function updateStatus() {
   const checked = document.querySelectorAll('.check-item.checked').length;
   const errors = document.querySelectorAll('.check-item.error').length;
@@ -432,6 +436,7 @@ function updateStatus() {
   }
 }
 
+// 전체 초기화
 function resetAll() {
   localStorage.removeItem(STORAGE_KEY);
   document.querySelectorAll('.check-item').forEach(item => {
@@ -441,6 +446,7 @@ function resetAll() {
   updateStatus();
 }
 
+// 초기화
 loadState();
 </script>
 
