@@ -94,10 +94,11 @@
     }
 
     .logo {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 16/9;
       margin: 0 auto var(--space-sm);
-      border-radius: var(--radius-full);
+      border-radius: var(--radius-md);
       border: 2px solid var(--gold);
       box-shadow: 0 4px 20px rgba(212,175,55,.2);
       overflow: hidden;
@@ -107,9 +108,8 @@
 
     .logo iframe {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: none;
@@ -1536,8 +1536,30 @@
   <header>
     <div class="slogan">Real Money, Real World</div>
     <div class="logo" role="img" aria-label="KOOSY 로고">
-      <iframe src="https://www.youtube.com/embed/2FaUlNhuvTA?autoplay=1&mute=1&loop=1&playlist=2FaUlNhuvTA&controls=0&showinfo=0&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="logoVideo" src="https://www.youtube.com/embed/2FaUlNhuvTA?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=2FaUlNhuvTA&controls=0&showinfo=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
+    <script>
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+      var logoPlayer;
+      function onYouTubeIframeAPIReady() {
+        logoPlayer = new YT.Player('logoVideo', {
+          events: { 'onReady': onPlayerReady }
+        });
+      }
+      function onPlayerReady(e) {
+        setInterval(function() {
+          if (logoPlayer && logoPlayer.getDuration && logoPlayer.getCurrentTime) {
+            var dur = logoPlayer.getDuration();
+            var cur = logoPlayer.getCurrentTime();
+            if (dur > 0 && cur >= dur - 1) {
+              logoPlayer.seekTo(0);
+            }
+          }
+        }, 500);
+      }
+    </script>
     <h1 class="site-title">KOOSY</h1>
   </header>
 
