@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Koosy Manifesto — Built on Gold. Measured in Silver" />
+  <title>Koosy Manifesto — Built on Gold. Measured in Silver</title>
+
+  <style>
+    :root{
+      --bg: #0b0f0d;
+      --panel: #0f1713;
+      --panel-2: #0c1310;
+      --text: #e8ecea;
+      --muted: #a9b2ad;
+      --line: rgba(255,255,255,.10);
+
+      --gold: #d4af37;
+      --gold-2: rgba(212,175,55,.18);
+      --silver: #c8ccd0;
+
+      --shadow: 0 14px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius-lg: 24px;
+
+      --container: 1100px;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI", Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(212,175,55,.10), transparent 55%),
+                  radial-gradient(900px 600px at 85% 0%, rgba(200,204,208,.08), transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .container{
+      width: min(100% - 32px, var(--container));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,13,.72);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 220px;
+    }
+    .logo{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(180deg, rgba(212,175,55,.26), rgba(212,175,55,.06));
+      border: 1px solid rgba(212,175,55,.40);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    }
+    .logo svg{ width: 22px; height: 22px; }
+    .brand-title{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand-title strong{
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .brand-title span{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    nav{
+      display:flex;
+      gap: 18px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    nav a{
+      font-size: 14px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      transition: background .2s ease, color .2s ease;
+    }
+    nav a:hover{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+
+    .header-actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      min-width: 220px;
+      justify-content: flex-end;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      cursor:pointer;
+      transition: transform .12s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+      white-space: nowrap;
+    }
+    .btn:hover{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.16);
+      transform: translateY(-1px);
+    }
+    .btn-primary{
+      border-color: rgba(212,175,55,.45);
+      background: linear-gradient(180deg, rgba(212,175,55,.20), rgba(212,175,55,.06));
+    }
+    .btn-primary:hover{
+      background: linear-gradient(180deg, rgba(212,175,55,.26), rgba(212,175,55,.08));
+    }
+
+    /* Hero */
+    main{ padding: 34px 0 80px; }
+    .hero{
+      position: relative;
+      overflow:hidden;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(212,175,55,.18), transparent 55%),
+        radial-gradient(700px 450px at 90% 10%, rgba(200,204,208,.12), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding: 44px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,.35);
+      background: rgba(212,175,55,.08);
+      color: var(--silver);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      margin-bottom: 14px;
+    }
+    .kicker .dot{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(212,175,55,.12);
+    }
+
+    h1{
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1.12;
+      letter-spacing: -0.6px;
+    }
+    .subtitle{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 70ch;
+    }
+    .quote{
+      margin: 0;
+      padding: 16px 16px;
+      border-left: 3px solid rgba(212,175,55,.70);
+      background: rgba(0,0,0,.25);
+      border-radius: 14px;
+      color: var(--text);
+      font-weight: 750;
+    }
+    .quote span{
+      display:block;
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .hero-card{
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.25);
+      padding: 16px;
+    }
+    .hero-card h2{
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: .2px;
+      color: var(--silver);
+    }
+    .pill{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 10px;
+    }
+    .pill strong{
+      font-size: 13px;
+      letter-spacing: .2px;
+    }
+    .pill span{
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+    .mini{
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Sections */
+    section{ margin-top: 26px; }
+    .section-title{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .section-title h3{
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -.2px;
+    }
+    .section-title p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .feature{
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      padding: 18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    }
+    .feature .icon{
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(212,175,55,.35);
+      background: rgba(212,175,55,.10);
+      margin-bottom: 12px;
+    }
+    .feature h4{
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    .feature p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .feature ul{
+      margin: 12px 0 0;
+      padding: 0 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .feature li{ margin: 6px 0; }
+
+    /* Gallery */
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(0,0,0,.28), rgba(255,255,255,.02));
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(0,0,0,.35);
+      position: relative;
+      min-height: 190px;
+    }
+    .card .img{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(800px 380px at 20% 20%, rgba(212,175,55,.20), transparent 60%),
+        radial-gradient(650px 360px at 80% 0%, rgba(200,204,208,.14), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      filter: saturate(1.05);
+    }
+    .card .overlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
+    }
+    .card .content{
+      position:absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      color: var(--silver);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      backdrop-filter: blur(8px);
+    }
+    .card h5{
+      margin: 0 0 6px;
+      font-size: 16px;
+      letter-spacing: -.2px;
+    }
+    .card p{
+      margin: 0;
+      color: rgba(232,236,234,.80);
+      font-size: 13px;
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 30px;
+      border-top: 1px solid var(--line);
+      padding: 18px 0 30px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-grid{
+      display:flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .small-links{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .small-links a{
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* Modal */
+    dialog{
+      width: min(720px, calc(100% - 24px));
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(11,15,13,.92);
+      border-radius: 18px;
+      padding: 0;
+      color: var(--text);
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+    }
+    dialog::backdrop{
+      background: rgba(0,0,0,.55);
+    }
+    .modal-head{
+      padding: 16px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .modal-head strong{ letter-spacing: .2px; }
+    .modal-body{
+      padding: 16px;
+    }
+    .modal-body p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .copybox{
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(0,0,0,.25);
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--silver);
+      white-space: pre-wrap;
+      user-select: text;
+    }
+    .modal-actions{
+      display:flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 14px 16px 16px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .header-actions{ display:none; }
+      .brand{ min-width: auto; }
+    }
+    @media (max-width: 720px){
+      h1{ font-size: 34px; }
+      .features{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: 1fr; }
+      .hero{ padding: 26px; }
+      nav{ gap: 8px; }
+      nav a{ padding: 8px 8px; }
+    }
+    @media (max-width: 480px){
+      .container{ width: min(100% - 18px, var(--container)); }
+      h1{ font-size: 30px; }
+      .subtitle{ font-size: 15px; }
+      .btn{ width: 100%; }
+      .hero-actions{ flex-direction: column; }
+      .kicker{ font-size: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="Koosy 홈으로">
+          <div class="logo" aria-hidden="true">
+            <!-- Minimal coin/anchor mark (inline SVG) -->
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2.8c5.08 0 9.2 4.12 9.2 9.2S17.08 21.2 12 21.2 2.8 17.08 2.8 12 6.92 2.8 12 2.8Z"
+                    stroke="rgba(212,175,55,.95)" stroke-width="1.6"/>
+              <path d="M12 6.8v7.1" stroke="rgba(200,204,208,.9)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M8.6 10.2h6.8" stroke="rgba(200,204,208,.9)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M9 15.8c.9 1 2 1.6 3 1.6s2.1-.6 3-1.6"
+                    stroke="rgba(212,175,55,.9)" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-title">
+            <strong>Koosy</strong>
+            <span>Built on Gold. Measured in Silver.</span>
+          </div>
+        </a>
+
+        <nav aria-label="주요 메뉴">
+          <a href="#manifesto">매니페스토</a>
+          <a href="#features">원칙</a>
+          <a href="#gallery">카드</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="btn" id="btnOpenModal" type="button">문구 복사</button>
+          <a class="btn btn-primary" href="#manifesto">지금 읽기</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="container">
+      <!-- HERO -->
+      <section class="hero" aria-label="히어로 섹션">
+        <div class="hero-grid">
+          <div>
+            <div class="kicker"><span class="dot" aria-hidden="true"></span> Koosy Manifesto</div>
+            <h1>Koosy Manifesto —<br/>Built on Gold. Measured in Silver.</h1>
+
+            <p class="subtitle">
+              Koosy는 ‘돈이 무엇인가’를 다시 정의하는 기준점이다.
+              이 페이지의 목적은 방문자가 가격이 아니라 질서를 보게 만들고,
+              은과 금이 다시 화폐의 역할로 복귀하고 있다는 ‘현재 진행형 현실’을 인식시키는 것이다.
+            </p>
+
+            <p class="quote">
+              “너는 아직도 가격을 보고 있는가, 아니면 돈의 역할이 바뀌는 과정을 보고 있는가?”
+              <span>Koosy는 수익을 약속하지 않는다. 대신 질문을 남긴다.</span>
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#manifesto">매니페스토 보기</a>
+              <button class="btn" type="button" id="btnScrollFeatures">Koosy 원칙</button>
+              <button class="btn" type="button" id="btnOpenModal2">핵심 문구 복사</button>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="요약 카드">
+            <h2>요약</h2>
+
+            <div class="pill">
+              <strong>정체성</strong>
+              <span>투자 브랜드가 아니라<br/>돈의 기준점</span>
+            </div>
+
+            <div class="pill">
+              <strong>관점</strong>
+              <span>차트가 아니라<br/>국가 행동·물류 흐름</span>
+            </div>
+
+            <div class="pill">
+              <strong>목표</strong>
+              <span>고객 모집이 아니라<br/>동지 선별</span>
+            </div>
+
+            <p class="mini">
+              * 이 페이지는 “언제 사고 팔까”를 말하지 않는다.  
+              “무엇이 돈인가”를 다룬다.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MANIFESTO -->
+      <section id="manifesto" aria-label="매니페스토 섹션">
+        <div class="section-title">
+          <h3>매니페스토</h3>
+          <p>정의한다. 설명하지 않는다.</p>
+        </div>
+
+        <article class="feature" style="padding:22px;">
+          <h4 style="margin:0 0 10px;">Koosy는 ‘돈’의 정의를 다시 세운다.</h4>
+          <p style="margin:0 0 14px; color: var(--muted);">
+            대부분은 여전히 “돈”을 숫자로 본다. 우리는 “돈”을 <strong style="color:var(--text);">질서의 척도</strong>로 본다.
+            가격이 오르는 건 결과일 뿐이다. 진짜 움직임은 구조 아래에서 일어난다.
+          </p>
+
+          <p style="margin:0 0 14px; color: var(--muted);">
+            Koosy는 수익률을 약속하지 않는다. 대신, 방문자를 아래 질문 앞에 세운다.
+          </p>
+
+          <p class="quote" style="margin:0;">
+            “너는 아직도 가격을 보고 있는가, 아니면 돈의 역할이 바뀌는 과정을 보고 있는가?”
+            <span>이곳은 고객을 모으는 곳이 아니라, 같은 언어를 쓰는 동지를 선별하는 깃발이다.</span>
+          </p>
+        </article>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" aria-label="특징/장점 섹션">
+        <div class="section-title">
+          <h3>Koosy 원칙</h3>
+          <p>실물·질서·정의. 과장 없이 단단하게.</p>
+        </div>
+
+        <div class="features">
+          <article class="feature">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2.5c5.25 0 9.5 4.25 9.5 9.5S17.25 21.5 12 21.5 2.5 17.25 2.5 12 6.75 2.5 12 2.5Z"
+                      stroke="rgba(212,175,55,.95)" stroke-width="1.6"/>
+                <path d="M8 12h8" stroke="rgba(200,204,208,.9)" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h4>가격이 아니라 질서</h4>
+            <p>Koosy는 “얼마냐”보다 “무엇이냐”를 먼저 묻는다.</p>
+            <ul>
+              <li>숫자보다 역할</li>
+              <li>뉴스보다 구조</li>
+              <li>유행보다 기준</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M7 7h10v10H7z" stroke="rgba(200,204,208,.9)" stroke-width="1.6"/>
+                <path d="M12 5v14" stroke="rgba(212,175,55,.9)" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h4>기준과 척도</h4>
+            <p>금은 기준(anchor), 은은 척도(unit). Koosy는 둘을 다시 연결한다.</p>
+            <ul>
+              <li>Gold = Anchor</li>
+              <li>Silver = Measure</li>
+              <li>Koosy = 연결점</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4.5 12c2.2-5.2 12.8-5.2 15 0-2.2 5.2-12.8 5.2-15 0Z"
+                      stroke="rgba(200,204,208,.9)" stroke-width="1.6"/>
+                <path d="M12 9.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Z"
+                      stroke="rgba(212,175,55,.9)" stroke-width="1.6"/>
+              </svg>
+            </div>
+            <h4>동지 선별</h4>
+            <p>Koosy는 대중을 모으지 않는다. 같은 언어를 쓰는 사람만 남긴다.</p>
+            <ul>
+              <li>고객 모집이 아닌 선별</li>
+              <li>설득이 아닌 정의</li>
+              <li>소란이 아닌 침묵</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section id="gallery" aria-label="이미지 갤러리 또는 카드 그리드">
+        <div class="section-title">
+          <h3>카드 그리드</h3>
+          <p>Koosy의 핵심을 ‘장면’처럼 보여준다.</p>
+        </div>
+
+        <div class="gallery">
+          <article class="card" role="group" aria-label="카드 1">
+            <div class="img" aria-hidden="true"></div>
+            <div class="overlay" aria-hidden="true"></div>
+            <div class="content">
+              <div class="badge">Anchor</div>
+              <h5>금은 기준이다</h5>
+              <p>기준이 없으면, 가격은 소음이 된다.</p>
+            </div>
+          </article>
+
+          <article class="card" role="group" aria-label="카드 2">
+            <div class="img" aria-hidden="true" style="background:
+              radial-gradient(800px 380px at 60% 10%, rgba(200,204,208,.18), transparent 60%),
+              radial-gradient(650px 360px at 10% 0%, rgba(212,175,55,.18), transparent 60%),
+              linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));"></div>
+            <div class="overlay" aria-hidden="true"></div>
+            <div class="content">
+              <div class="badge">Measure</div>
+              <h5>은은 척도다</h5>
+              <p>거래와 비교는 결국 ‘척도’를 요구한다.</p>
+            </div>
+          </article>
+
+          <article class="card" role="group" aria-label="카드 3">
+            <div class="img" aria-hidden="true" style="background:
+              radial-gradient(800px 380px at 20% 20%, rgba(212,175,55,.16), transparent 60%),
+              radial-gradient(650px 360px at 85% 0%, rgba(200,204,208,.18), transparent 60%),
+              linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));"></div>
+            <div class="overlay" aria-hidden="true"></div>
+            <div class="content">
+              <div class="badge">Order</div>
+              <h5>우리는 질서를 본다</h5>
+              <p>차트가 아니라, 행동과 흐름을 읽는다.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <div class="footer-grid">
+          <div>
+            <strong style="color:var(--text);">Koosy</strong>
+            <span style="color:var(--muted);"> · Built on Gold. Measured in Silver.</span>
+          </div>
+
+          <div class="small-links" aria-label="보조 링크">
+            <a href="#top">상단</a>
+            <a href="#manifesto">매니페스토</a>
+            <a href="#features">원칙</a>
+            <a href="#gallery">카드</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Modal (copy) -->
+  <dialog id="copyDialog" aria-label="핵심 문구 복사">
+    <div class="modal-head">
+      <strong>핵심 문구</strong>
+      <button class="btn" type="button" id="btnCloseModal" aria-label="닫기">닫기</button>
+    </div>
+    <div class="modal-body">
+      <p>원하는 문구를 복사해 쓰면 된다. (Koosy는 길게 설명하지 않고, 짧게 박는다.)</p>
+      <div class="copybox" id="copyBox">Koosy — Built on Gold. Measured in Silver.
+“너는 아직도 가격을 보고 있는가, 아니면 돈의 역할이 바뀌는 과정을 보고 있는가?”</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" type="button" id="btnCopy">복사하기</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function(){
+      const $ = (sel) => document.querySelector(sel);
+
+      const dialog = $("#copyDialog");
+      const copyBox = $("#copyBox");
+
+      const openers = [$("#btnOpenModal"), $("#btnOpenModal2")].filter(Boolean);
+      openers.forEach(btn => btn.addEventListener("click", () => dialog.showModal()));
+
+      $("#btnCloseModal").addEventListener("click", () => dialog.close());
+
+      $("#btnScrollFeatures").addEventListener("click", () => {
+        const el = $("#features");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      $("#btnCopy").addEventListener("click", async () => {
+        const text = copyBox.innerText.trim();
+        try{
+          await navigator.clipboard.writeText(text);
+          $("#btnCopy").innerText = "복사됨";
+          setTimeout(() => $("#btnCopy").innerText = "복사하기", 1200);
+        }catch(e){
+          // Fallback
+          const range = document.createRange();
+          range.selectNodeContents(copyBox);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          alert("클립보드 권한이 없어서 텍스트를 선택해뒀다. 길게 눌러 복사해.");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
