@@ -465,9 +465,12 @@
       if (!response.ok) throw new Error('Failed to load');
 
       const data = await response.json();
-      const articles = data.articles || [];
+      const allArticles = data.articles || [];
 
-      // Update counter
+      // Filter only published articles (exclude draft)
+      const articles = allArticles.filter(a => a.status !== 'draft');
+
+      // Update counter (only published)
       articleCount.textContent = articles.length;
 
       if (articles.length === 0) {
