@@ -41,6 +41,12 @@ jobs:
               desc=""
             fi
 
+            # Extract status from meta tag (default: published)
+            status=$(grep -oP '(?<=<meta name="article-status" content=")[^"]+' "$file" 2>/dev/null | head -1)
+            if [ -z "$status" ]; then
+              status="published"
+            fi
+
             # Get file modified date
             date=$(git log -1 --format="%ci" -- "$file" 2>/dev/null | cut -d' ' -f1)
             if [ -z "$date" ]; then
@@ -58,7 +64,7 @@ jobs:
             title_escaped=$(echo "$title" | sed 's/"/\\"/g')
             desc_escaped=$(echo "$desc" | sed 's/"/\\"/g')
 
-            echo "{\"file\":\"$file\",\"title\":\"$title_escaped\",\"description\":\"$desc_escaped\",\"date\":\"$date\"}" >> articles.json
+            echo "{\"file\":\"$file\",\"title\":\"$title_escaped\",\"description\":\"$desc_escaped\",\"date\":\"$date\",\"status\":\"$status\"}" >> articles.json
           done
           echo ']}' >> articles.json
 

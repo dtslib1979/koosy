@@ -1570,9 +1570,12 @@ track.addEventListener('touchend', (e) => {
     if (!response.ok) throw new Error('Failed to load articles');
 
     const data = await response.json();
-    const articles = data.articles || [];
+    const allArticles = data.articles || [];
 
-    // Update counter badge
+    // Filter only published articles (exclude draft)
+    const articles = allArticles.filter(a => a.status !== 'draft');
+
+    // Update counter badge (only published count)
     if (articleCounter) {
       articleCounter.textContent = articles.length;
     }
@@ -1582,7 +1585,7 @@ track.addEventListener('touchend', (e) => {
       return;
     }
 
-    // Display up to 5 latest articles
+    // Display up to 5 latest published articles
     const displayArticles = articles.slice(0, 5);
 
     articleList.innerHTML = displayArticles.map(article => `
