@@ -1731,69 +1731,38 @@ track.addEventListener('touchend', (e) => {
 })();
 
 // =====================
-// Articles Showcase (Bookshelf Style)
+// Articles Showcase - 자동 카운팅
 // =====================
-(async function loadArticlesShowcase() {
-  const articleShelf = document.getElementById('articleShelf');
-  const articleCounter = document.getElementById('articleCounter');
+document.addEventListener('DOMContentLoaded', function() {
+  var shelf = document.getElementById('articleShelf');
+  var counter = document.getElementById('articleCounter');
 
-  if (!articleShelf) {
-    console.log('articleShelf not found');
-    return;
-  }
+  if (!shelf || !counter) return;
 
-  try {
-    // 상대 경로로 articles.json 로드
-    const response = await fetch('./articles/articles.json');
-    if (!response.ok) throw new Error('HTTP ' + response.status);
+  fetch('./articles/articles.json')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      var all = data.articles || [];
+      var published = all.filter(function(a) { return a.status !== 'draft'; });
 
-    const data = await response.json();
-    const allArticles = data.articles || [];
+      // 카운터 업데이트
+      counter.textContent = published.length;
 
-    // Filter only published articles (exclude draft)
-    const articles = allArticles.filter(a => a.status !== 'draft');
-
-    // Update counter badge (only published count)
-    if (articleCounter) {
-      articleCounter.textContent = articles.length;
-    }
-
-    if (articles.length === 0) {
-      articleShelf.innerHTML = `
-        <div class="shelf-empty">
-          <div class="shelf-empty-icon">📚</div>
-          <p class="shelf-empty-text">No articles yet</p>
-        </div>`;
-      return;
-    }
-
-    // Display up to 5 latest published articles in bookshelf style
-    const displayArticles = articles.slice(0, 5);
-
-    articleShelf.innerHTML = displayArticles.map(article => `
-      <a href="./articles/${article.file}" class="shelf-item">
-        <div class="shelf-spine"></div>
-        <div class="shelf-content">
-          <div class="shelf-title">${article.title}</div>
-          <div class="shelf-meta">${article.date}</div>
-        </div>
-        <span class="shelf-arrow">→</span>
-      </a>
-    `).join('');
-
-  } catch (err) {
-    console.error('Articles load error:', err);
-    // 에러 시에도 카운터 표시
-    if (articleCounter) {
-      articleCounter.textContent = '-';
-    }
-    articleShelf.innerHTML = `
-      <div class="shelf-empty">
-        <div class="shelf-empty-icon">📚</div>
-        <p class="shelf-empty-text">Unable to load articles</p>
-      </div>`;
-  }
-})();
+      // 아티클 리스트 렌더링
+      if (published.length === 0) {
+        shelf.innerHTML = '<div class="shelf-empty"><div class="shelf-empty-icon">📚</div><p class="shelf-empty-text">No articles yet</p></div>';
+      } else {
+        shelf.innerHTML = published.slice(0, 5).map(function(a) {
+          return '<a href="./articles/' + a.file + '" class="shelf-item"><div class="shelf-spine"></div><div class="shelf-content"><div class="shelf-title">' + a.title + '</div><div class="shelf-meta">' + a.date + '</div></div><span class="shelf-arrow">→</span></a>';
+        }).join('');
+      }
+    })
+    .catch(function(err) {
+      console.error('Articles error:', err);
+      counter.textContent = '-';
+      shelf.innerHTML = '<div class="shelf-empty"><div class="shelf-empty-icon">📚</div><p class="shelf-empty-text">Error loading</p></div>';
+    });
+});
 </script>
 
 </body>
