@@ -1,94 +1,117 @@
-# 🤖 CLAUDE.md – dtslib Agent Protocol
+# dtslib 에이전트 프로토콜
 
-> **이 파일은 Claude Code 에이전트가 읽고 따라야 할 지침입니다.**
-
----
-
-## 📁 레포지토리 개요
-
-이 레포지토리는 **buddies.kr boilerplate**를 기반으로 만든 GitHub Pages 사이트입니다.
-
-- **루트 index.html**: 메인 랜딩 페이지
-- **staff/**: 스태프 전용 관리 포털 (비밀번호 보호)
-- **card/**: 디지털 명함 페이지
-- **tools/**: 각종 유틸리티 도구들
-- **project/**: 프로젝트 소개 페이지
-- **philosophy/**: 철학/원칙 페이지
-- **docs/**: 문서 및 매뉴얼
-- **articles/**: 아티클/블로그 목록
-- **studio/**: 스튜디오 개요 페이지
-- **assets/**: 이미지, 아이콘, 샘플 데이터
+> 이 문서는 Claude Code가 dtslib-branch 레포지토리에서 작업할 때 따라야 하는 가이드입니다.
 
 ---
 
-## 🔧 설정 파일
+## 1. 프로젝트 개요
 
-### config.json
+### 목적
+AI 업무 자동화 컨설팅 서비스를 위한 랜딩페이지
 
-중앙 설정 파일. 사이트 정보, 서비스 가격, 소유자 정보, 스태프 코드 등 포함.
+### 기술 스택
+- 순수 정적 사이트 (HTML/CSS/JS)
+- GitHub Pages 호스팅
+- PWA 지원
 
-```json
-{
-  "site": {
-    "name": "사이트명",
-    "domain": "example.com",
-    "github_repo": "username/repo"
-  },
-  "service": {
-    "name": "서비스명",
-    "price": "가격",
-    "duration": "소요시간"
-  },
-  "owner": {
-    "name": "이름",
-    "email": "이메일"
-  },
-  "staff": {
-    "code": "스태프코드"
-  }
-}
+### 핵심 가치
+- 모바일 퍼스트
+- 서버 없이 독립 동작
+- 변수화된 config로 쉽게 복제 가능
+
+---
+
+## 2. 폴더 구조
+
+```
+dtslib-branch/
+├── index.html              # 메인 랜딩페이지
+├── config.json             # 중앙 설정 파일
+├── CNAME                   # 커스텀 도메인 (dtslib.com)
+├── robots.txt              # SEO
+├── sitemap.xml             # 사이트맵
+├── sw.js                   # Service Worker (PWA)
+├── .nojekyll               # Jekyll 비활성화
+│
+├── assets/
+│   ├── manifest.json       # PWA 설정
+│   └── icons/
+│       └── logo.png        # 앱 아이콘 (TODO: 추가 필요)
+│
+└── staff/
+    └── index.html          # 스태프 포털 (비밀번호: 1126)
 ```
 
 ---
 
-## 📋 작업 규칙
+## 3. 설정 파일 (config.json)
 
-### 1. 파일 수정 시
+모든 변수화된 값은 `config.json`에 집중되어 있습니다.
 
-- **HTML 파일**: 인라인 CSS 또는 `<style>` 태그 사용
-- **외부 라이브러리**: 최소화, CDN 사용 시 주석으로 출처 표기
-- **모바일 우선**: `max-width: 500px` 기준 반응형
-- **다크 테마**: `--bg: #0F1F15`, `--gold: #D4AF37` 색상 시스템 유지
+### 주요 설정
+| 항목 | 현재 값 | 설명 |
+|------|----------|------|
+| `site.name` | dtslib 컨설팅 | 사이트명 |
+| `site.domain` | dtslib.com | 도메인 |
+| `owner.email` | dimas@dtslib.com | 연락처 |
+| `service.price` | 25만원 / 2시간 | 서비스 가격 |
+| `staff.accessCode` | 1126 | 스태프 포털 비밀번호 |
 
-### 2. 커밋 메시지
-
-```
-타입: 간단한 설명
-
-- 세부 변경 사항 1
-- 세부 변경 사항 2
-```
-
-타입: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
-
-### 3. 새 페이지 추가 시
-
-1. 폴더 생성 (예: `new-page/`)
-2. `index.html` 파일 생성
-3. 기존 디자인 시스템 따르기
-4. 필요시 `config.json` 업데이트
-5. 메인 페이지에 링크 추가
+### 복제 시 변경 항목
+1. `config.json` 수정
+2. `CNAME` 파일 수정
+3. `index.html` 내 하드코딩된 값 수정
+4. `assets/manifest.json` 수정
 
 ---
 
-## 🚫 금지 사항
+## 4. 커밋 컨벤션
 
-- `staff/` 비밀번호 외부 노출 금지
-- 민감한 API 키 직접 커밋 금지
-- 대용량 미디어 파일 직접 커밋 지양 (CDN 활용)
+```
+feat: 새 기능 추가
+fix: 버그 수정
+docs: 문서 업데이트
+style: 디자인 변경
+refactor: 구조 개선
+```
 
 ---
 
-## 📞 문의
+## 5. 배포
 
-설정 관련 문의는 `config.json`의 owner 정보 참조.
+### GitHub Pages 설정
+1. Settings → Pages
+2. Source: `main` branch
+3. Custom domain: `dtslib.com`
+
+### DNS 설정
+CNAME 레코드: `dtslib1979.github.io`
+
+---
+
+## 6. TODO
+
+- [ ] 로고 이미지 추가 (`assets/icons/logo.png`)
+- [ ] OG 이미지 추가
+- [ ] DNS 설정 완료
+- [ ] 추가 페이지 필요 시 확장
+
+---
+
+## 7. 보일러플레이트 기반
+
+이 프로젝트는 `buddies.kr` 레포지토리를 기반으로 복제/변형되었습니다.
+
+### 변경 사항
+| buddies 원본 | dtslib 변경 |
+|--------------|----------------|
+| buddies.kr | dtslib.com |
+| 로컨 핫플레이스 시스템 | AI 업무 자동화 세팅 |
+| pro@buddies.kr | dimas@dtslib.com |
+| Daniel/Justin/Thomas | DIMAS |
+| 18 Holes 캐러셀 | 제거 |
+| Portfolio 섹션 | 제거 |
+
+---
+
+*마지막 업데이트: 2026-01-12*
