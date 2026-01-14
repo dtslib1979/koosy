@@ -1800,6 +1800,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var ctx = canvas.getContext('2d');
   var animationId = null;
   var imagesLoaded = 0;
+  var dpr = window.devicePixelRatio || 1;
 
   // Node data with URLs and images
   var nodes = [
@@ -1828,8 +1829,8 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
 
   function initPositions() {
-    var w = canvas.width;
-    var h = canvas.height;
+    var w = canvas.width / dpr;
+    var h = canvas.height / dpr;
     var cx = w / 2;
     var cy = h / 2;
     var r = Math.min(w, h) * 0.32;
@@ -1849,8 +1850,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var repulsion = 6000;
     var attraction = 0.006;
     var centerPull = 0.002;
-    var cx = canvas.width / 2;
-    var cy = canvas.height / 2;
+    var cx = (canvas.width / dpr) / 2;
+    var cy = (canvas.height / dpr) / 2;
 
     for (var i = 0; i < nodes.length; i++) {
       for (var j = i + 1; j < nodes.length; j++) {
@@ -1885,8 +1886,10 @@ document.addEventListener('DOMContentLoaded', function() {
       nodes[i].vy *= damping;
       nodes[i].x += nodes[i].vx;
       nodes[i].y += nodes[i].vy;
-      nodes[i].x = Math.max(50, Math.min(canvas.width - 50, nodes[i].x));
-      nodes[i].y = Math.max(50, Math.min(canvas.height - 50, nodes[i].y));
+      var maxW = (canvas.width / dpr) - 50;
+      var maxH = (canvas.height / dpr) - 50;
+      nodes[i].x = Math.max(50, Math.min(maxW, nodes[i].x));
+      nodes[i].y = Math.max(50, Math.min(maxH, nodes[i].y));
     }
   }
 
@@ -1898,16 +1901,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 
-    // Draw edges with gradient
+    // Draw edges
     for (var e = 0; e < edges.length; e++) {
       var a = nodes[edges[e].from];
       var b = nodes[edges[e].to];
       ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
@@ -1917,22 +1920,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Draw nodes
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
-      var borderWidth = 4;
-      var totalRadius = n.radius + borderWidth;
+      var border = 3;
 
-      // Outer glow
+      // Glow
       ctx.beginPath();
-      ctx.arc(n.x, n.y, totalRadius + 6, 0, Math.PI * 2);
-      ctx.fillStyle = n.color + '22';
+      ctx.arc(n.x, n.y, n.radius + border + 4, 0, Math.PI * 2);
+      ctx.fillStyle = n.color + '33';
       ctx.fill();
 
-      // Border ring (colored)
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, totalRadius, 0, Math.PI * 2);
-      ctx.fillStyle = n.color;
-      ctx.fill();
-
-      // Draw image filling exactly to border
+      // Draw image with border stroke on top
       if (n.image) {
         ctx.save();
         ctx.beginPath();
@@ -1940,13 +1936,18 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.clip();
         ctx.drawImage(n.image, n.x - n.radius, n.y - n.radius, n.radius * 2, n.radius * 2);
         ctx.restore();
+        // Border stroke on top of image
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = n.color;
+        ctx.lineWidth = border * 2;
+        ctx.stroke();
       } else {
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#1A2E22';
-        ctx.fill();
-        // Label fallback
         ctx.fillStyle = n.color;
+        ctx.fill();
+        ctx.fillStyle = '#0F1F15';
         ctx.font = (i === 0 ? 'bold 14px' : 'bold 12px') + ' system-ui, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -1963,8 +1964,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function resizeCanvas() {
     var rect = graphContainer.getBoundingClientRect();
-    canvas.width = rect.width - 32;
-    canvas.height = 320;
+    var w = rect.width - 32;
+    var h = 320;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(dpr, dpr);
     initPositions();
     draw();
   }
