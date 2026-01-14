@@ -1,12 +1,12 @@
 {
   "site": {
-    "name": "dtslib 컨설팅",
-    "shortName": "dtslib",
-    "domain": "dtslib.com",
-    "url": "https://dtslib1979.github.io/dtslib-branch/",
-    "description": "AI 업무 자동화 세팅 서비스",
-    "tagline": "AI 업무 세팅",
-    "themeColor": "#0F1F15"
+    "name": "KOOSY",
+    "shortName": "KOOSY",
+    "domain": "koosy.com",
+    "url": "https://dtslib1979.github.io/koosy/",
+    "description": "Bluffing based editing broadcasting CELEB story",
+    "tagline": "EST. 2024.04.24",
+    "themeColor": "#D4AF37"
   },
   "owner": {
     "name": "DIMAS",
@@ -30,25 +30,25 @@
   },
   "pwa": {
     "enabled": true,
-    "cacheName": "dtslib-v1"
+    "cacheName": "koosy-v1"
   },
   "card": {
-    "name": "DIMAS",
-    "title": "AI Automation Consultant",
-    "organization": "dtslib",
-    "tagline": "AI 업무 자동화 전문가",
-    "quote": "**AI**로 당신의 업무를 자동화합니다",
-    "email": "dimas@dtslib.com",
+    "name": "KOOSY",
+    "title": "Bluffing based editing broadcasting CELEB story",
+    "organization": "KOOSY",
+    "tagline": "EST. 2024.04.24",
+    "quote": "Bluffing based editing broadcasting CELEB story",
+    "email": "koosy@koosy.com",
     "phone": "",
-    "website": "https://dtslib.com",
-    "cardUrl": "https://dtslib.com/card/",
-    "ogImage": "https://dtslib.com/assets/og/card-preview.png",
-    "contactButtonLabel": "PROPOSAL",
+    "website": "https://koosy.com",
+    "cardUrl": "https://koosy.com/card/",
+    "ogImage": "https://koosy.com/assets/icons/logo.png",
+    "contactButtonLabel": "CONTACT",
     "theme": "gold"
   },
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-01-12",
-    "template": "buddies.kr boilerplate"
+    "lastUpdated": "2026-01-14",
+    "template": "KOOSY"
   }
 }
