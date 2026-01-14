@@ -1651,7 +1651,7 @@ function closeLicenseModal(event) {
   }
 }
 
-// Carousel
+// Carousel (요소 있을 때만)
 const track = document.getElementById('carouselTrack');
 const dots = document.querySelectorAll('.carousel-dot');
 const prevBtn = document.getElementById('prevBtn');
@@ -1660,6 +1660,7 @@ let currentSlide = 0;
 const totalSlides = 3;
 
 function goToSlide(index) {
+  if (!track) return;
   currentSlide = index;
   track.style.transform = `translateX(-${index * 100}%)`;
   dots.forEach((dot, i) => {
@@ -1667,13 +1668,17 @@ function goToSlide(index) {
   });
 }
 
-prevBtn.addEventListener('click', () => {
-  goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
-});
+if (prevBtn) {
+  prevBtn.addEventListener('click', () => {
+    goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+  });
+}
 
-nextBtn.addEventListener('click', () => {
-  goToSlide((currentSlide + 1) % totalSlides);
-});
+if (nextBtn) {
+  nextBtn.addEventListener('click', () => {
+    goToSlide((currentSlide + 1) % totalSlides);
+  });
+}
 
 dots.forEach((dot) => {
   dot.addEventListener('click', () => {
@@ -1683,17 +1688,19 @@ dots.forEach((dot) => {
 
 // Touch swipe
 let touchStartX = 0;
-track.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-});
+if (track) {
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  });
 
-track.addEventListener('touchend', (e) => {
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) {
-    if (diff > 0) nextBtn.click();
-    else prevBtn.click();
-  }
-});
+  track.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && nextBtn) nextBtn.click();
+      else if (prevBtn) prevBtn.click();
+    }
+  });
+}
 
 // =====================
 // 동적 링크 (Staff Portal 설정 연동)
