@@ -1,0 +1,24 @@
+{
+  "videos": [
+    {
+      "id": "VIDEO_ID_1",
+      "title": "첫 번째 쇼츠",
+      "thumbnail": "https://i.ytimg.com/vi/VIDEO_ID_1/oar2.jpg"
+    },
+    {
+      "id": "VIDEO_ID_2",
+      "title": "두 번째 쇼츠",
+      "thumbnail": "https://i.ytimg.com/vi/VIDEO_ID_2/oar2.jpg"
+    },
+    {
+      "id": "VIDEO_ID_3",
+      "title": "세 번째 쇼츠",
+      "thumbnail": "https://i.ytimg.com/vi/VIDEO_ID_3/oar2.jpg"
+    }
+  ],
+  "settings": {
+    "autoplay": false,
+    "loop": true,
+    "showTitle": true
+  }
+}

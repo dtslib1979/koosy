@@ -1,54 +1,42 @@
 {
   "site": {
-    "name": "KOOSY",
-    "shortName": "koosy",
-    "domain": "",
-    "url": "https://dtslib1979.github.io/koosy/",
-    "description": "Bluffing based editing broadcasting CELEB story",
-    "tagline": "CELEB Story Broadcasting",
-    "themeColor": "#0F1F15"
-  },
-  "owner": {
-    "name": "KOOSY",
-    "email": "",
-    "location": "대한민국"
+    "name": "dtslib",
+    "tagline": "AI 업무 자동화 세팅",
+    "domain": "dtslib.com",
+    "github_repo": "dtslib1979/dtslib-branch",
+    "base_url": "https://dtslib.com"
   },
   "service": {
-    "title": "CELEB Story Broadcasting",
-    "subtitle": "Bluffing based editing broadcasting",
-    "price": "",
-    "ctaText": "문의하기",
-    "features": [
-      "CELEB Story",
-      "Broadcasting",
-      "Bluffing Editing"
-    ]
+    "name": "AI 업무 자동화 세팅",
+    "description": "Claude Code를 사용한 업무 자동화 환경 구축",
+    "price": "25만원",
+    "duration": "2시간",
+    "price_display": "25만원 / 2시간"
+  },
+  "owner": {
+    "name": "DIMAS",
+    "email": "dimas@dtslib.com",
+    "phone": "",
+    "github": "dtslib1979"
+  },
+  "branding": {
+    "primary_color": "#D4AF37",
+    "background_color": "#0F1F15",
+    "font_family": "Inter, -apple-system, sans-serif"
   },
   "staff": {
-    "accessCode": "1126",
-    "storageKey": "koosy_staff_auth"
+    "code": "1126",
+    "portal_path": "/staff/"
   },
-  "pwa": {
-    "enabled": true,
-    "cacheName": "koosy-v1"
-  },
-  "card": {
-    "name": "KOOSY",
-    "title": "CELEB Story Creator",
-    "organization": "koosy",
-    "tagline": "Bluffing based broadcasting",
-    "quote": "**CELEB** 스토리를 방송합니다",
-    "email": "",
-    "phone": "",
-    "website": "https://dtslib1979.github.io/koosy/",
-    "cardUrl": "https://dtslib1979.github.io/koosy/card/",
-    "ogImage": "",
-    "contactButtonLabel": "CONTACT",
-    "theme": "gold"
+  "features": {
+    "youtube_carousel": true,
+    "business_card": true,
+    "link_tree": true,
+    "dashboard": true
   },
   "meta": {
     "version": "1.0.0",
-    "lastUpdated": "2026-01-14",
-    "template": "dtslib-branch boilerplate"
+    "template": "buddies.kr boilerplate",
+    "last_updated": "2025-01-13"
   }
 }

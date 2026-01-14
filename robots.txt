@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dtslib1979.github.io/koosy/sitemap.xml
+Sitemap: https://dtslib.com/sitemap.xml
