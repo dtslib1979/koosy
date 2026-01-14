@@ -43,6 +43,7 @@
       padding: 20px;
     }
 
+    /* Header */
     .header {
       display: flex;
       align-items: center;
@@ -81,6 +82,7 @@
       color: var(--text-muted);
     }
 
+    /* Form */
     .form-section {
       margin-bottom: 20px;
     }
@@ -138,6 +140,7 @@
       color: var(--text);
     }
 
+    /* Checkbox Group */
     .checkbox-group {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -196,6 +199,7 @@
       color: var(--text);
     }
 
+    /* Generate Button */
     .generate-btn {
       width: 100%;
       padding: 16px;
@@ -219,6 +223,7 @@
       transform: translateY(0);
     }
 
+    /* Output */
     .output-section {
       margin-top: 32px;
       display: none;
@@ -281,6 +286,7 @@
       overflow-y: auto;
     }
 
+    /* Templates */
     .templates-section {
       margin-top: 32px;
       padding-top: 24px;
@@ -325,6 +331,7 @@
       margin-bottom: 4px;
     }
 
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 100px;
@@ -368,6 +375,7 @@
     </div>
   </header>
 
+  <!-- Form -->
   <div class="form-section">
     <label class="form-label">페이지 이름</label>
     <input type="text" class="form-input" id="pageName" placeholder="예: 회사 소개 페이지">
@@ -443,6 +451,7 @@
 
   <button class="generate-btn" id="generateBtn">프롬프트 생성하기</button>
 
+  <!-- Output -->
   <div class="output-section" id="outputSection">
     <div class="output-header">
       <span class="output-title">생성된 프롬프트</span>
@@ -454,6 +463,7 @@
     <div class="output-box" id="outputBox"></div>
   </div>
 
+  <!-- Templates -->
   <div class="templates-section">
     <div class="templates-title">빠른 템플릿</div>
     <div class="template-grid">
@@ -480,6 +490,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// Checkbox toggle
 document.querySelectorAll('.checkbox-item').forEach(item => {
   const checkbox = item.querySelector('input');
   if (checkbox.checked) item.classList.add('selected');
@@ -490,6 +501,7 @@ document.querySelectorAll('.checkbox-item').forEach(item => {
   });
 });
 
+// Generate prompt
 const generateBtn = document.getElementById('generateBtn');
 const outputSection = document.getElementById('outputSection');
 const outputBox = document.getElementById('outputBox');
@@ -564,6 +576,7 @@ ${sections.length > 0 ? sections.map(s => `• ${s}`).join('\n') : '• 기본 �
   return prompt;
 }
 
+// Copy functionality
 copyBtn.addEventListener('click', () => {
   const text = outputBox.textContent;
   navigator.clipboard.writeText(text).then(() => {
@@ -576,6 +589,7 @@ copyBtn.addEventListener('click', () => {
       copyText.textContent = '복사';
     }, 2000);
   }).catch(() => {
+    // Fallback
     const textarea = document.createElement('textarea');
     textarea.value = text;
     textarea.style.cssText = 'position:fixed;opacity:0';
@@ -587,6 +601,7 @@ copyBtn.addEventListener('click', () => {
   });
 });
 
+// Templates
 const templates = {
   landing: {
     name: '서비스 랜딩페이지',
@@ -628,6 +643,7 @@ document.querySelectorAll('.template-btn').forEach(btn => {
     document.getElementById('designStyle').value = template.style;
     document.getElementById('additional').value = template.additional;
 
+    // Reset and set checkboxes
     document.querySelectorAll('#sections .checkbox-item').forEach(item => {
       const cb = item.querySelector('input');
       const isSelected = template.sections.includes(cb.value);
