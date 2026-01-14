@@ -1245,45 +1245,50 @@
       color: var(--gold);
     }
 
-    /* Graph View */
+    /* Graph View - Main Display */
     .graph-container {
-      display: none;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-md);
-      margin-bottom: var(--space-md);
-    }
-
-    .graph-container.show {
       display: block;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
     }
 
     #graphCanvas {
       width: 100%;
-      height: 200px;
+      height: 320px;
       border-radius: 8px;
+      cursor: pointer;
     }
 
     .graph-legend {
       display: flex;
       justify-content: center;
-      gap: 16px;
-      margin-top: 12px;
+      gap: 20px;
+      margin-top: 16px;
       flex-wrap: wrap;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--text-muted);
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .legend-item:hover {
+      background: var(--bg-card);
+      color: var(--text);
     }
 
     .legend-dot {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
     }
 
@@ -1292,11 +1297,16 @@
     .legend-dot.sjoonmo { background: #A78BFA; }
     .legend-dot.quicksilver { background: #C0C0C0; }
 
-    /* Affiliate Cards */
+    .graph-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    /* Affiliate Cards - Hidden (moved to individual pages) */
     .affiliate-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
+      display: none;
     }
 
     .affiliate-card {
@@ -1572,88 +1582,18 @@
 
   <!-- Affiliates (Family Network) -->
   <section class="affiliates-section">
-    <div class="section-header-row">
-      <h2 class="section-title">Affiliates</h2>
-      <button class="graph-toggle" id="graphToggle" title="Graph View">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="5" cy="12" r="3"/>
-          <circle cx="19" cy="5" r="3"/>
-          <circle cx="19" cy="19" r="3"/>
-          <line x1="8" y1="12" x2="16" y2="6"/>
-          <line x1="8" y1="12" x2="16" y2="18"/>
-        </svg>
-      </button>
-    </div>
+    <h2 class="section-title">Affiliates</h2>
 
-    <!-- Graph View (Hidden by default) -->
+    <!-- Graph View - Main Display -->
     <div class="graph-container" id="graphContainer">
       <canvas id="graphCanvas"></canvas>
       <div class="graph-legend">
-        <span class="legend-item"><span class="legend-dot koosy"></span>KOOSY</span>
-        <span class="legend-item"><span class="legend-dot mathq"></span>MathQ</span>
-        <span class="legend-item"><span class="legend-dot sjoonmo"></span>S-Joonmo</span>
-        <span class="legend-item"><span class="legend-dot quicksilver"></span>QuickSilver</span>
+        <a href="./" class="legend-item" data-node="koosy"><span class="legend-dot koosy"></span>KOOSY</a>
+        <a href="./affiliates/mathq.html" class="legend-item" data-node="mathq"><span class="legend-dot mathq"></span>MathQ</a>
+        <a href="./affiliates/sjoonmo.html" class="legend-item" data-node="sjoonmo"><span class="legend-dot sjoonmo"></span>S-Joonmo</a>
+        <a href="./affiliates/quicksilver.html" class="legend-item" data-node="quicksilver"><span class="legend-dot quicksilver"></span>QuickSilver</a>
       </div>
-    </div>
-
-    <!-- Affiliate Cards -->
-    <div class="affiliate-list" id="affiliateList">
-      <!-- MathQ -->
-      <div class="affiliate-card" data-affiliate="mathq">
-        <div class="affiliate-header">
-          <span class="affiliate-icon">📐</span>
-          <div class="affiliate-info">
-            <div class="affiliate-name">MathQ</div>
-            <div class="affiliate-role">수학 과외 · Wife</div>
-          </div>
-          <span class="affiliate-badge">Education</span>
-        </div>
-        <p class="affiliate-desc">중고등 수학 전문 과외. 개념부터 심화까지.</p>
-        <div class="affiliate-videos">
-          <a href="#" class="video-thumb" target="_blank">
-            <span class="video-icon">▶️</span>
-            <span class="video-title">수학 공부법</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- S-Joonmo -->
-      <div class="affiliate-card" data-affiliate="sjoonmo">
-        <div class="affiliate-header">
-          <span class="affiliate-icon">🤖</span>
-          <div class="affiliate-info">
-            <div class="affiliate-name">S-Joonmo</div>
-            <div class="affiliate-role">AI Native · Son</div>
-          </div>
-          <span class="affiliate-badge">Tech</span>
-        </div>
-        <p class="affiliate-desc">AI를 자유자재로 활용하는 디지털 네이티브.</p>
-        <div class="affiliate-videos">
-          <a href="#" class="video-thumb" target="_blank">
-            <span class="video-icon">▶️</span>
-            <span class="video-title">AI 활용기</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- QuickSilver -->
-      <div class="affiliate-card" data-affiliate="quicksilver">
-        <div class="affiliate-header">
-          <span class="affiliate-icon">🥈</span>
-          <div class="affiliate-info">
-            <div class="affiliate-name">QuickSilver</div>
-            <div class="affiliate-role">Silver YouTuber · Mother</div>
-          </div>
-          <span class="affiliate-badge">Content</span>
-        </div>
-        <p class="affiliate-desc">시니어를 위한 라이프스타일 & 건강 콘텐츠.</p>
-        <div class="affiliate-videos">
-          <a href="#" class="video-thumb" target="_blank">
-            <span class="video-icon">▶️</span>
-            <span class="video-title">실버 라이프</span>
-          </a>
-        </div>
-      </div>
+      <p class="graph-hint">노드를 클릭하면 상세 페이지로 이동합니다</p>
     </div>
   </section>
 
@@ -1856,33 +1796,32 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================
-// Affiliates Graph View
+// Affiliates Graph View (Main Display)
 // =====================
 (function initGraphView() {
-  var graphToggle = document.getElementById('graphToggle');
   var graphContainer = document.getElementById('graphContainer');
   var canvas = document.getElementById('graphCanvas');
 
-  if (!graphToggle || !graphContainer || !canvas) return;
+  if (!graphContainer || !canvas) return;
 
   var ctx = canvas.getContext('2d');
   var isAnimating = false;
   var animationId = null;
 
-  // Node data
+  // Node data with URLs
   var nodes = [
-    { id: 'koosy', label: 'KOOSY', color: '#D4AF37', x: 0, y: 0, vx: 0, vy: 0 },
-    { id: 'mathq', label: 'MathQ', color: '#4ECDC4', x: 0, y: 0, vx: 0, vy: 0 },
-    { id: 'sjoonmo', label: 'S-Joonmo', color: '#A78BFA', x: 0, y: 0, vx: 0, vy: 0 },
-    { id: 'quicksilver', label: 'QuickSilver', color: '#C0C0C0', x: 0, y: 0, vx: 0, vy: 0 }
+    { id: 'koosy', label: 'KOOSY', color: '#D4AF37', url: './', radius: 45, x: 0, y: 0, vx: 0, vy: 0 },
+    { id: 'mathq', label: 'MathQ', color: '#4ECDC4', url: './affiliates/mathq.html', radius: 38, x: 0, y: 0, vx: 0, vy: 0 },
+    { id: 'sjoonmo', label: 'S-Joonmo', color: '#A78BFA', url: './affiliates/sjoonmo.html', radius: 38, x: 0, y: 0, vx: 0, vy: 0 },
+    { id: 'quicksilver', label: 'QuickSilver', color: '#C0C0C0', url: './affiliates/quicksilver.html', radius: 38, x: 0, y: 0, vx: 0, vy: 0 }
   ];
 
   // Edges (connections)
   var edges = [
-    { from: 0, to: 1 }, // KOOSY - MathQ
-    { from: 0, to: 2 }, // KOOSY - S-Joonmo
-    { from: 0, to: 3 }, // KOOSY - QuickSilver
-    { from: 1, to: 2 }, // MathQ - S-Joonmo
+    { from: 0, to: 1 },
+    { from: 0, to: 2 },
+    { from: 0, to: 3 },
+    { from: 1, to: 2 },
   ];
 
   function initPositions() {
@@ -1890,13 +1829,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var h = canvas.height;
     var cx = w / 2;
     var cy = h / 2;
-    var r = Math.min(w, h) * 0.3;
+    var r = Math.min(w, h) * 0.32;
 
-    // Place KOOSY at center
     nodes[0].x = cx;
     nodes[0].y = cy;
 
-    // Place others in a circle around
     for (var i = 1; i < nodes.length; i++) {
       var angle = ((i - 1) / (nodes.length - 1)) * Math.PI * 2 - Math.PI / 2;
       nodes[i].x = cx + Math.cos(angle) * r;
@@ -1905,14 +1842,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function applyForces() {
-    var damping = 0.9;
-    var repulsion = 3000;
-    var attraction = 0.01;
-    var centerPull = 0.005;
+    var damping = 0.85;
+    var repulsion = 8000;
+    var attraction = 0.008;
+    var centerPull = 0.003;
     var cx = canvas.width / 2;
     var cy = canvas.height / 2;
 
-    // Repulsion between all nodes
     for (var i = 0; i < nodes.length; i++) {
       for (var j = i + 1; j < nodes.length; j++) {
         var dx = nodes[j].x - nodes[i].x;
@@ -1927,7 +1863,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    // Attraction along edges
     for (var e = 0; e < edges.length; e++) {
       var a = nodes[edges[e].from];
       var b = nodes[edges[e].to];
@@ -1940,34 +1875,27 @@ document.addEventListener('DOMContentLoaded', function() {
       b.vy -= dy * attraction;
     }
 
-    // Pull toward center
     for (var i = 0; i < nodes.length; i++) {
       nodes[i].vx += (cx - nodes[i].x) * centerPull;
       nodes[i].vy += (cy - nodes[i].y) * centerPull;
-    }
-
-    // Apply velocity with damping
-    for (var i = 0; i < nodes.length; i++) {
       nodes[i].vx *= damping;
       nodes[i].vy *= damping;
       nodes[i].x += nodes[i].vx;
       nodes[i].y += nodes[i].vy;
-
-      // Boundary constraints
-      nodes[i].x = Math.max(30, Math.min(canvas.width - 30, nodes[i].x));
-      nodes[i].y = Math.max(30, Math.min(canvas.height - 30, nodes[i].y));
+      nodes[i].x = Math.max(50, Math.min(canvas.width - 50, nodes[i].x));
+      nodes[i].y = Math.max(50, Math.min(canvas.height - 50, nodes[i].y));
     }
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw edges
-    ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
-    ctx.lineWidth = 2;
+    // Draw edges with gradient
     for (var e = 0; e < edges.length; e++) {
       var a = nodes[edges[e].from];
       var b = nodes[edges[e].to];
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+      ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
@@ -1977,23 +1905,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Draw nodes
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
-      var radius = i === 0 ? 24 : 18;
 
-      // Glow effect
+      // Outer glow
       ctx.beginPath();
-      ctx.arc(n.x, n.y, radius + 4, 0, Math.PI * 2);
-      ctx.fillStyle = n.color + '33';
+      ctx.arc(n.x, n.y, n.radius + 8, 0, Math.PI * 2);
+      ctx.fillStyle = n.color + '22';
       ctx.fill();
 
-      // Node circle
+      // Inner glow
       ctx.beginPath();
-      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+      ctx.arc(n.x, n.y, n.radius + 4, 0, Math.PI * 2);
+      ctx.fillStyle = n.color + '44';
+      ctx.fill();
+
+      // Main circle
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
       ctx.fillStyle = n.color;
       ctx.fill();
 
-      // Label
+      // Label - bigger, bolder text
       ctx.fillStyle = '#0F1F15';
-      ctx.font = (i === 0 ? 'bold 10px' : '9px') + ' system-ui';
+      ctx.font = (i === 0 ? 'bold 14px' : 'bold 12px') + ' system-ui, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(n.label, n.x, n.y);
@@ -2011,35 +1944,59 @@ document.addEventListener('DOMContentLoaded', function() {
   function resizeCanvas() {
     var rect = graphContainer.getBoundingClientRect();
     canvas.width = rect.width - 32;
-    canvas.height = 200;
+    canvas.height = 320;
     initPositions();
     draw();
   }
 
-  graphToggle.addEventListener('click', function() {
-    graphToggle.classList.toggle('active');
-    graphContainer.classList.toggle('show');
+  // Get clicked node
+  function getNodeAtPosition(x, y) {
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      var dx = x - n.x;
+      var dy = y - n.y;
+      if (Math.sqrt(dx * dx + dy * dy) <= n.radius) {
+        return n;
+      }
+    }
+    return null;
+  }
 
-    if (graphContainer.classList.contains('show')) {
-      resizeCanvas();
-      isAnimating = true;
-      animate();
+  // Handle click on canvas
+  canvas.addEventListener('click', function(e) {
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    var node = getNodeAtPosition(x, y);
 
-      // Stop animation after 3 seconds
-      setTimeout(function() {
-        isAnimating = false;
-        if (animationId) cancelAnimationFrame(animationId);
-      }, 3000);
-    } else {
-      isAnimating = false;
-      if (animationId) cancelAnimationFrame(animationId);
+    if (node && node.url) {
+      window.location.href = node.url;
     }
   });
 
+  // Change cursor on hover
+  canvas.addEventListener('mousemove', function(e) {
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    var node = getNodeAtPosition(x, y);
+    canvas.style.cursor = node ? 'pointer' : 'default';
+  });
+
+  // Auto-start on load
+  window.addEventListener('load', function() {
+    resizeCanvas();
+    isAnimating = true;
+    animate();
+
+    setTimeout(function() {
+      isAnimating = false;
+      if (animationId) cancelAnimationFrame(animationId);
+    }, 4000);
+  });
+
   window.addEventListener('resize', function() {
-    if (graphContainer.classList.contains('show')) {
-      resizeCanvas();
-    }
+    resizeCanvas();
   });
 })();
 </script>
