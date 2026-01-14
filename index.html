@@ -673,6 +673,18 @@
       letter-spacing: 0.02em;
     }
 
+    .tool-counter {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 2px 8px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+
     .dashboard-footer {
       display: flex;
       justify-content: center;
@@ -1257,6 +1269,7 @@
             <a href="./articles/" class="tool-btn">
               <span class="tool-indicator"></span>
               <span class="tool-name">Articles</span>
+              <span class="tool-counter" id="articleCounter">0</span>
             </a>
           </div>
         </div>
@@ -1549,6 +1562,7 @@ track.addEventListener('touchend', (e) => {
 // =====================
 (async function loadArticlesFeed() {
   const articleList = document.getElementById('articleList');
+  const articleCounter = document.getElementById('articleCounter');
   if (!articleList) return;
 
   try {
@@ -1557,6 +1571,11 @@ track.addEventListener('touchend', (e) => {
 
     const data = await response.json();
     const articles = data.articles || [];
+
+    // Update counter badge
+    if (articleCounter) {
+      articleCounter.textContent = articles.length;
+    }
 
     if (articles.length === 0) {
       articleList.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:16px;">No articles yet</div>';
