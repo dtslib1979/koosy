@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S-Joonmo | KOOSY Affiliate</title>
+  <meta name="description" content="S-Joonmo - AI를 자유자재로 활용하는 디지털 네이티브">
+  <link rel="icon" href="../assets/icons/logo.jpg">
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-elevated: #1A2E22;
+      --bg-card: #243529;
+      --accent: #A78BFA;
+      --gold: #D4AF37;
+      --text: #F5F5F0;
+      --text-secondary: rgba(245,245,240,.7);
+      --text-muted: rgba(245,245,240,.5);
+      --border: rgba(245,245,240,.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .hero-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .hero-role {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(167, 139, 250, 0.2);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .section {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-content {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .video-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .video-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .video-item:hover {
+      border-color: var(--accent);
+    }
+
+    .video-icon {
+      font-size: 24px;
+    }
+
+    .video-info {
+      flex: 1;
+    }
+
+    .video-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .video-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .video-arrow {
+      color: var(--accent);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .skill-tag {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .contact-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .contact-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← KOOSY</a>
+
+    <div class="hero">
+      <div class="hero-icon">🤖</div>
+      <h1 class="hero-title">S-Joonmo</h1>
+      <p class="hero-role">AI Native · Son</p>
+      <span class="hero-badge">Tech</span>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">About</h2>
+      <p class="section-content">
+        AI를 자유자재로 활용하는 디지털 네이티브. ChatGPT, Claude, Midjourney 등
+        다양한 AI 도구를 일상과 학습에 자연스럽게 활용합니다.
+      </p>
+      <div class="skill-tags">
+        <span class="skill-tag">ChatGPT</span>
+        <span class="skill-tag">Claude</span>
+        <span class="skill-tag">Midjourney</span>
+        <span class="skill-tag">Cursor</span>
+        <span class="skill-tag">Notion AI</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Videos</h2>
+      <div class="video-grid">
+        <a href="#" class="video-item">
+          <span class="video-icon">▶️</span>
+          <div class="video-info">
+            <div class="video-title">AI 활용기</div>
+            <div class="video-desc">학생의 AI 활용 이야기</div>
+          </div>
+          <span class="video-arrow">→</span>
+        </a>
+        <a href="#" class="video-item">
+          <span class="video-icon">▶️</span>
+          <div class="video-info">
+            <div class="video-title">프롬프트 팁</div>
+            <div class="video-desc">효과적인 AI 활용법</div>
+          </div>
+          <span class="video-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <a href="mailto:sjoonmo@koosy.com" class="contact-btn">Contact</a>
+  </div>
+</body>
+</html>
