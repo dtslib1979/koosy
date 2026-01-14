@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+
+  <title>KOOSY</title>
+  <meta name="description" content="Bluffing based editing broadcasting — CELEB Story">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dtslib1979.github.io/koosy/card/">
+  <meta property="og:title" content="KOOSY">
+  <meta property="og:description" content="Bluffing based editing broadcasting">
+  <meta property="og:locale" content="ko_KR">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="KOOSY">
+  <meta name="twitter:description" content="Bluffing based editing broadcasting">
+
+  <link rel="canonical" href="https://dtslib1979.github.io/koosy/card/">
+
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --card-bg: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+      --gold: #D4AF37;
+      --gold-light: #E8C547;
+      --gold-dark: #B8962E;
+      --gold-shine: linear-gradient(135deg, #D4AF37 0%, #F4E4A6 25%, #D4AF37 50%, #B8962E 75%, #D4AF37 100%);
+      --text: #F5F5F0;
+      --text-muted: rgba(245,245,240,.5);
+      --border-gold: rgba(212,175,55,.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    @keyframes cardEntry {
+      0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 200% 0; }
+      50% { background-position: -200% 0; }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(212,175,55,.25); }
+      50% { box-shadow: 0 4px 30px rgba(212,175,55,.45), 0 0 40px rgba(212,175,55,.2); }
+    }
+
+    .card-wrapper {
+      width: 100%;
+      max-width: 380px;
+      animation: cardEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .business-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 40px 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 24px rgba(0,0,0,.5),
+        0 0 80px rgba(212,175,55,.08),
+        inset 0 1px 0 rgba(255,255,255,.03);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .business-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,.6),
+        0 0 100px rgba(212,175,55,.12),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .business-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold-shine);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      overflow: hidden;
+      animation: logoPulse 3s ease-in-out infinite;
+      background: #0A0A0A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    .brand-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      background: var(--gold-shine);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s ease-in-out infinite;
+      margin-bottom: 6px;
+    }
+
+    .tagline {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+      margin: 20px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-section {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote {
+      font-size: 14px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    .quote span {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .contact-section {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-item {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-item a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-item a:hover {
+      color: var(--gold);
+    }
+
+    .contact-icon {
+      display: inline-block;
+      width: 18px;
+      font-size: 12px;
+      text-align: center;
+      margin-right: 4px;
+    }
+
+    .action-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      border-radius: 8px;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .action-btn:hover {
+      background: rgba(212,175,55,.1);
+      border-color: var(--gold);
+    }
+
+    .action-btn.primary {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+
+    .action-btn.primary:hover {
+      background: var(--gold-light);
+      box-shadow: 0 4px 20px rgba(212,175,55,.3);
+    }
+
+    .action-icon {
+      font-size: 14px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--gold);
+      color: var(--bg);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(212,175,55,.4);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="card-wrapper">
+    <article class="business-card" id="card">
+      <section class="logo-section">
+        <div class="logo">🎬</div>
+        <h1 class="brand-name">KOOSY</h1>
+        <p class="tagline">CELEB Story Broadcasting</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="quote-section">
+        <p class="quote">"<span>Bluffing</span> based editing broadcasting"</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="contact-section">
+        <p class="contact-item">
+          <a href="https://dtslib1979.github.io/koosy/" target="_blank" rel="noopener">
+            <span class="contact-icon">🌐</span>koosy.project
+          </a>
+        </p>
+      </section>
+
+      <section class="action-section">
+        <a href="../" class="action-btn">
+          <span class="action-icon">🏠</span>
+          Home
+        </a>
+        <a href="../staff/" class="action-btn primary">
+          <span class="action-icon">🔐</span>
+          Staff
+        </a>
+      </section>
+    </article>
+
+    <p class="footer-note">Tap card to copy link</p>
+  </div>
+
+  <div class="toast" id="toast">Link copied</div>
+
+  <script>
+    const card = document.getElementById('card');
+    const toast = document.getElementById('toast');
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+
+      navigator.clipboard.writeText('https://dtslib1979.github.io/koosy/card/').then(() => {
+        showToast('Link copied');
+        if (navigator.vibrate) navigator.vibrate(50);
+      });
+    });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>

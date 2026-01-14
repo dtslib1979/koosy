@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0F1F15" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Staff Portal | KOOSY</title>
+  <style>
+    :root {
+      --bg: #0a0f0c;
+      --bg-elevated: #141f18;
+      --bg-card: #1a2b20;
+      --gold: #f0c850;
+      --gold-dim: rgba(240,200,80,.2);
+      --text: #ffffff;
+      --text-secondary: rgba(255,255,255,.85);
+      --text-muted: rgba(255,255,255,.6);
+      --border: rgba(255,255,255,.15);
+      --border-gold: rgba(240,200,80,.5);
+      --success: #5fd068;
+      --info: #5bc0eb;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Login Gate */
+    .login-gate {
+      text-align: center;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 4px 20px rgba(212,175,55,.2);
+    }
+
+    .login-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+    .login-subtitle { font-size: 16px; color: var(--text-secondary); margin-bottom: 36px; }
+
+    .login-input {
+      width: 100%;
+      max-width: 280px;
+      padding: 16px 20px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 20px;
+      color: var(--text);
+      text-align: center;
+      letter-spacing: 8px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .login-input:focus { outline: none; border-color: var(--gold); }
+    .login-input::placeholder { letter-spacing: normal; font-size: 14px; color: var(--text-muted); }
+
+    .login-btn {
+      width: 100%;
+      max-width: 280px;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold), #C9A227);
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bg);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,.35); }
+    .login-error { color: #FF6B6B; font-size: 13px; margin-top: 16px; display: none; }
+    .login-error.show { display: block; }
+
+    /* Portal */
+    .portal { display: none; }
+    .portal.active { display: block; }
+
+    .portal-header {
+      text-align: center;
+      margin-bottom: 28px;
+      padding: 24px 0;
+      border-bottom: 2px solid var(--border-gold);
+      background: linear-gradient(180deg, rgba(240,200,80,.08) 0%, transparent 100%);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .portal-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(240,200,80,.3);
+    }
+
+    .portal-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Section */
+    .section { margin-bottom: 24px; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .section-title { font-size: 18px; font-weight: 700; }
+
+    /* Link List */
+    .link-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+      color: var(--text);
+    }
+
+    .link-item:hover { border-color: var(--gold); background: var(--bg-card); }
+
+    .link-icon { font-size: 24px; }
+    .link-content { flex: 1; min-width: 0; }
+    .link-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+    .link-desc { font-size: 12px; color: var(--text-secondary); }
+    .link-arrow { font-size: 18px; color: var(--gold); }
+
+    /* Info Card */
+    .info-card {
+      background: var(--bg-card);
+      border: 2px dashed var(--border-gold);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .info-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Subway Navigation */
+    .subway-nav {
+      margin-top: 28px;
+      padding: 20px 0;
+      border-top: 2px solid var(--border);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 40px;
+    }
+
+    .subway-line {
+      position: absolute;
+      left: 18px;
+      top: 32px;
+      bottom: 32px;
+      width: 4px;
+      background: linear-gradient(180deg, var(--gold) 0%, var(--gold) 70%, #ff5555 100%);
+      border-radius: 2px;
+    }
+
+    .subway-station {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      background: transparent;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      text-decoration: none;
+    }
+
+    .subway-station:hover { color: var(--gold); }
+
+    .station-dot {
+      width: 14px;
+      height: 14px;
+      background: var(--bg);
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      position: absolute;
+      left: -30px;
+      transition: all 0.2s;
+    }
+
+    .station-dot.end { border-color: #ff5555; }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      padding: 14px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .back-link:hover { color: var(--gold); }
+
+    /* Toast */
+    .copy-toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-elevated);
+      border: 2px solid var(--gold);
+      padding: 14px 24px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .copy-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Login Gate -->
+  <div class="login-gate" id="loginGate">
+    <div class="login-logo">🎬</div>
+    <h1 class="login-title">Staff Portal</h1>
+    <p class="login-subtitle">KOOSY 내부 관리</p>
+    <input type="tel" inputmode="numeric" pattern="[0-9]*" class="login-input" id="passwordInput" placeholder="암호 4자리" maxlength="4" autocomplete="off" autofocus />
+    <button class="login-btn" id="loginBtn">접속</button>
+    <p class="login-error" id="loginError">암호가 올바르지 않습니다</p>
+  </div>
+
+  <!-- Portal Content -->
+  <div class="portal" id="portal">
+    <header class="portal-header">
+      <h1 class="portal-title">🎬 KOOSY</h1>
+      <p class="portal-subtitle">CELEB Story Broadcasting</p>
+    </header>
+
+    <!-- Broadcasting Tools -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-badge">Tools</span>
+        <h2 class="section-title">방송 도구</h2>
+      </div>
+      <div class="link-list">
+        <a href="https://studio.youtube.com" target="_blank" class="link-item">
+          <span class="link-icon">📺</span>
+          <div class="link-content">
+            <p class="link-name">YouTube Studio</p>
+            <p class="link-desc">채널 관리 및 업로드</p>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://www.canva.com" target="_blank" class="link-item">
+          <span class="link-icon">🎨</span>
+          <div class="link-content">
+            <p class="link-name">Canva</p>
+            <p class="link-desc">썸네일 제작</p>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://capcut.com" target="_blank" class="link-item">
+          <span class="link-icon">✂️</span>
+          <div class="link-content">
+            <p class="link-name">CapCut</p>
+            <p class="link-desc">영상 편집</p>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- AI Tools -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-badge">AI</span>
+        <h2 class="section-title">AI 생성 도구</h2>
+      </div>
+      <div class="link-list">
+        <a href="https://sora.com" target="_blank" class="link-item">
+          <span class="link-icon">🎬</span>
+          <div class="link-content">
+            <p class="link-name">Sora</p>
+            <p class="link-desc">AI 동영상 생성</p>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://www.midjourney.com" target="_blank" class="link-item">
+          <span class="link-icon">🖼️</span>
+          <div class="link-content">
+            <p class="link-name">Midjourney</p>
+            <p class="link-desc">AI 이미지 생성</p>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+        <a href="https://elevenlabs.io" target="_blank" class="link-item">
+          <span class="link-icon">🎙️</span>
+          <div class="link-content">
+            <p class="link-name">ElevenLabs</p>
+            <p class="link-desc">AI 음성 생성</p>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Project Info -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-badge">About</span>
+        <h2 class="section-title">프로젝트 정보</h2>
+      </div>
+      <div class="info-card">
+        <p>🎬 <strong>KOOSY</strong><br><br>
+        Bluffing based editing broadcasting<br>
+        CELEB 스토리를 새롭게 해석하는<br>
+        크리에이티브 방송 프로젝트</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="subway-nav">
+      <div class="subway-line"></div>
+      <a href="../" class="subway-station">
+        <span class="station-dot"></span>
+        <span class="station-name">Home</span>
+      </a>
+      <a href="../card/" class="subway-station">
+        <span class="station-dot"></span>
+        <span class="station-name">Card</span>
+      </a>
+      <button class="subway-station" id="logoutBtn">
+        <span class="station-dot end"></span>
+        <span class="station-name">Logout</span>
+      </button>
+    </div>
+  </div>
+
+  <a href="../" class="back-link" id="backLink">← 메인으로 돌아가기</a>
+</div>
+
+<div class="copy-toast" id="copyToast">복사되었습니다</div>
+
+<script>
+const ACCESS_CODE = '1126';
+const STORAGE_KEY = 'koosy_staff_auth';
+
+const loginGate = document.getElementById('loginGate');
+const portal = document.getElementById('portal');
+const passwordInput = document.getElementById('passwordInput');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
+const logoutBtn = document.getElementById('logoutBtn');
+const backLink = document.getElementById('backLink');
+
+if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
+  showPortal();
+}
+
+function showPortal() {
+  loginGate.style.display = 'none';
+  portal.classList.add('active');
+  backLink.style.display = 'none';
+}
+
+function hidePortal() {
+  loginGate.style.display = 'flex';
+  portal.classList.remove('active');
+  backLink.style.display = 'block';
+  passwordInput.value = '';
+  loginError.classList.remove('show');
+}
+
+function attemptLogin() {
+  if (passwordInput.value === ACCESS_CODE) {
+    sessionStorage.setItem(STORAGE_KEY, 'true');
+    showPortal();
+  } else {
+    loginError.classList.add('show');
+    passwordInput.value = '';
+    passwordInput.focus();
+  }
+}
+
+loginBtn.addEventListener('click', attemptLogin);
+passwordInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') attemptLogin();
+  loginError.classList.remove('show');
+});
+
+logoutBtn.addEventListener('click', () => {
+  sessionStorage.removeItem(STORAGE_KEY);
+  hidePortal();
+});
+
+function showToast(msg = '복사되었습니다') {
+  const toast = document.getElementById('copyToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+</script>
+
+</body>
+</html>
