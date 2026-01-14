@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dtslib 매뉴얼</title>
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-card: #1A2E22;
+      --gold: #D4AF37;
+      --text: #F5F5F0;
+      --text-muted: rgba(245,245,240,.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { color: var(--gold); margin-bottom: 20px; }
+    h2 { color: var(--gold); margin: 24px 0 12px; font-size: 18px; }
+    p { margin-bottom: 12px; color: var(--text-muted); }
+    ul { margin-left: 20px; margin-bottom: 16px; }
+    li { margin-bottom: 8px; color: var(--text-muted); }
+    code {
+      background: var(--bg-card);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--gold);
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← 홈으로</a>
+    
+    <h1>📖 dtslib 매뉴얼</h1>
+    
+    <h2>1. 개요</h2>
+    <p>dtslib는 GitHub Pages 기반 웹사이트 플랫폼입니다. AI 업무 자동화를 위한 도구와 템플릿을 제공합니다.</p>
+    
+    <h2>2. 시작하기</h2>
+    <ul>
+      <li>GitHub 계정으로 로그인</li>
+      <li>레포지토리 Fork 또는 Clone</li>
+      <li>GitHub Pages 활성화</li>
+      <li><code>config.json</code> 수정</li>
+    </ul>
+    
+    <h2>3. 파일 구조</h2>
+    <ul>
+      <li><code>index.html</code> - 메인 랜딩 페이지</li>
+      <li><code>staff/</code> - 스태프 관리 포털</li>
+      <li><code>card/</code> - 디지털 명함</li>
+      <li><code>tools/</code> - 유틸리티 도구</li>
+      <li><code>config.json</code> - 설정 파일</li>
+    </ul>
+    
+    <h2>4. 레포지토리 구성</h2>
+    <p>dtslib 플랫폼은 6개의 레포지토리로 구성됩니다:</p>
+    <ul>
+      <li><strong>branch</strong> - 메인 사이트 (현재)</li>
+      <li><strong>posts</strong> - 블로그 포스트</li>
+      <li><strong>logs</strong> - 작업 로그</li>
+      <li><strong>pwa</strong> - PWA 앱</li>
+      <li><strong>apk-lab</strong> - 안드로이드 앱</li>
+      <li><strong>media</strong> - 미디어 CDN</li>
+    </ul>
+    
+    <h2>5. Control Panel 도구</h2>
+    <ul>
+      <li><strong>Image Manager</strong> - 이미지 업로드 및 CDN 관리</li>
+      <li><strong>Audio Manager</strong> - 오디오 파일 관리</li>
+      <li><strong>HTML Poster</strong> - 블로그 포스트 배포</li>
+      <li><strong>WebPrompt</strong> - AI 프롬프트 생성기</li>
+      <li><strong>Troubleshoot</strong> - 문제 해결 체크리스트</li>
+    </ul>
+    
+    <h2>6. Claude Code 사용</h2>
+    <p><code>CLAUDE.md</code> 파일을 참고하여 Claude Code와 함께 작업할 수 있습니다.</p>
+    <ul>
+      <li>파일 수정 규칙 준수</li>
+      <li>커밋 메시지 형식 준수</li>
+      <li>보안 사항 준수</li>
+    </ul>
+  </div>
+</body>
+</html>
