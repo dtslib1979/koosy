@@ -1213,90 +1213,182 @@
       border-color: var(--gold);
     }
 
-    /* Link Tree */
-    .linktree-section {
+    /* Affiliates Section */
+    .affiliates-section {
       margin-bottom: var(--space-xl);
     }
 
-    .linktree {
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .graph-toggle {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .graph-toggle:hover,
+    .graph-toggle.active {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Graph View */
+    .graph-container {
+      display: none;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .graph-container.show {
+      display: block;
+    }
+
+    #graphCanvas {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+    }
+
+    .graph-legend {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.koosy { background: var(--gold); }
+    .legend-dot.mathq { background: #4ECDC4; }
+    .legend-dot.sjoonmo { background: #A78BFA; }
+    .legend-dot.quicksilver { background: #C0C0C0; }
+
+    /* Affiliate Cards */
+    .affiliate-list {
       display: flex;
       flex-direction: column;
       gap: var(--space-sm);
     }
 
-    .link-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
+    .affiliate-card {
       background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: var(--space-md) var(--space-lg);
+      padding: var(--space-md);
       transition: all 0.2s;
     }
 
-    .link-item:hover {
+    .affiliate-card:hover {
       border-color: var(--gold);
-      transform: translateX(4px);
     }
 
-    .link-icon {
-      font-size: 24px;
-      width: 32px;
-      text-align: center;
+    .affiliate-card[data-affiliate="mathq"]:hover { border-color: #4ECDC4; }
+    .affiliate-card[data-affiliate="sjoonmo"]:hover { border-color: #A78BFA; }
+    .affiliate-card[data-affiliate="quicksilver"]:hover { border-color: #C0C0C0; }
+
+    .affiliate-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
     }
 
-    .link-text {
+    .affiliate-icon {
+      font-size: 28px;
+    }
+
+    .affiliate-info {
       flex: 1;
     }
 
-    .link-name {
-      font-size: 14px;
-      font-weight: 600;
+    .affiliate-name {
+      font-size: 15px;
+      font-weight: 700;
     }
 
-    .link-desc {
+    .affiliate-role {
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    .link-arrow {
-      color: var(--text-muted);
+    .affiliate-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .affiliate-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .affiliate-videos {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .video-thumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 12px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .video-thumb:hover {
+      border-color: var(--gold);
+      background: var(--bg-elevated);
+    }
+
+    .video-icon {
       font-size: 14px;
     }
 
-    /* GitHub Link Selector */
-    .github-link-item {
-      cursor: default;
-    }
-
-    .link-selector {
-      display: flex;
-      gap: 8px;
-    }
-
-    .selector-btn {
-      width: 40px;
-      height: 40px;
-      background: rgba(212,175,55,.1);
-      border: 1px solid rgba(212,175,55,.3);
-      border-radius: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .selector-btn:hover {
-      background: rgba(212,175,55,.2);
-      border-color: var(--gold);
-      transform: scale(1.05);
-    }
-
-    .selector-btn:active {
-      transform: scale(0.95);
+    .video-title {
+      color: var(--text-secondary);
     }
 
     /* Footer */
@@ -1478,82 +1570,91 @@
     </div>
   </section>
 
-  <!-- Link Tree -->
-  <section class="linktree-section">
-    <h2 class="section-title">Links</h2>
-    <div class="linktree">
-      <!-- GitHub with App/Web selector -->
-      <div class="link-item github-link-item" id="githubLinkItem">
-        <span class="link-icon">🐙</span>
-        <div class="link-text">
-          <div class="link-name">GitHub</div>
-          <div class="link-desc">오픈소스 프로젝트</div>
-        </div>
-        <div class="link-selector">
-          <button class="selector-btn" id="githubAppBtn" title="GitHub App">📱</button>
-          <button class="selector-btn" id="githubWebBtn" title="Web Browser">🌐</button>
-        </div>
-      </div>
-      <a href="#" class="link-item">
-        <span class="link-icon">📺</span>
-        <div class="link-text">
-          <div class="link-name">YouTube</div>
-          <div class="link-desc">Manual but Essential</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
-      <a href="https://www.tistory.com/" target="_blank" class="link-item">
-        <span class="link-icon">📝</span>
-        <div class="link-text">
-          <div class="link-name">Tistory</div>
-          <div class="link-desc">HTML 블로그</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
+  <!-- Affiliates (Family Network) -->
+  <section class="affiliates-section">
+    <div class="section-header-row">
+      <h2 class="section-title">Affiliates</h2>
+      <button class="graph-toggle" id="graphToggle" title="Graph View">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="5" cy="12" r="3"/>
+          <circle cx="19" cy="5" r="3"/>
+          <circle cx="19" cy="19" r="3"/>
+          <line x1="8" y1="12" x2="16" y2="6"/>
+          <line x1="8" y1="12" x2="16" y2="18"/>
+        </svg>
+      </button>
     </div>
-    <!-- Phase 2 Notice Accordion -->
-    <details class="phase-accordion">
-      <summary class="phase-header">
-        <span class="phase-badge">PHASE 2</span>
-        <span class="phase-title">GUI Automation Targets</span>
-        <span class="phase-toggle">▼</span>
-      </summary>
-      <div class="phase-content">
-        <p class="phase-desc">Claude in Chrome on Desktop — Coming Soon</p>
 
-        <!-- Essential -->
-        <div class="platform-category">
-          <div class="category-label">Essential</div>
-          <div class="platform-links">
-            <a href="https://www.linkedin.com/post/new/" target="_blank" class="platform-chip">LinkedIn</a>
-            <a href="https://www.instagram.com/create/style/" target="_blank" class="platform-chip">Instagram</a>
-            <a href="https://www.facebook.com/" target="_blank" class="platform-chip">Facebook</a>
-            <a href="https://blog.naver.com/PostWriteForm.naver" target="_blank" class="platform-chip">Naver Blog</a>
+    <!-- Graph View (Hidden by default) -->
+    <div class="graph-container" id="graphContainer">
+      <canvas id="graphCanvas"></canvas>
+      <div class="graph-legend">
+        <span class="legend-item"><span class="legend-dot koosy"></span>KOOSY</span>
+        <span class="legend-item"><span class="legend-dot mathq"></span>MathQ</span>
+        <span class="legend-item"><span class="legend-dot sjoonmo"></span>S-Joonmo</span>
+        <span class="legend-item"><span class="legend-dot quicksilver"></span>QuickSilver</span>
+      </div>
+    </div>
+
+    <!-- Affiliate Cards -->
+    <div class="affiliate-list" id="affiliateList">
+      <!-- MathQ -->
+      <div class="affiliate-card" data-affiliate="mathq">
+        <div class="affiliate-header">
+          <span class="affiliate-icon">📐</span>
+          <div class="affiliate-info">
+            <div class="affiliate-name">MathQ</div>
+            <div class="affiliate-role">수학 과외 · Wife</div>
           </div>
+          <span class="affiliate-badge">Education</span>
         </div>
-
-        <!-- Premium -->
-        <div class="platform-category">
-          <div class="category-label">Premium</div>
-          <div class="platform-links">
-            <a href="https://brunch.co.kr/write" target="_blank" class="platform-chip">Brunch</a>
-            <a href="https://medium.com/new-story" target="_blank" class="platform-chip">Medium</a>
-            <a href="https://x.com/compose/tweet" target="_blank" class="platform-chip">X</a>
-            <a href="https://www.threads.net/" target="_blank" class="platform-chip">Threads</a>
-          </div>
-        </div>
-
-        <!-- Business -->
-        <div class="platform-category">
-          <div class="category-label">Business</div>
-          <div class="platform-links">
-            <a href="https://www.daangn.com/business" target="_blank" class="platform-chip">Karrot Biz</a>
-            <a href="https://sell.smartstore.naver.com/" target="_blank" class="platform-chip">SmartStore</a>
-            <a href="https://www.notion.so/" target="_blank" class="platform-chip">Notion</a>
-          </div>
+        <p class="affiliate-desc">중고등 수학 전문 과외. 개념부터 심화까지.</p>
+        <div class="affiliate-videos">
+          <a href="#" class="video-thumb" target="_blank">
+            <span class="video-icon">▶️</span>
+            <span class="video-title">수학 공부법</span>
+          </a>
         </div>
       </div>
-    </details>
+
+      <!-- S-Joonmo -->
+      <div class="affiliate-card" data-affiliate="sjoonmo">
+        <div class="affiliate-header">
+          <span class="affiliate-icon">🤖</span>
+          <div class="affiliate-info">
+            <div class="affiliate-name">S-Joonmo</div>
+            <div class="affiliate-role">AI Native · Son</div>
+          </div>
+          <span class="affiliate-badge">Tech</span>
+        </div>
+        <p class="affiliate-desc">AI를 자유자재로 활용하는 디지털 네이티브.</p>
+        <div class="affiliate-videos">
+          <a href="#" class="video-thumb" target="_blank">
+            <span class="video-icon">▶️</span>
+            <span class="video-title">AI 활용기</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- QuickSilver -->
+      <div class="affiliate-card" data-affiliate="quicksilver">
+        <div class="affiliate-header">
+          <span class="affiliate-icon">🥈</span>
+          <div class="affiliate-info">
+            <div class="affiliate-name">QuickSilver</div>
+            <div class="affiliate-role">Silver YouTuber · Mother</div>
+          </div>
+          <span class="affiliate-badge">Content</span>
+        </div>
+        <p class="affiliate-desc">시니어를 위한 라이프스타일 & 건강 콘텐츠.</p>
+        <div class="affiliate-videos">
+          <a href="#" class="video-thumb" target="_blank">
+            <span class="video-icon">▶️</span>
+            <span class="video-title">실버 라이프</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <footer>
@@ -1718,23 +1819,6 @@ if (track) {
     blogLink.href = `https://${g}.github.io/${config.blogRepo}/`;
   }
 
-  // GitHub 링크 (App / Web 선택)
-  const githubAppBtn = document.getElementById('githubAppBtn');
-  const githubWebBtn = document.getElementById('githubWebBtn');
-
-  if (githubAppBtn && g) {
-    githubAppBtn.onclick = () => {
-      // GitHub Android app deep link
-      window.location.href = `github://github.com/${g}`;
-    };
-  }
-
-  if (githubWebBtn && g) {
-    githubWebBtn.onclick = () => {
-      // GitHub web browser link
-      window.open(`https://github.com/${g}`, '_blank');
-    };
-  }
 })();
 
 // =====================
@@ -1770,6 +1854,194 @@ document.addEventListener('DOMContentLoaded', function() {
       shelf.innerHTML = '<div class="shelf-empty"><div class="shelf-empty-icon">📚</div><p class="shelf-empty-text">Error loading</p></div>';
     });
 });
+
+// =====================
+// Affiliates Graph View
+// =====================
+(function initGraphView() {
+  var graphToggle = document.getElementById('graphToggle');
+  var graphContainer = document.getElementById('graphContainer');
+  var canvas = document.getElementById('graphCanvas');
+
+  if (!graphToggle || !graphContainer || !canvas) return;
+
+  var ctx = canvas.getContext('2d');
+  var isAnimating = false;
+  var animationId = null;
+
+  // Node data
+  var nodes = [
+    { id: 'koosy', label: 'KOOSY', color: '#D4AF37', x: 0, y: 0, vx: 0, vy: 0 },
+    { id: 'mathq', label: 'MathQ', color: '#4ECDC4', x: 0, y: 0, vx: 0, vy: 0 },
+    { id: 'sjoonmo', label: 'S-Joonmo', color: '#A78BFA', x: 0, y: 0, vx: 0, vy: 0 },
+    { id: 'quicksilver', label: 'QuickSilver', color: '#C0C0C0', x: 0, y: 0, vx: 0, vy: 0 }
+  ];
+
+  // Edges (connections)
+  var edges = [
+    { from: 0, to: 1 }, // KOOSY - MathQ
+    { from: 0, to: 2 }, // KOOSY - S-Joonmo
+    { from: 0, to: 3 }, // KOOSY - QuickSilver
+    { from: 1, to: 2 }, // MathQ - S-Joonmo
+  ];
+
+  function initPositions() {
+    var w = canvas.width;
+    var h = canvas.height;
+    var cx = w / 2;
+    var cy = h / 2;
+    var r = Math.min(w, h) * 0.3;
+
+    // Place KOOSY at center
+    nodes[0].x = cx;
+    nodes[0].y = cy;
+
+    // Place others in a circle around
+    for (var i = 1; i < nodes.length; i++) {
+      var angle = ((i - 1) / (nodes.length - 1)) * Math.PI * 2 - Math.PI / 2;
+      nodes[i].x = cx + Math.cos(angle) * r;
+      nodes[i].y = cy + Math.sin(angle) * r;
+    }
+  }
+
+  function applyForces() {
+    var damping = 0.9;
+    var repulsion = 3000;
+    var attraction = 0.01;
+    var centerPull = 0.005;
+    var cx = canvas.width / 2;
+    var cy = canvas.height / 2;
+
+    // Repulsion between all nodes
+    for (var i = 0; i < nodes.length; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var dx = nodes[j].x - nodes[i].x;
+        var dy = nodes[j].y - nodes[i].y;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        var force = repulsion / (dist * dist);
+
+        nodes[i].vx -= (dx / dist) * force;
+        nodes[i].vy -= (dy / dist) * force;
+        nodes[j].vx += (dx / dist) * force;
+        nodes[j].vy += (dy / dist) * force;
+      }
+    }
+
+    // Attraction along edges
+    for (var e = 0; e < edges.length; e++) {
+      var a = nodes[edges[e].from];
+      var b = nodes[edges[e].to];
+      var dx = b.x - a.x;
+      var dy = b.y - a.y;
+
+      a.vx += dx * attraction;
+      a.vy += dy * attraction;
+      b.vx -= dx * attraction;
+      b.vy -= dy * attraction;
+    }
+
+    // Pull toward center
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].vx += (cx - nodes[i].x) * centerPull;
+      nodes[i].vy += (cy - nodes[i].y) * centerPull;
+    }
+
+    // Apply velocity with damping
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].vx *= damping;
+      nodes[i].vy *= damping;
+      nodes[i].x += nodes[i].vx;
+      nodes[i].y += nodes[i].vy;
+
+      // Boundary constraints
+      nodes[i].x = Math.max(30, Math.min(canvas.width - 30, nodes[i].x));
+      nodes[i].y = Math.max(30, Math.min(canvas.height - 30, nodes[i].y));
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw edges
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+    ctx.lineWidth = 2;
+    for (var e = 0; e < edges.length; e++) {
+      var a = nodes[edges[e].from];
+      var b = nodes[edges[e].to];
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+
+    // Draw nodes
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      var radius = i === 0 ? 24 : 18;
+
+      // Glow effect
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius + 4, 0, Math.PI * 2);
+      ctx.fillStyle = n.color + '33';
+      ctx.fill();
+
+      // Node circle
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = n.color;
+      ctx.fill();
+
+      // Label
+      ctx.fillStyle = '#0F1F15';
+      ctx.font = (i === 0 ? 'bold 10px' : '9px') + ' system-ui';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(n.label, n.x, n.y);
+    }
+  }
+
+  function animate() {
+    applyForces();
+    draw();
+    if (isAnimating) {
+      animationId = requestAnimationFrame(animate);
+    }
+  }
+
+  function resizeCanvas() {
+    var rect = graphContainer.getBoundingClientRect();
+    canvas.width = rect.width - 32;
+    canvas.height = 200;
+    initPositions();
+    draw();
+  }
+
+  graphToggle.addEventListener('click', function() {
+    graphToggle.classList.toggle('active');
+    graphContainer.classList.toggle('show');
+
+    if (graphContainer.classList.contains('show')) {
+      resizeCanvas();
+      isAnimating = true;
+      animate();
+
+      // Stop animation after 3 seconds
+      setTimeout(function() {
+        isAnimating = false;
+        if (animationId) cancelAnimationFrame(animationId);
+      }, 3000);
+    } else {
+      isAnimating = false;
+      if (animationId) cancelAnimationFrame(animationId);
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (graphContainer.classList.contains('show')) {
+      resizeCanvas();
+    }
+  });
+})();
 </script>
 
 </body>
