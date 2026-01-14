@@ -1056,27 +1056,27 @@
 
       <!-- Brand -->
       <div class="card-brand">
-        <h1 class="card-brand-name">DIMAS</h1>
-        <p class="card-tagline">AI Automation Consultant</p>
+        <h1 class="card-brand-name">KOOSY</h1>
+        <p class="card-tagline">Bluffing based editing broadcasting CELEB story</p>
       </div>
 
       <div class="card-divider"></div>
 
       <!-- Quote -->
-      <p class="card-quote">"<span>AI</span>로 당신의 업무를 자동화합니다."</p>
+      <p class="card-quote">"<span>EST.</span> 2024.04.24"</p>
 
       <div class="card-divider"></div>
 
       <!-- Contact -->
       <div class="card-contact">
         <p class="card-contact-item">
-          <a href="https://dtslib.com" target="_blank" rel="noopener">
-            <span class="card-contact-icon">🌐</span>dtslib.com
+          <a href="https://koosy.com" target="_blank" rel="noopener">
+            <span class="card-contact-icon">🌐</span>koosy.com
           </a>
         </p>
         <p class="card-contact-item">
-          <a href="mailto:dimas@dtslib.com">
-            <span class="card-contact-icon">✉️</span>dimas@dtslib.com
+          <a href="mailto:koosy@koosy.com">
+            <span class="card-contact-icon">✉️</span>koosy@koosy.com
           </a>
         </p>
       </div>
@@ -1087,9 +1087,9 @@
           <span>📇</span>
           Save Contact
         </button>
-        <a href="mailto:dimas@dtslib.com?subject=Proposal%20Inquiry&body=안녕하세요%2C%20DIMAS에%20문의드립니다." class="card-btn primary">
+        <a href="mailto:koosy@koosy.com?subject=Contact%20KOOSY" class="card-btn primary">
           <span>✉️</span>
-          Proposal
+          Contact
         </a>
       </div>
 
@@ -1276,7 +1276,7 @@
   </section>
 
   <footer>
-    <p class="footer-text">© 2026 dtslib. All rights reserved.</p>
+    <p class="footer-text">© 2026 KOOSY. All rights reserved.</p>
   </footer>
 </div>
 
@@ -1295,7 +1295,7 @@ function showToast(msg) {
 
 // 카드 클릭 시 링크 복사
 function copyLink() {
-  const url = 'https://dtslib1979.github.io/dtslib-branch/card/';
+  const url = 'https://dtslib1979.github.io/koosy/card/';
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(url).then(() => {
@@ -1335,19 +1335,19 @@ businessCard.addEventListener('click', (e) => {
 function saveContact() {
   const vCard = `BEGIN:VCARD
 VERSION:3.0
-FN:DIMAS
-ORG:dtslib
-TITLE:AI Automation Consultant
-EMAIL;TYPE=WORK:dimas@dtslib.com
-URL:https://dtslib.com
-NOTE:AI 업무 자동화 전문가
+FN:KOOSY
+ORG:KOOSY
+TITLE:Bluffing based editing broadcasting CELEB story
+EMAIL;TYPE=WORK:koosy@koosy.com
+URL:https://koosy.com
+NOTE:EST. 2024.04.24
 END:VCARD`;
 
   const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'DIMAS.vcf';
+  link.download = 'KOOSY.vcf';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1418,7 +1418,7 @@ track.addEventListener('touchend', (e) => {
 // 동적 링크 (Staff Portal 설정 연동)
 // =====================
 (function loadDynamicLinks() {
-  const saved = localStorage.getItem('dtslib_repo_config');
+  const saved = localStorage.getItem('koosy_repo_config');
   if (!saved) return;
 
   const config = JSON.parse(saved);
