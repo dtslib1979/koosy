@@ -1265,6 +1265,40 @@
       font-size: 14px;
     }
 
+    /* GitHub Link Selector */
+    .github-link-item {
+      cursor: default;
+    }
+
+    .link-selector {
+      display: flex;
+      gap: 8px;
+    }
+
+    .selector-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(212,175,55,.1);
+      border: 1px solid rgba(212,175,55,.3);
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .selector-btn:hover {
+      background: rgba(212,175,55,.2);
+      border-color: var(--gold);
+      transform: scale(1.05);
+    }
+
+    .selector-btn:active {
+      transform: scale(0.95);
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -1448,14 +1482,18 @@
   <section class="linktree-section">
     <h2 class="section-title">Links</h2>
     <div class="linktree">
-      <a href="#" id="githubLink" target="_blank" class="link-item">
+      <!-- GitHub with App/Web selector -->
+      <div class="link-item github-link-item" id="githubLinkItem">
         <span class="link-icon">🐙</span>
         <div class="link-text">
           <div class="link-name">GitHub</div>
           <div class="link-desc">오픈소스 프로젝트</div>
         </div>
-        <span class="link-arrow">→</span>
-      </a>
+        <div class="link-selector">
+          <button class="selector-btn" id="githubAppBtn" title="GitHub App">📱</button>
+          <button class="selector-btn" id="githubWebBtn" title="Web Browser">🌐</button>
+        </div>
+      </div>
       <a href="#" class="link-item">
         <span class="link-icon">📺</span>
         <div class="link-text">
@@ -1673,10 +1711,22 @@ track.addEventListener('touchend', (e) => {
     blogLink.href = `https://${g}.github.io/${config.blogRepo}/`;
   }
 
-  // GitHub 링크
-  const githubLink = document.getElementById('githubLink');
-  if (githubLink && g) {
-    githubLink.href = `https://github.com/${g}`;
+  // GitHub 링크 (App / Web 선택)
+  const githubAppBtn = document.getElementById('githubAppBtn');
+  const githubWebBtn = document.getElementById('githubWebBtn');
+
+  if (githubAppBtn && g) {
+    githubAppBtn.onclick = () => {
+      // GitHub Android app deep link
+      window.location.href = `github://github.com/${g}`;
+    };
+  }
+
+  if (githubWebBtn && g) {
+    githubWebBtn.onclick = () => {
+      // GitHub web browser link
+      window.open(`https://github.com/${g}`, '_blank');
+    };
   }
 })();
 
