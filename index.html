@@ -114,6 +114,30 @@
       height: 100%;
       border: none;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .logo iframe.playing {
+      opacity: 1;
+    }
+
+    .logo-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease;
+    }
+
+    .logo-poster.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .logo-emoji {
@@ -1557,6 +1581,9 @@
   <header>
     <div class="slogan">Real Money, Real World</div>
     <div class="logo" role="img" aria-label="KOOSY 로고">
+      <div class="logo-poster" id="logoPoster">
+        <img src="https://img.youtube.com/vi/2FaUlNhuvTA/maxresdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;">
+      </div>
       <iframe id="logoVideo" src="https://www.youtube.com/embed/2FaUlNhuvTA?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=2FaUlNhuvTA&controls=0&showinfo=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
     <script>
@@ -1566,8 +1593,17 @@
       var logoPlayer;
       function onYouTubeIframeAPIReady() {
         logoPlayer = new YT.Player('logoVideo', {
-          events: { 'onReady': onPlayerReady }
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
         });
+      }
+      function onPlayerStateChange(e) {
+        if (e.data === YT.PlayerState.PLAYING) {
+          document.getElementById('logoVideo').classList.add('playing');
+          document.getElementById('logoPoster').classList.add('hidden');
+        }
       }
       function onPlayerReady(e) {
         setInterval(function() {
