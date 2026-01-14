@@ -784,6 +784,96 @@
       color: var(--gold);
     }
 
+    /* Articles Feed */
+    .articles-feed {
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(245,245,240,.05);
+    }
+
+    .articles-feed-title {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .article-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(212,175,55,.05);
+      border: 1px solid rgba(212,175,55,.1);
+      border-radius: 10px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .article-item:hover {
+      background: rgba(212,175,55,.12);
+      border-color: rgba(212,175,55,.3);
+      transform: translateY(-1px);
+    }
+
+    .article-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .article-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .article-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .article-date {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    .article-arrow {
+      font-size: 10px;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    .articles-more {
+      display: block;
+      text-align: center;
+      padding: 8px;
+      font-size: 10px;
+      color: var(--gold);
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .articles-more:hover {
+      opacity: 1;
+    }
+
     /* YouTube Carousel */
     .youtube-section {
       margin-bottom: var(--space-xl);
@@ -1191,6 +1281,15 @@
         </div>
       </div>
 
+      <!-- Articles Feed -->
+      <div class="articles-feed">
+        <div class="articles-feed-title">Latest Articles</div>
+        <div class="article-list" id="articleList">
+          <!-- Dynamic articles loaded via JS -->
+        </div>
+        <a href="./articles/" class="articles-more">View All Articles →</a>
+      </div>
+
       <div class="dashboard-footer">
         <a href="./staff/" class="secret-door">
           <div class="door-frame fingerprint-frame">
@@ -1446,6 +1545,45 @@ track.addEventListener('touchend', (e) => {
   const githubLink = document.getElementById('githubLink');
   if (githubLink && g) {
     githubLink.href = `https://github.com/${g}`;
+  }
+})();
+
+// =====================
+// Articles Feed (Auto-loaded from articles.json)
+// =====================
+(async function loadArticlesFeed() {
+  const articleList = document.getElementById('articleList');
+  if (!articleList) return;
+
+  try {
+    const response = await fetch('./articles/articles.json');
+    if (!response.ok) throw new Error('Failed to load articles');
+
+    const data = await response.json();
+    const articles = data.articles || [];
+
+    if (articles.length === 0) {
+      articleList.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:16px;">No articles yet</div>';
+      return;
+    }
+
+    // Display up to 5 latest articles
+    const displayArticles = articles.slice(0, 5);
+
+    articleList.innerHTML = displayArticles.map(article => `
+      <a href="./articles/${article.file}" class="article-item">
+        <span class="article-dot"></span>
+        <div class="article-info">
+          <div class="article-title">${article.title}</div>
+          <div class="article-date">${article.date}</div>
+        </div>
+        <span class="article-arrow">→</span>
+      </a>
+    `).join('');
+
+  } catch (err) {
+    console.log('Articles feed not available:', err);
+    articleList.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:11px;padding:16px;">Loading articles...</div>';
   }
 })();
 </script>
