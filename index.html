@@ -819,6 +819,27 @@
       border-radius: 0 0 4px 4px;
     }
 
+    /* Papyrus / Ancient Hebrew background */
+    .articles-showcase::after {
+      content: 'בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ וְהָאָרֶץ הָיְתָה תֹהוּ וָבֹהוּ וְחֹשֶׁךְ עַל־פְּנֵי תְהוֹם וְרוּחַ אֱלֹהִים מְרַחֶפֶת עַל־פְּנֵי הַמָּיִם וַיֹּאמֶר אֱלֹהִים יְהִי אוֹר וַיְהִי־אוֹר';
+      position: absolute;
+      inset: 0;
+      font-family: 'Times New Roman', serif;
+      font-size: 11px;
+      line-height: 1.8;
+      color: rgba(212,175,55,.04);
+      padding: 20px;
+      word-break: break-all;
+      direction: rtl;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .articles-showcase > * {
+      position: relative;
+      z-index: 1;
+    }
+
     .showcase-header {
       text-align: center;
       margin-bottom: var(--space-lg);
@@ -848,7 +869,7 @@
     }
 
     .showcase-content {
-      margin-bottom: var(--space-lg);
+      margin-bottom: 0;
     }
 
     /* Article Shelf - Bookshelf Style */
@@ -1401,6 +1422,37 @@
       color: var(--text-secondary);
     }
 
+    /* Secret Entry Bottom */
+    .secret-entry-bottom {
+      display: flex;
+      justify-content: center;
+      padding: var(--space-lg) 0;
+    }
+
+    .secret-door-mini {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.4);
+      border: 1px solid rgba(212,175,55,.2);
+      border-radius: 10px;
+      color: var(--text-muted);
+      transition: all 0.3s;
+    }
+
+    .secret-door-mini:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212,175,55,.1);
+    }
+
+    .fingerprint-mini {
+      width: 20px;
+      height: 20px;
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -1557,27 +1609,6 @@
         <span class="article-count" id="articleCounter">0</span>
       </a>
     </div>
-
-    <!-- Secret Office Entry -->
-    <div class="secret-entry">
-      <a href="./staff/" class="secret-door">
-        <div class="door-frame fingerprint-frame">
-          <svg class="fingerprint-icon" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round">
-            <path d="M12 2a6 6 0 0 0-6 6v4c0 4 2 8 6 8"/>
-            <path d="M18 8a6 6 0 0 0-6-6"/>
-            <path d="M18 8v4c0 2.5-1 5-2 6.5"/>
-            <path d="M6 12c0 2 .5 4 2 6"/>
-            <path d="M12 5a3 3 0 0 0-3 3v3"/>
-            <path d="M15 8a3 3 0 0 0-3-3"/>
-            <path d="M15 8v4c0 2-1 4-2 5"/>
-            <path d="M9 11v3c0 2 1 4 2 5"/>
-            <path d="M12 7v9"/>
-          </svg>
-          <div class="door-glow"></div>
-        </div>
-        <span class="door-label">Secret Office</span>
-      </a>
-    </div>
   </section>
 
   <!-- Affiliates (Family Network) -->
@@ -1589,6 +1620,23 @@
       <canvas id="graphCanvas"></canvas>
     </div>
   </section>
+
+  <!-- Secret Office - Bottom -->
+  <div class="secret-entry-bottom">
+    <a href="./staff/" class="secret-door-mini">
+      <svg class="fingerprint-mini" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M12 2a6 6 0 0 0-6 6v4c0 4 2 8 6 8"/>
+        <path d="M18 8a6 6 0 0 0-6-6"/>
+        <path d="M18 8v4c0 2.5-1 5-2 6.5"/>
+        <path d="M6 12c0 2 .5 4 2 6"/>
+        <path d="M12 5a3 3 0 0 0-3 3v3"/>
+        <path d="M15 8a3 3 0 0 0-3-3"/>
+        <path d="M15 8v4c0 2-1 4-2 5"/>
+        <path d="M9 11v3c0 2 1 4 2 5"/>
+        <path d="M12 7v9"/>
+      </svg>
+    </a>
+  </div>
 
   <footer>
     <p class="footer-text">© 2026 KOOSY. All rights reserved.</p>
