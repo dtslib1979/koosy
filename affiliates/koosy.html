@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOOSY | Business Columnist & Info Recycle Biz</title>
+  <meta name="description" content="KOOSY - Business Columnist, Info Recycle Biz">
+  <link rel="icon" href="../assets/icons/logo.jpg">
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-elevated: #1A2E22;
+      --bg-card: #243529;
+      --accent: #D4AF37;
+      --gold: #D4AF37;
+      --text: #F5F5F0;
+      --text-secondary: rgba(245,245,240,.7);
+      --text-muted: rgba(245,245,240,.5);
+      --border: rgba(245,245,240,.1);
+      --border-gold: rgba(212,175,55,.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--gold);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, rgba(212,175,55,0.1) 0%, transparent 70%);
+    }
+
+    .hero-icon {
+      font-size: 72px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--gold);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .section {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .section.highlight {
+      border-color: var(--border-gold);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-icon {
+      font-size: 24px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    /* Business Items */
+    .biz-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .biz-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .biz-item:hover {
+      border-color: var(--gold);
+      transform: translateX(4px);
+    }
+
+    .biz-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(212,175,55,0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .biz-content {
+      flex: 1;
+    }
+
+    .biz-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .biz-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .biz-arrow {
+      color: var(--gold);
+      font-size: 18px;
+    }
+
+    /* Columnist Section */
+    .columnist-card {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .columnist-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .columnist-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .columnist-topics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .topic-chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* Stats */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 12px;
+      background: var(--bg-card);
+      border-radius: 12px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .cta-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 24px;
+    }
+
+    .cta-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← Home</a>
+
+    <div class="hero">
+      <div class="hero-icon">🪙</div>
+      <h1 class="hero-title">KOOSY</h1>
+      <p class="hero-subtitle">Real Money, Real World</p>
+      <div class="hero-badges">
+        <span class="hero-badge">Business Columnist</span>
+        <span class="hero-badge">Info Recycle Biz</span>
+      </div>
+    </div>
+
+    <!-- Business Columnist -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">✍️</span>
+        <h2 class="section-title">Business Columnist</h2>
+      </div>
+      <div class="columnist-card">
+        <div class="columnist-title">경제 & 비즈니스 칼럼</div>
+        <p class="columnist-desc">실물 경제와 투자에 대한 인사이트를 전달합니다</p>
+        <div class="columnist-topics">
+          <span class="topic-chip">경제 트렌드</span>
+          <span class="topic-chip">투자 전략</span>
+          <span class="topic-chip">비즈니스 분석</span>
+          <span class="topic-chip">자산 관리</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Recycle Biz -->
+    <div class="section highlight">
+      <div class="section-header">
+        <span class="section-icon">♻️</span>
+        <h2 class="section-title">Info Recycle Biz</h2>
+      </div>
+      <p class="section-desc">
+        정보를 수집하고, 가공하고, 재생산하여 가치를 창출하는 비즈니스 모델
+      </p>
+
+      <div class="biz-grid">
+        <!-- 바이럴 마케팅 -->
+        <div class="biz-item">
+          <div class="biz-icon">📣</div>
+          <div class="biz-content">
+            <div class="biz-name">바이럴 마케팅</div>
+            <div class="biz-desc">SNS 기반 콘텐츠 확산 전략. 자연스러운 입소문으로 브랜드 인지도 상승</div>
+          </div>
+          <span class="biz-arrow">→</span>
+        </div>
+
+        <!-- YouTube 쇼츠 대량생산 -->
+        <div class="biz-item">
+          <div class="biz-icon">🎬</div>
+          <div class="biz-content">
+            <div class="biz-name">YouTube 쇼츠 대량생산</div>
+            <div class="biz-desc">AI 기반 숏폼 콘텐츠 자동화 생산 시스템. 효율적인 콘텐츠 스케일링</div>
+          </div>
+          <span class="biz-arrow">→</span>
+        </div>
+
+        <!-- 로머트리얼 간접 투자 -->
+        <div class="biz-item">
+          <div class="biz-icon">🥇</div>
+          <div class="biz-content">
+            <div class="biz-name">로머트리얼 간접 투자</div>
+            <div class="biz-desc">금, 은 등 원자재 간접 투자 전략. 실물 자산 기반 포트폴리오 구성</div>
+          </div>
+          <span class="biz-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">사업 영역</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">AI</div>
+          <div class="stat-label">자동화 기반</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">운영 시스템</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="../articles/" class="cta-btn">칼럼 보러가기</a>
+  </div>
+</body>
+</html>
