@@ -1736,11 +1736,16 @@ track.addEventListener('touchend', (e) => {
 (async function loadArticlesShowcase() {
   const articleShelf = document.getElementById('articleShelf');
   const articleCounter = document.getElementById('articleCounter');
-  if (!articleShelf) return;
+
+  if (!articleShelf) {
+    console.log('articleShelf not found');
+    return;
+  }
 
   try {
+    // 상대 경로로 articles.json 로드
     const response = await fetch('./articles/articles.json');
-    if (!response.ok) throw new Error('Failed to load articles');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
 
     const data = await response.json();
     const allArticles = data.articles || [];
@@ -1777,11 +1782,15 @@ track.addEventListener('touchend', (e) => {
     `).join('');
 
   } catch (err) {
-    console.log('Articles feed not available:', err);
+    console.error('Articles load error:', err);
+    // 에러 시에도 카운터 표시
+    if (articleCounter) {
+      articleCounter.textContent = '-';
+    }
     articleShelf.innerHTML = `
       <div class="shelf-empty">
         <div class="shelf-empty-icon">📚</div>
-        <p class="shelf-empty-text">Loading articles...</p>
+        <p class="shelf-empty-text">Unable to load articles</p>
       </div>`;
   }
 })();
