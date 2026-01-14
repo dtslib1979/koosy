@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0F1F15" />
+  <title>KOOSY | CELEB Story Broadcasting</title>
+  <meta name="description" content="Bluffing based editing broadcasting CELEB story" />
+  <link rel="icon" href="./assets/icons/logo.png" />
+  <link rel="apple-touch-icon" href="./assets/icons/logo.png" />
+  <link rel="manifest" href="./assets/manifest.json" />
+  <style>
+    :root {
+      --bg: #0F1F15;
+      --bg-elevated: #1A2E22;
+      --bg-card: #243529;
+      --accent: #2D8B57;
+      --gold: #D4AF37;
+      --gold-dim: rgba(212,175,55,.12);
+      --text: #F5F5F0;
+      --text-secondary: rgba(245,245,240,.7);
+      --text-muted: rgba(245,245,240,.5);
+      --border: rgba(245,245,240,.1);
+      --border-gold: rgba(212,175,55,.3);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: calc(var(--safe-top) + var(--space-md)) var(--space-md) calc(var(--safe-bottom) + var(--space-lg));
+    }
+    header { text-align: center; padding: var(--space-xl) 0; }
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto var(--space-md);
+      border-radius: var(--radius-full);
+      border: 2px solid var(--gold);
+      box-shadow: 0 4px 20px rgba(212,175,55,.2);
+      overflow: hidden;
+      background: var(--bg-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+    }
+    .slogan {
+      font-size: 11px;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--space-sm);
+      background: linear-gradient(90deg, var(--gold), #FFD700, var(--gold));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 200% center; }
+    }
+    .site-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+    .site-desc { font-size: 13px; color: var(--text-secondary); margin-top: var(--space-xs); }
+    .hero-section {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin: var(--space-lg) 0;
+      text-align: center;
+    }
+    .hero-title { font-size: 20px; font-weight: 600; margin-bottom: var(--space-sm); }
+    .hero-subtitle { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      justify-content: center;
+      margin-top: var(--space-lg);
+    }
+    .feature-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-full);
+      padding: var(--space-xs) var(--space-md);
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+      padding-left: var(--space-xs);
+    }
+    .linktree { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-xl); }
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      transition: all 0.2s;
+    }
+    .link-item:hover { border-color: var(--gold); transform: translateX(4px); }
+    .link-icon { font-size: 24px; width: 32px; text-align: center; }
+    .link-text { flex: 1; }
+    .link-name { font-size: 14px; font-weight: 600; }
+    .link-desc { font-size: 11px; color: var(--text-muted); }
+    .link-arrow { color: var(--text-muted); font-size: 14px; }
+    footer { text-align: center; padding: var(--space-lg) 0; border-top: 1px solid var(--border); }
+    .footer-text { font-size: 11px; color: var(--text-muted); }
+    @media (min-width: 768px) { .container { max-width: 600px; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="slogan">Bluffing Based Broadcasting</div>
+    <div class="logo">🎬</div>
+    <h1 class="site-title">KOOSY</h1>
+    <p class="site-desc">CELEB Story Broadcasting</p>
+  </header>
+
+  <section class="hero-section">
+    <h2 class="hero-title">Bluffing Based Editing</h2>
+    <p class="hero-subtitle">셀럽 스토리를 방송합니다.<br>블러핑 기반 편집 브로드캐스팅.</p>
+    <div class="features">
+      <span class="feature-tag">CELEB Story</span>
+      <span class="feature-tag">Broadcasting</span>
+      <span class="feature-tag">Bluffing Editing</span>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Links</h2>
+    <div class="linktree">
+      <a href="./articles/" class="link-item">
+        <span class="link-icon">📰</span>
+        <div class="link-text">
+          <div class="link-name">Articles</div>
+          <div class="link-desc">콘텐츠 아티클</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="./studio/" class="link-item">
+        <span class="link-icon">🎥</span>
+        <div class="link-text">
+          <div class="link-name">Studio</div>
+          <div class="link-desc">방송 스튜디오</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="./project/" class="link-item">
+        <span class="link-icon">📁</span>
+        <div class="link-text">
+          <div class="link-name">Projects</div>
+          <div class="link-desc">프로젝트 목록</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="./card/" class="link-item">
+        <span class="link-icon">📇</span>
+        <div class="link-text">
+          <div class="link-name">Card</div>
+          <div class="link-desc">명함 페이지</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="./staff/" class="link-item">
+        <span class="link-icon">🔐</span>
+        <div class="link-text">
+          <div class="link-name">Staff Portal</div>
+          <div class="link-desc">스태프 전용</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-text">© 2026 KOOSY. All rights reserved.</p>
+  </footer>
+</div>
+</body>
+</html>
