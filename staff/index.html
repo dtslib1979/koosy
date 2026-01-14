@@ -1129,6 +1129,152 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ========== Console Panel ========== */
+    .console-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .console-link-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all .2s ease;
+    }
+
+    .console-link-item:hover {
+      border-color: var(--gold);
+      background: var(--bg-card);
+    }
+
+    .console-icon {
+      font-size: 24px;
+    }
+
+    .console-text {
+      flex: 1;
+    }
+
+    .console-name {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .console-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .console-arrow {
+      color: var(--gold);
+      font-size: 18px;
+    }
+
+    /* Phase Accordion */
+    .phase-accordion {
+      margin-top: 12px;
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-elevated);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .phase-header::-webkit-details-marker {
+      display: none;
+    }
+
+    .phase-badge {
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .phase-title {
+      flex: 1;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .phase-toggle {
+      color: var(--gold);
+      transition: transform .2s;
+    }
+
+    .phase-accordion[open] .phase-toggle {
+      transform: rotate(180deg);
+    }
+
+    .phase-content {
+      padding: 16px;
+      background: var(--bg-card);
+    }
+
+    .phase-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .platform-category {
+      margin-bottom: 14px;
+    }
+
+    .platform-category:last-child {
+      margin-bottom: 0;
+    }
+
+    .category-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .platform-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .platform-chip {
+      padding: 8px 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all .2s;
+    }
+
+    .platform-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
   </style>
 </head>
 <body>
@@ -1544,6 +1690,88 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
             <!-- Dynamic articles with status -->
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Console Panel (Accordion) -->
+    <div class="accordion" id="accordionConsole">
+      <button class="accordion-header" onclick="toggleAccordion('accordionConsole')">
+        <span class="accordion-step">🔗</span>
+        <div class="accordion-info">
+          <div class="accordion-title">Console Panel</div>
+          <div class="accordion-desc">외부 링크 & 자동화 타겟</div>
+        </div>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <!-- Links -->
+        <div class="console-links">
+          <a href="https://github.com/dtslib1979" target="_blank" class="console-link-item">
+            <span class="console-icon">🐙</span>
+            <div class="console-text">
+              <div class="console-name">GitHub</div>
+              <div class="console-desc">오픈소스 프로젝트</div>
+            </div>
+            <span class="console-arrow">→</span>
+          </a>
+          <a href="https://youtube.com/@dtslib" target="_blank" class="console-link-item">
+            <span class="console-icon">📺</span>
+            <div class="console-text">
+              <div class="console-name">YouTube</div>
+              <div class="console-desc">Manual but Essential</div>
+            </div>
+            <span class="console-arrow">→</span>
+          </a>
+          <a href="https://www.tistory.com/" target="_blank" class="console-link-item">
+            <span class="console-icon">📝</span>
+            <div class="console-text">
+              <div class="console-name">Tistory</div>
+              <div class="console-desc">HTML 블로그</div>
+            </div>
+            <span class="console-arrow">→</span>
+          </a>
+        </div>
+
+        <!-- Phase 2 Targets -->
+        <details class="phase-accordion">
+          <summary class="phase-header">
+            <span class="phase-badge">PHASE 2</span>
+            <span class="phase-title">GUI Automation Targets</span>
+            <span class="phase-toggle">▼</span>
+          </summary>
+          <div class="phase-content">
+            <p class="phase-desc">Claude in Chrome on Desktop — Coming Soon</p>
+
+            <div class="platform-category">
+              <div class="category-label">Essential</div>
+              <div class="platform-links">
+                <a href="https://www.linkedin.com/post/new/" target="_blank" class="platform-chip">LinkedIn</a>
+                <a href="https://www.instagram.com/create/style/" target="_blank" class="platform-chip">Instagram</a>
+                <a href="https://www.facebook.com/" target="_blank" class="platform-chip">Facebook</a>
+                <a href="https://blog.naver.com/PostWriteForm.naver" target="_blank" class="platform-chip">Naver Blog</a>
+              </div>
+            </div>
+
+            <div class="platform-category">
+              <div class="category-label">Premium</div>
+              <div class="platform-links">
+                <a href="https://brunch.co.kr/write" target="_blank" class="platform-chip">Brunch</a>
+                <a href="https://medium.com/new-story" target="_blank" class="platform-chip">Medium</a>
+                <a href="https://x.com/compose/tweet" target="_blank" class="platform-chip">X</a>
+                <a href="https://www.threads.net/" target="_blank" class="platform-chip">Threads</a>
+              </div>
+            </div>
+
+            <div class="platform-category">
+              <div class="category-label">Business</div>
+              <div class="platform-links">
+                <a href="https://www.daangn.com/business" target="_blank" class="platform-chip">Karrot Biz</a>
+                <a href="https://sell.smartstore.naver.com/" target="_blank" class="platform-chip">SmartStore</a>
+                <a href="https://www.notion.so/" target="_blank" class="platform-chip">Notion</a>
+              </div>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
