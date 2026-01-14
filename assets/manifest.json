@@ -1,0 +1,21 @@
+{
+  "name": "KOOSY",
+  "short_name": "koosy",
+  "description": "Bluffing based editing broadcasting CELEB story",
+  "start_url": "/koosy/",
+  "display": "standalone",
+  "background_color": "#0F1F15",
+  "theme_color": "#0F1F15",
+  "icons": [
+    {
+      "src": "icons/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "site": {
+    "name": "KOOSY",
+    "shortName": "koosy",
+    "domain": "",
+    "url": "https://dtslib1979.github.io/koosy/",
+    "description": "Bluffing based editing broadcasting CELEB story",
+    "tagline": "CELEB Story Broadcasting",
+    "themeColor": "#0F1F15"
+  },
+  "owner": {
+    "name": "KOOSY",
+    "email": "",
+    "location": "대한민국"
+  },
+  "service": {
+    "title": "CELEB Story Broadcasting",
+    "subtitle": "Bluffing based editing broadcasting",
+    "price": "",
+    "ctaText": "문의하기",
+    "features": [
+      "CELEB Story",
+      "Broadcasting",
+      "Bluffing Editing"
+    ]
+  },
+  "staff": {
+    "accessCode": "1126",
+    "storageKey": "koosy_staff_auth"
+  },
+  "pwa": {
+    "enabled": true,
+    "cacheName": "koosy-v1"
+  },
+  "card": {
+    "name": "KOOSY",
+    "title": "CELEB Story Creator",
+    "organization": "koosy",
+    "tagline": "Bluffing based broadcasting",
+    "quote": "**CELEB** 스토리를 방송합니다",
+    "email": "",
+    "phone": "",
+    "website": "https://dtslib1979.github.io/koosy/",
+    "cardUrl": "https://dtslib1979.github.io/koosy/card/",
+    "ogImage": "",
+    "contactButtonLabel": "CONTACT",
+    "theme": "gold"
+  },
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-01-14",
+    "template": "dtslib-branch boilerplate"
+  }
+}
