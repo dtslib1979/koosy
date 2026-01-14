@@ -1,0 +1,87 @@
+name: Auto Articles Feed
+
+on:
+  push:
+    paths:
+      - 'articles/*.html'
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Articles JSON
+        run: |
+          cd articles
+          echo '{"articles":[' > articles.json
+          first=true
+          for file in *.html; do
+            # Skip index.html
+            if [ "$file" = "index.html" ]; then
+              continue
+            fi
+
+            # Extract title from HTML
+            title=$(grep -oP '(?<=<title>)[^<]+' "$file" 2>/dev/null | head -1)
+            if [ -z "$title" ]; then
+              title=$(echo "$file" | sed 's/\.html$//')
+            fi
+
+            # Extract description from meta tag
+            desc=$(grep -oP '(?<=<meta name="description" content=")[^"]+' "$file" 2>/dev/null | head -1)
+            if [ -z "$desc" ]; then
+              desc=""
+            fi
+
+            # Get file modified date
+            date=$(git log -1 --format="%ci" -- "$file" 2>/dev/null | cut -d' ' -f1)
+            if [ -z "$date" ]; then
+              date=$(date +%Y-%m-%d)
+            fi
+
+            # Build JSON entry
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo ',' >> articles.json
+            fi
+
+            # Escape special characters for JSON
+            title_escaped=$(echo "$title" | sed 's/"/\\"/g')
+            desc_escaped=$(echo "$desc" | sed 's/"/\\"/g')
+
+            echo "{\"file\":\"$file\",\"title\":\"$title_escaped\",\"description\":\"$desc_escaped\",\"date\":\"$date\"}" >> articles.json
+          done
+          echo ']}' >> articles.json
+
+          # Sort by date (newest first)
+          cat articles.json | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          data['articles'] = sorted(data['articles'], key=lambda x: x['date'], reverse=True)
+          print(json.dumps(data, ensure_ascii=False, indent=2))
+          " > articles_sorted.json
+          mv articles_sorted.json articles.json
+
+          echo "Generated articles.json:"
+          cat articles.json
+
+      - name: Commit and Push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add articles/articles.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto-update articles feed"
+            git push
+          fi
