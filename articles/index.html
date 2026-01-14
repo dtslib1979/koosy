@@ -133,6 +133,25 @@
       color: var(--text-secondary);
     }
 
+    /* Counter Badge */
+    .counter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .counter-number {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
     /* Main Content */
     .main {
       max-width: 1200px;
@@ -279,10 +298,56 @@
       color: var(--text-secondary);
       line-height: 1.6;
       margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .card-meta {
       font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--text-muted);
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+
+    .empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .empty-text {
       color: var(--text-muted);
     }
 
@@ -344,6 +409,11 @@
     <span class="hero-badge">Real Money, Real World</span>
     <h1 class="hero-title">Articles & Insights</h1>
     <p class="hero-subtitle">KOOSY의 비전과 인사이트를 공유합니다</p>
+    <div class="counter-badge">
+      <span>📚 Total</span>
+      <span class="counter-number" id="articleCount">0</span>
+      <span>articles</span>
+    </div>
   </section>
 
   <!-- Main Content -->
@@ -353,22 +423,16 @@
       <h2 class="section-title">Latest</h2>
     </div>
 
-    <!-- Featured Article -->
-    <a href="./investor-deck.html" class="featured-article">
-      <div class="featured-image">💰</div>
-      <div class="featured-content">
-        <span class="article-category">Investor Deck</span>
-        <h2 class="featured-title">KOOSY — Investor Deck</h2>
-        <p class="article-excerpt">
-          Bluffing based editing broadcasting CELEB story —
-          콘텐츠 제작의 새로운 패러다임. 우리가 해결하는 문제와 시장 기회, 그리고 성장 계획을 소개합니다.
-        </p>
-        <div class="article-meta">
-          <span>📅 2026. 01. 14</span>
-          <span>⏱️ 5 min read</span>
-        </div>
+    <!-- Featured Article (Dynamic) -->
+    <div id="featuredContainer">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading articles...</p>
       </div>
-    </a>
+    </div>
+
+    <!-- Article Grid (Dynamic) -->
+    <div class="article-grid" id="articleGrid"></div>
   </main>
 
   <!-- Footer -->
@@ -377,5 +441,92 @@
       © 2026 <a href="../" class="footer-link">KOOSY</a>. Real Money, Real World.
     </p>
   </footer>
+
+  <script>
+  // Article emoji icons by keyword
+  function getArticleIcon(title) {
+    const t = title.toLowerCase();
+    if (t.includes('investor') || t.includes('deck')) return '💰';
+    if (t.includes('환율') || t.includes('1500')) return '💹';
+    if (t.includes('silver') || t.includes('실버') || t.includes('gold')) return '🥇';
+    if (t.includes('manifesto')) return '📜';
+    if (t.includes('crypto') || t.includes('bitcoin')) return '₿';
+    return '📄';
+  }
+
+  // Load articles from JSON
+  async function loadArticles() {
+    const featuredContainer = document.getElementById('featuredContainer');
+    const articleGrid = document.getElementById('articleGrid');
+    const articleCount = document.getElementById('articleCount');
+
+    try {
+      const response = await fetch('./articles.json');
+      if (!response.ok) throw new Error('Failed to load');
+
+      const data = await response.json();
+      const articles = data.articles || [];
+
+      // Update counter
+      articleCount.textContent = articles.length;
+
+      if (articles.length === 0) {
+        featuredContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h2 class="empty-title">No articles yet</h2>
+            <p class="empty-text">Articles will appear here when published.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Featured article (first one)
+      const featured = articles[0];
+      featuredContainer.innerHTML = `
+        <a href="./${featured.file}" class="featured-article">
+          <div class="featured-image">${getArticleIcon(featured.title)}</div>
+          <div class="featured-content">
+            <span class="article-category">Featured</span>
+            <h2 class="featured-title">${featured.title}</h2>
+            <p class="article-excerpt">${featured.description || 'KOOSY의 최신 인사이트를 확인하세요.'}</p>
+            <div class="article-meta">
+              <span>📅 ${featured.date}</span>
+            </div>
+          </div>
+        </a>
+      `;
+
+      // Rest of articles in grid
+      const restArticles = articles.slice(1);
+      if (restArticles.length > 0) {
+        articleGrid.innerHTML = restArticles.map(article => `
+          <a href="./${article.file}" class="article-card">
+            <div class="card-image">${getArticleIcon(article.title)}</div>
+            <div class="card-content">
+              <span class="card-category">Article</span>
+              <h3 class="card-title">${article.title}</h3>
+              <p class="card-excerpt">${article.description || ''}</p>
+              <div class="card-meta">📅 ${article.date}</div>
+            </div>
+          </a>
+        `).join('');
+      }
+
+    } catch (err) {
+      console.error('Failed to load articles:', err);
+      featuredContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">⚠️</div>
+          <h2 class="empty-title">Unable to load articles</h2>
+          <p class="empty-text">Please try again later.</p>
+        </div>
+      `;
+    }
+  }
+
+  // Load on page ready
+  loadArticles();
+  </script>
 </body>
 </html>
