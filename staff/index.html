@@ -484,6 +484,78 @@
       line-height: 1.5;
     }
 
+    /* Notice Board */
+    .notice-board {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .notice-header {
+      background: rgba(240, 200, 80, 0.1);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .notice-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .notice-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .notice-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .notice-item:last-child {
+      border-bottom: none;
+    }
+
+    .notice-item:hover {
+      background: rgba(240, 200, 80, 0.05);
+    }
+
+    .notice-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .notice-badge.new {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .notice-text {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notice-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
     .briefing-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -2278,6 +2350,20 @@
           <span class="accordion-toggle">▼</span>
         </button>
         <div class="accordion-content">
+          <!-- 공지사항 -->
+          <div class="notice-board" id="noticeBoard">
+            <div class="notice-header">
+              <span class="notice-title">📢 공지사항</span>
+            </div>
+            <div class="notice-list" id="noticeList">
+              <a href="../docs/whitepaper.html" class="notice-item" target="_blank">
+                <span class="notice-badge new">NEW</span>
+                <span class="notice-text">KOOSY 백서 v1.0 - AI 시대 1인 비즈니스 인프라</span>
+                <span class="notice-date">2026-01-15</span>
+              </a>
+            </div>
+          </div>
+
           <div class="briefing-grid">
             <a href="briefing.html" class="briefing-item">
               <span class="briefing-icon">🎬</span>
