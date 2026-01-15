@@ -543,7 +543,7 @@
 
     .orbit-container {
       position: relative;
-      height: 80px;
+      height: 90px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -551,8 +551,8 @@
 
     .orbit-track {
       position: absolute;
-      width: 160px;
-      height: 50px;
+      width: 180px;
+      height: 55px;
       border: 2px solid var(--gold);
       border-radius: 50%;
       opacity: 0.4;
@@ -567,26 +567,19 @@
       opacity: 0.2;
     }
 
-    .train-wrapper {
-      position: absolute;
-      width: 160px;
-      height: 50px;
-      animation: orbit 6s linear infinite;
-    }
-
-    @keyframes orbit {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
     .train-group {
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
+      offset-path: ellipse(90px 27.5px);
+      offset-rotate: 0deg;
+      animation: orbit-ellipse 5s linear infinite;
       display: flex;
       align-items: center;
       gap: 2px;
+    }
+
+    @keyframes orbit-ellipse {
+      0% { offset-distance: 0%; }
+      100% { offset-distance: 100%; }
     }
 
     .train {
@@ -610,12 +603,9 @@
     }
 
     .smoke {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%) translateX(-20px);
       display: flex;
-      gap: 3px;
+      gap: 2px;
+      margin-right: 4px;
     }
 
     .smoke-particle {
@@ -2085,17 +2075,15 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
         <!-- 순환 트랙 -->
         <div class="orbit-track"></div>
 
-        <!-- 기차 (순환 중) -->
-        <div class="train-wrapper">
-          <div class="train-group">
-            <span class="train">🚂</span>
-            <span class="train-number">999</span>
-          </div>
+        <!-- 기차 (타원 궤도 순환) -->
+        <div class="train-group">
           <div class="smoke">
             <span class="smoke-particle"></span>
             <span class="smoke-particle"></span>
             <span class="smoke-particle"></span>
           </div>
+          <span class="train">🚂</span>
+          <span class="train-number">999</span>
         </div>
 
         <!-- 분기역들 -->
