@@ -1922,71 +1922,83 @@
       </div>
       <p class="hotline-tagline">본사 직통 기록 채널 · <a href="https://dtslib.com" target="_blank" class="hq-link">dtslib.com</a></p>
 
-      <!-- HQ 브리핑 -->
-      <div class="hotline-card">
-        <div class="hotline-card-header">
-          <span class="hotline-card-icon">📺</span>
-          <div class="hotline-card-title">HQ 브리핑</div>
+      <!-- HQ 브리핑 아코디언 -->
+      <div class="accordion accordion-hotline" id="accordionBriefing">
+        <button class="accordion-header" onclick="toggleAccordion('accordionBriefing')">
+          <span class="accordion-step">📺</span>
+          <div class="accordion-info">
+            <div class="accordion-title">HQ 브리핑</div>
+            <div class="accordion-desc">본사가 직접 전달하는 운영 지침과 전략 브리핑</div>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="briefing-grid">
+            <a href="briefing.html" class="briefing-item">
+              <span class="briefing-icon">🎬</span>
+              <span class="briefing-label">튜토리얼</span>
+            </a>
+            <a href="archive.html" class="briefing-item">
+              <span class="briefing-icon">📚</span>
+              <span class="briefing-label">전체 아카이브</span>
+            </a>
+          </div>
         </div>
-        <p class="hotline-card-desc">본사가 직접 전달하는 운영 지침과 전략 브리핑</p>
-        <div class="briefing-grid">
-          <a href="https://youtube.com/shorts/ex50PdCReRc" target="_blank" class="briefing-item">
-            <span class="briefing-icon">🔐</span>
-            <span class="briefing-label">시작 브리핑</span>
-          </a>
-          <a href="https://youtube.com/@dtslib" target="_blank" class="briefing-item">
-            <span class="briefing-icon">📚</span>
-            <span class="briefing-label">전체 아카이브</span>
+      </div>
+
+      <!-- HQ 작업실 아코디언 -->
+      <div class="accordion accordion-hotline" id="accordionWorkspace">
+        <button class="accordion-header" onclick="toggleAccordion('accordionWorkspace')">
+          <span class="accordion-step">💬</span>
+          <div class="accordion-info">
+            <div class="accordion-title">HQ 작업실</div>
+            <div class="accordion-desc">요청 · 회의 · 제안이 기록되는 공간 (카톡 대신 여기)</div>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="chat-preview">
+            <div class="chat-bubble hq">
+              <span class="chat-sender">HQ</span>
+              <span class="chat-text">로고 작업 요청드립니다</span>
+            </div>
+            <div class="chat-bubble partner">
+              <span class="chat-sender">Partner</span>
+              <span class="chat-text">확인했습니다. 내일까지요</span>
+            </div>
+          </div>
+          <a href="https://github.com/dtslib1979/koosy/issues" target="_blank" class="hotline-btn">
+            <span>작업실 열기</span>
+            <span class="hotline-btn-arrow">→</span>
           </a>
         </div>
       </div>
 
-      <!-- HQ 작업실 (카톡 스타일 미리보기) -->
-      <div class="hotline-card">
-        <div class="hotline-card-header">
-          <span class="hotline-card-icon">💬</span>
-          <div class="hotline-card-title">HQ 작업실</div>
-        </div>
-        <p class="hotline-card-desc">요청 · 회의 · 제안이 기록되는 공간 (카톡 대신 여기)</p>
-
-        <!-- 카톡 스타일 미리보기 -->
-        <div class="chat-preview">
-          <div class="chat-bubble hq">
-            <span class="chat-sender">HQ</span>
-            <span class="chat-text">로고 작업 요청드립니다</span>
+      <!-- 핫라인 보내기 아코디언 -->
+      <div class="accordion accordion-hotline" id="accordionHotline">
+        <button class="accordion-header" onclick="toggleAccordion('accordionHotline')">
+          <span class="accordion-step">📡</span>
+          <div class="accordion-info">
+            <div class="accordion-title">핫라인 보내기</div>
+            <div class="accordion-desc">본사와 직접 연결 · 요청 · 질문 · 제안</div>
           </div>
-          <div class="chat-bubble partner">
-            <span class="chat-sender">Partner</span>
-            <span class="chat-text">확인했습니다. 내일까지요</span>
+          <span class="accordion-toggle">▼</span>
+        </button>
+        <div class="accordion-content">
+          <div class="hotline-actions">
+            <a href="https://github.com/dtslib1979/koosy/issues/new?template=request.md" target="_blank" class="hotline-action-btn">
+              <span class="action-icon">📋</span>
+              <span class="action-label">요청</span>
+            </a>
+            <a href="https://github.com/dtslib1979/koosy/issues/new?template=meeting.md" target="_blank" class="hotline-action-btn">
+              <span class="action-icon">🤝</span>
+              <span class="action-label">회의</span>
+            </a>
+            <a href="https://github.com/dtslib1979/koosy/issues/new?template=proposal.md" target="_blank" class="hotline-action-btn">
+              <span class="action-icon">💡</span>
+              <span class="action-label">제안</span>
+            </a>
           </div>
-        </div>
-
-        <a href="https://github.com/dtslib1979/koosy/issues" target="_blank" class="hotline-btn">
-          <span>작업실 열기</span>
-          <span class="hotline-btn-arrow">→</span>
-        </a>
-      </div>
-
-      <!-- 핫라인 보내기 -->
-      <div class="hotline-card hotline-card-action">
-        <div class="hotline-card-header">
-          <span class="hotline-card-icon">📡</span>
-          <div class="hotline-card-title">핫라인 보내기</div>
-        </div>
-        <p class="hotline-card-desc">본사와 직접 연결 · 요청 · 질문 · 제안</p>
-        <div class="hotline-actions">
-          <a href="https://github.com/dtslib1979/koosy/issues/new?template=request.md" target="_blank" class="hotline-action-btn">
-            <span class="action-icon">📋</span>
-            <span class="action-label">요청</span>
-          </a>
-          <a href="https://github.com/dtslib1979/koosy/issues/new?template=meeting.md" target="_blank" class="hotline-action-btn">
-            <span class="action-icon">🤝</span>
-            <span class="action-label">회의</span>
-          </a>
-          <a href="https://github.com/dtslib1979/koosy/issues/new?template=proposal.md" target="_blank" class="hotline-action-btn">
-            <span class="action-icon">💡</span>
-            <span class="action-label">제안</span>
-          </a>
         </div>
       </div>
     </section>
