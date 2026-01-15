@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOOSY Design Philosophy — 10x Production System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #040806;
+      --bg-elevated: #0a110d;
+      --bg-card: #0e1812;
+      --gold: #D4AF37;
+      --gold-light: #E8C547;
+      --gold-pale: #F4E4A6;
+      --gold-dim: rgba(212,175,55,.08);
+      --silver: #C0C0C0;
+      --text: #FAFAF8;
+      --text-secondary: rgba(250,250,248,.7);
+      --text-muted: rgba(250,250,248,.4);
+      --border-gold: rgba(212,175,55,.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(212,175,55,.04) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 60% at 80% 80%, rgba(192,192,192,.03) 0%, transparent 50%);
+      animation: ambientMove 30s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes ambientMove {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-3%, 2%); }
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-pale));
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.1s;
+    }
+
+    /* Navigation */
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .nav-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(212,175,55,.2);
+      border: 1px solid rgba(212,175,55,.3);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .nav-dot:hover, .nav-dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 15px rgba(212,175,55,.5);
+      transform: scale(1.3);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(32px, 8vw, 56px);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-pale) 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 4vw, 24px);
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin-bottom: 48px;
+    }
+
+    .hero-equation {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'Inter', monospace;
+      font-size: 14px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .eq-box {
+      padding: 12px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 8px;
+    }
+
+    .eq-gold { color: var(--gold); font-weight: 600; }
+    .eq-silver { color: var(--silver); font-weight: 600; }
+    .eq-op { font-size: 20px; color: var(--gold); }
+
+    /* Sections */
+    .section {
+      min-height: 100vh;
+      padding: 100px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(28px, 6vw, 40px);
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+    }
+
+    .section-content {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    }
+
+    .section.visible .section-label,
+    .section.visible .section-title,
+    .section.visible .section-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Formula Section */
+    .formula-container {
+      display: grid;
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .formula-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-row::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .formula-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .formula-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .formula-vs {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 32px 0;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(212,175,55,.1);
+    }
+
+    .comparison-table th {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .comparison-table td {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .comparison-table tr:hover td {
+      background: var(--gold-dim);
+    }
+
+    .table-highlight {
+      color: var(--gold) !important;
+      font-weight: 600;
+    }
+
+    /* Variable Cards */
+    .var-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .var-card {
+      padding: 24px;
+      background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .var-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 20px 40px rgba(0,0,0,.3), 0 0 40px rgba(212,175,55,.1);
+    }
+
+    .var-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .var-name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .var-value {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .var-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      margin: 32px 0;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(212,175,55,.1);
+    }
+
+    .check-box {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--gold);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    .check-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .check-text strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Quote Block */
+    .quote-block {
+      padding: 40px;
+      background: linear-gradient(135deg, rgba(212,175,55,.05) 0%, transparent 100%);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 16px 16px 0;
+      margin: 40px 0;
+    }
+
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .quote-author {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 80px 24px;
+      border-top: 1px solid rgba(212,175,55,.1);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer-version {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 8px 16px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      border-radius: 50px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .nav-dots { display: none; }
+      .formula-row { grid-template-columns: 1fr; text-align: center; }
+      .formula-vs { padding: 12px 0; }
+      .hero-equation { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="nav-dots">
+  <div class="nav-dot active" data-section="0"></div>
+  <div class="nav-dot" data-section="1"></div>
+  <div class="nav-dot" data-section="2"></div>
+  <div class="nav-dot" data-section="3"></div>
+  <div class="nav-dot" data-section="4"></div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" data-section="0">
+  <span class="badge">Design Philosophy v1.0</span>
+  <h1 class="hero-title">10x Production<br>System</h1>
+  <p class="hero-subtitle">"2주 팀 작업을 2일에. 같은 퀄리티, 다른 속도."</p>
+  <div class="hero-equation">
+    <div class="eq-box"><span class="eq-gold">70%</span> Boilerplate</div>
+    <span class="eq-op">+</span>
+    <div class="eq-box"><span class="eq-silver">20%+</span> User Content</div>
+    <span class="eq-op">=</span>
+    <div class="eq-box"><span class="eq-gold">90%</span> Pro Quality</div>
+  </div>
+</section>
+
+<!-- Section 1: The Formula -->
+<section class="section" data-section="1">
+  <span class="section-label">01 — The Formula</span>
+  <h2 class="section-title">속도의 공식</h2>
+  <div class="section-content">
+    <p style="color: var(--text-secondary); margin-bottom: 32px;">
+      같은 90% 퀄리티를 만드는 두 가지 방법. 결과는 같지만, 과정이 다르다.
+    </p>
+
+    <div class="formula-container">
+      <div class="formula-row">
+        <div>
+          <div class="formula-label">Traditional</div>
+          <div class="formula-value">2주</div>
+        </div>
+        <div class="formula-vs">vs</div>
+        <div>
+          <div class="formula-label">KOOSY System</div>
+          <div class="formula-value">2~3일</div>
+        </div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="formula-label">Team Size</div>
+          <div class="formula-value">5명+</div>
+        </div>
+        <div class="formula-vs">vs</div>
+        <div>
+          <div class="formula-label">KOOSY System</div>
+          <div class="formula-value">2명</div>
+        </div>
+      </div>
+      <div class="formula-row">
+        <div>
+          <div class="formula-label">Cost</div>
+          <div class="formula-value">수천만원</div>
+        </div>
+        <div class="formula-vs">vs</div>
+        <div>
+          <div class="formula-label">KOOSY System</div>
+          <div class="formula-value">~0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Division of Labor -->
+<section class="section" data-section="2">
+  <span class="section-label">02 — Division</span>
+  <h2 class="section-title">역할의 분리</h2>
+  <div class="section-content">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>Boilerplate (AI)</th>
+          <th>User Input (Human)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>레이아웃</td>
+          <td class="table-highlight">재사용</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>애니메이션</td>
+          <td class="table-highlight">재사용</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>반응형 CSS</td>
+          <td class="table-highlight">재사용</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>브랜드 컬러</td>
+          <td>—</td>
+          <td class="table-highlight">필수 입력</td>
+        </tr>
+        <tr>
+          <td>히어로 영상</td>
+          <td>—</td>
+          <td class="table-highlight">필수 입력</td>
+        </tr>
+        <tr>
+          <td>고유 콘셉트</td>
+          <td>—</td>
+          <td class="table-highlight">필수 입력</td>
+        </tr>
+        <tr>
+          <td>슬로건</td>
+          <td>—</td>
+          <td class="table-highlight">필수 입력</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote-block">
+      <p class="quote-text">"창작은 Human, 시공은 AI.<br>콘텐츠가 레벨을 결정한다."</p>
+      <p class="quote-author">— KOOSY Design Philosophy</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: User Variables -->
+<section class="section" data-section="3">
+  <span class="section-label">03 — Variables</span>
+  <h2 class="section-title">유저 입력 변수</h2>
+  <div class="section-content">
+    <p style="color: var(--text-secondary); margin-bottom: 24px;">
+      아래 변수들은 AI가 대신할 수 없다. 반드시 유저가 결정해야 한다.
+    </p>
+
+    <div class="var-grid">
+      <div class="var-card">
+        <div class="var-icon">🎨</div>
+        <div class="var-name">Brand Color</div>
+        <div class="var-value">Primary + Background</div>
+        <div class="var-desc">브랜드 아이덴티티의 핵심</div>
+      </div>
+      <div class="var-card">
+        <div class="var-icon">🎬</div>
+        <div class="var-name">Hero Content</div>
+        <div class="var-value">영상 또는 이미지</div>
+        <div class="var-desc">첫인상을 결정하는 콘텐츠</div>
+      </div>
+      <div class="var-card">
+        <div class="var-icon">💬</div>
+        <div class="var-name">Message</div>
+        <div class="var-value">슬로건 + 태그라인</div>
+        <div class="var-desc">브랜드가 전달할 핵심 메시지</div>
+      </div>
+      <div class="var-card">
+        <div class="var-icon">✨</div>
+        <div class="var-name">Unique Concept</div>
+        <div class="var-value">차별화 요소</div>
+        <div class="var-desc">히브리어, 기차영상 같은 고유 아이디어</div>
+      </div>
+      <div class="var-card">
+        <div class="var-icon">🖼</div>
+        <div class="var-name">Profile</div>
+        <div class="var-value">로고 또는 대표 이미지</div>
+        <div class="var-desc">브랜드의 얼굴</div>
+      </div>
+      <div class="var-card">
+        <div class="var-icon">📐</div>
+        <div class="var-name">UI Metaphor</div>
+        <div class="var-value">명함, 대시보드 등</div>
+        <div class="var-desc">UX 콘셉트 방향성</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Checklist -->
+<section class="section" data-section="4">
+  <span class="section-label">04 — Checklist</span>
+  <h2 class="section-title">새 프로젝트 시작 시</h2>
+  <div class="section-content">
+    <ul class="checklist">
+      <li>
+        <div class="check-box">1</div>
+        <div class="check-text">
+          <strong>Brand Name 정하기</strong>
+          프로젝트의 공식 명칭
+        </div>
+      </li>
+      <li>
+        <div class="check-box">2</div>
+        <div class="check-text">
+          <strong>Primary Color 선택</strong>
+          골드, 실버, 블루 등 메인 컬러
+        </div>
+      </li>
+      <li>
+        <div class="check-box">3</div>
+        <div class="check-text">
+          <strong>Background Color 결정</strong>
+          다크/라이트 모드 방향성
+        </div>
+      </li>
+      <li>
+        <div class="check-box">4</div>
+        <div class="check-text">
+          <strong>Slogan 작성</strong>
+          한 문장으로 브랜드 정의
+        </div>
+      </li>
+      <li>
+        <div class="check-box">5</div>
+        <div class="check-text">
+          <strong>Hero 콘텐츠 준비</strong>
+          영상 또는 이미지 에셋
+        </div>
+      </li>
+      <li>
+        <div class="check-box">6</div>
+        <div class="check-text">
+          <strong>고유 콘셉트 아이디어</strong>
+          차별화되는 독창적 요소
+        </div>
+      </li>
+      <li>
+        <div class="check-box">7</div>
+        <div class="check-text">
+          <strong>UI 메타포 결정</strong>
+          명함? 대시보드? 카드? 포트폴리오?
+        </div>
+      </li>
+    </ul>
+
+    <div class="quote-block" style="background: linear-gradient(135deg, rgba(192,192,192,.05) 0%, transparent 100%); border-color: var(--silver);">
+      <p class="quote-text" style="font-size: 20px;">"위 7개 항목만 채우면,<br>나머지는 보일러플레이트가 해결한다."</p>
+      <p class="quote-author" style="color: var(--silver);">— 10x Production System</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-logo">KOOSY</div>
+  <p class="footer-text">Built on Gold. Measured in Silver.</p>
+  <span class="footer-version">Design Philosophy v1.0 — 2026.01.15</span>
+</footer>
+
+<script>
+// Progress Bar
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+});
+
+// Section Visibility
+const sections = document.querySelectorAll('.section');
+const navDots = document.querySelectorAll('.nav-dot');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      const idx = entry.target.dataset.section;
+      navDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i == idx);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(section => observer.observe(section));
+
+// Nav Dot Click
+navDots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const idx = dot.dataset.section;
+    const target = document.querySelector(`[data-section="${idx}"]`);
+    target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Hero also triggers nav
+const hero = document.querySelector('.hero');
+const heroObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    navDots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === 0);
+    });
+  }
+}, { threshold: 0.5 });
+heroObserver.observe(hero);
+</script>
+
+</body>
+</html>
