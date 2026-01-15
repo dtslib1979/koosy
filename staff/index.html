@@ -571,7 +571,7 @@
       position: absolute;
       width: 160px;
       height: 50px;
-      animation: orbit 8s linear infinite;
+      animation: orbit 6s linear infinite;
     }
 
     @keyframes orbit {
@@ -579,39 +579,43 @@
       100% { transform: rotate(360deg); }
     }
 
-    .train {
+    .train-group {
       position: absolute;
-      top: -12px;
+      top: 0;
       left: 50%;
-      transform: translateX(-50%);
-      font-size: 18px;
-      filter: drop-shadow(0 0 6px var(--gold));
-      animation: train-bob 0.5s ease-in-out infinite;
+      transform: translateX(-50%) translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .train {
+      font-size: 20px;
+      filter: drop-shadow(0 0 8px var(--gold));
+      animation: train-bob 0.4s ease-in-out infinite;
     }
 
     @keyframes train-bob {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-2px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
     }
 
     .train-number {
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%) translateX(16px);
-      font-size: 8px;
-      font-weight: 800;
+      font-size: 10px;
+      font-weight: 900;
       color: var(--gold);
+      text-shadow: 0 0 6px var(--gold);
       letter-spacing: -0.5px;
+      margin-left: -4px;
     }
 
     .smoke {
       position: absolute;
-      top: -10px;
+      top: 0;
       left: 50%;
-      transform: translateX(-50%) translateX(-14px);
+      transform: translateX(-50%) translateY(-50%) translateX(-20px);
       display: flex;
-      gap: 2px;
+      gap: 3px;
     }
 
     .smoke-particle {
@@ -2083,8 +2087,10 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
 
         <!-- 기차 (순환 중) -->
         <div class="train-wrapper">
-          <div class="train">🚂</div>
-          <span class="train-number">999</span>
+          <div class="train-group">
+            <span class="train">🚂</span>
+            <span class="train-number">999</span>
+          </div>
           <div class="smoke">
             <span class="smoke-particle"></span>
             <span class="smoke-particle"></span>
