@@ -587,6 +587,88 @@
       color: #2c4a5e;
     }
 
+    .kakao-header-btns {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .kakao-key-btn {
+      background: none;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0.7;
+      transition: all 0.2s;
+    }
+
+    .kakao-key-btn:hover {
+      opacity: 1;
+    }
+
+    .kakao-key-btn.active {
+      opacity: 1;
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+
+    .kakao-key-btn.connected {
+      opacity: 1;
+    }
+
+    .kakao-pat-panel {
+      background: #7a9caf;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .kakao-pat-inner {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .kakao-pat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2c4a5e;
+      white-space: nowrap;
+    }
+
+    .kakao-pat-input {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .kakao-pat-input:focus {
+      outline: 2px solid #F9E000;
+    }
+
+    .kakao-pat-save {
+      padding: 8px 14px;
+      background: #F9E000;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .kakao-pat-save:hover {
+      background: #e6cf00;
+    }
+
+    .kakao-pat-hint {
+      margin-top: 8px;
+      font-size: 10px;
+      color: #4a6a7a;
+    }
+
     .kakao-chat-messages {
       padding: 16px;
       min-height: 200px;
@@ -2170,7 +2252,20 @@
             <!-- 채팅방 헤더 -->
             <div class="kakao-chat-header">
               <span class="kakao-room-title" id="chatRoomTitle">HQ 작업실</span>
-              <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+              <div class="kakao-header-btns">
+                <button class="kakao-key-btn" onclick="togglePatPanel()" id="patKeyBtn" title="인증 설정">🔑</button>
+                <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+              </div>
+            </div>
+
+            <!-- PAT 설정 패널 -->
+            <div class="kakao-pat-panel" id="patPanel" style="display:none;">
+              <div class="kakao-pat-inner">
+                <span class="kakao-pat-label">GitHub PAT</span>
+                <input type="password" id="patInput" class="kakao-pat-input" placeholder="ghp_xxxx...">
+                <button onclick="savePat()" class="kakao-pat-save">저장</button>
+              </div>
+              <div class="kakao-pat-hint">GitHub → Settings → Developer settings → Personal access tokens</div>
             </div>
 
             <!-- 메시지 영역 (GitHub Issues에서 로드) -->
@@ -2641,7 +2736,67 @@ function showToast(msg = '복사되었습니다') {
 // =====================
 const CHAT_GITHUB_OWNER = 'dtslib1979';
 const CHAT_GITHUB_REPO = 'koosy';
+const CHAT_PAT_KEY = 'koosy_chat_pat';
 let currentIssueNumber = null;
+
+// PAT 패널 토글
+function togglePatPanel() {
+  const panel = document.getElementById('patPanel');
+  const btn = document.getElementById('patKeyBtn');
+  const input = document.getElementById('patInput');
+
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    btn.classList.add('active');
+    // 기존 PAT 있으면 마스킹해서 보여주기
+    const saved = localStorage.getItem(CHAT_PAT_KEY);
+    if (saved) {
+      input.value = saved;
+    }
+    input.focus();
+  } else {
+    panel.style.display = 'none';
+    btn.classList.remove('active');
+  }
+}
+
+// PAT 저장
+function savePat() {
+  const input = document.getElementById('patInput');
+  const pat = input.value.trim();
+
+  if (!pat) {
+    localStorage.removeItem(CHAT_PAT_KEY);
+    showToast('PAT가 삭제되었습니다');
+  } else {
+    localStorage.setItem(CHAT_PAT_KEY, pat);
+    showToast('PAT가 저장되었습니다');
+  }
+
+  updatePatStatus();
+  togglePatPanel();
+}
+
+// PAT 상태 업데이트 (키 아이콘)
+function updatePatStatus() {
+  const btn = document.getElementById('patKeyBtn');
+  const pat = localStorage.getItem(CHAT_PAT_KEY);
+
+  if (pat) {
+    btn.textContent = '🔓';
+    btn.classList.add('connected');
+    btn.title = '인증됨 (클릭하여 변경)';
+  } else {
+    btn.textContent = '🔑';
+    btn.classList.remove('connected');
+    btn.title = '인증 설정';
+  }
+}
+
+// PAT 가져오기 (채팅용)
+function getChatPat() {
+  return localStorage.getItem(CHAT_PAT_KEY);
+}
 
 async function loadChatRoom() {
   const container = document.getElementById('kakaoMessages');
@@ -2766,12 +2921,11 @@ async function sendMessage() {
   }
 
   // PAT 가져오기
-  const saved = localStorage.getItem(REPO_CONFIG_KEY);
-  const config = saved ? JSON.parse(saved) : {};
-  const pat = config.pat;
+  const pat = getChatPat();
 
   if (!pat) {
-    showToast('설정에서 GitHub PAT를 입력해주세요');
+    showToast('🔑 버튼을 눌러 PAT를 설정해주세요');
+    togglePatPanel();
     return;
   }
 
@@ -2840,12 +2994,11 @@ async function closeChat() {
   }
 
   // PAT 가져오기
-  const saved = localStorage.getItem(REPO_CONFIG_KEY);
-  const config = saved ? JSON.parse(saved) : {};
-  const pat = config.pat;
+  const pat = getChatPat();
 
   if (!pat) {
-    showToast('설정에서 GitHub PAT를 입력해주세요');
+    showToast('🔑 버튼을 눌러 PAT를 설정해주세요');
+    togglePatPanel();
     return;
   }
 
@@ -2900,6 +3053,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRepoGrid();
   renderStoreLinks();
   renderQuickLinks();
+  updatePatStatus(); // PAT 상태 체크
   loadChatRoom(); // 채팅방 로드
 });
 
