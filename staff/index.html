@@ -587,88 +587,6 @@
       color: #2c4a5e;
     }
 
-    .kakao-header-btns {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
-
-    .kakao-key-btn {
-      background: none;
-      border: none;
-      font-size: 14px;
-      cursor: pointer;
-      padding: 4px;
-      opacity: 0.7;
-      transition: all 0.2s;
-    }
-
-    .kakao-key-btn:hover {
-      opacity: 1;
-    }
-
-    .kakao-key-btn.active {
-      opacity: 1;
-      background: rgba(255,255,255,0.3);
-      border-radius: 4px;
-    }
-
-    .kakao-key-btn.connected {
-      opacity: 1;
-    }
-
-    .kakao-pat-panel {
-      background: #7a9caf;
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .kakao-pat-inner {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .kakao-pat-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #2c4a5e;
-      white-space: nowrap;
-    }
-
-    .kakao-pat-input {
-      flex: 1;
-      padding: 8px 10px;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      background: #fff;
-    }
-
-    .kakao-pat-input:focus {
-      outline: 2px solid #F9E000;
-    }
-
-    .kakao-pat-save {
-      padding: 8px 14px;
-      background: #F9E000;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .kakao-pat-save:hover {
-      background: #e6cf00;
-    }
-
-    .kakao-pat-hint {
-      margin-top: 8px;
-      font-size: 10px;
-      color: #4a6a7a;
-    }
-
     .kakao-chat-messages {
       padding: 16px;
       min-height: 200px;
@@ -2291,20 +2209,7 @@
             <!-- 채팅방 헤더 -->
             <div class="kakao-chat-header">
               <span class="kakao-room-title" id="chatRoomTitle">HQ 작업실</span>
-              <div class="kakao-header-btns">
-                <button class="kakao-key-btn" onclick="togglePatPanel()" id="patKeyBtn" title="인증 설정">🔑</button>
-                <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
-              </div>
-            </div>
-
-            <!-- PAT 설정 패널 -->
-            <div class="kakao-pat-panel" id="patPanel" style="display:none;">
-              <div class="kakao-pat-inner">
-                <span class="kakao-pat-label">GitHub PAT</span>
-                <input type="password" id="patInput" class="kakao-pat-input" placeholder="ghp_xxxx...">
-                <button onclick="savePat()" class="kakao-pat-save">저장</button>
-              </div>
-              <div class="kakao-pat-hint">GitHub → Settings → Developer settings → Personal access tokens</div>
+              <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
             </div>
 
             <!-- 메시지 영역 (GitHub Issues에서 로드) -->
@@ -2775,67 +2680,7 @@ function showToast(msg = '복사되었습니다') {
 // =====================
 const CHAT_GITHUB_OWNER = 'dtslib1979';
 const CHAT_GITHUB_REPO = 'koosy';
-const CHAT_PAT_KEY = 'koosy_chat_pat';
 let currentIssueNumber = null;
-
-// PAT 패널 토글
-function togglePatPanel() {
-  const panel = document.getElementById('patPanel');
-  const btn = document.getElementById('patKeyBtn');
-  const input = document.getElementById('patInput');
-
-  if (panel.style.display === 'none') {
-    panel.style.display = 'block';
-    btn.classList.add('active');
-    // 기존 PAT 있으면 마스킹해서 보여주기
-    const saved = localStorage.getItem(CHAT_PAT_KEY);
-    if (saved) {
-      input.value = saved;
-    }
-    input.focus();
-  } else {
-    panel.style.display = 'none';
-    btn.classList.remove('active');
-  }
-}
-
-// PAT 저장
-function savePat() {
-  const input = document.getElementById('patInput');
-  const pat = input.value.trim();
-
-  if (!pat) {
-    localStorage.removeItem(CHAT_PAT_KEY);
-    showToast('PAT가 삭제되었습니다');
-  } else {
-    localStorage.setItem(CHAT_PAT_KEY, pat);
-    showToast('PAT가 저장되었습니다');
-  }
-
-  updatePatStatus();
-  togglePatPanel();
-}
-
-// PAT 상태 업데이트 (키 아이콘)
-function updatePatStatus() {
-  const btn = document.getElementById('patKeyBtn');
-  const pat = localStorage.getItem(CHAT_PAT_KEY);
-
-  if (pat) {
-    btn.textContent = '🔓';
-    btn.classList.add('connected');
-    btn.title = '인증됨 (클릭하여 변경)';
-  } else {
-    btn.textContent = '🔑';
-    btn.classList.remove('connected');
-    btn.title = '인증 설정';
-  }
-}
-
-// PAT 가져오기 (채팅용)
-function getChatPat() {
-  return localStorage.getItem(CHAT_PAT_KEY);
-}
 
 async function loadChatRoom() {
   const container = document.getElementById('kakaoMessages');
@@ -3057,8 +2902,8 @@ function copyBubble(id) {
   });
 }
 
-// 메시지 전송 (카톡처럼 - 백그라운드 API)
-async function sendMessage() {
+// 메시지 전송 - GitHub으로 이동
+function sendMessage() {
   const input = document.getElementById('chatInput');
   const message = input.value.trim();
 
@@ -3066,126 +2911,39 @@ async function sendMessage() {
     return;
   }
 
-  // PAT 가져오기
-  const pat = getChatPat();
-
-  if (!pat) {
-    showToast('🔑 버튼을 눌러 PAT를 설정해주세요');
-    togglePatPanel();
-    return;
-  }
-
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
 
-  // 전송 중 표시
-  input.disabled = true;
-  const sendBtn = document.querySelector('.kakao-send-btn');
-  sendBtn.textContent = '...';
+  // 메시지 클립보드에 복사
+  navigator.clipboard.writeText(message).catch(() => {});
 
-  try {
-    if (currentIssueNumber) {
-      // 기존 이슈에 댓글 추가
-      const res = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}/comments`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `token ${pat}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ body: message })
-        }
-      );
-
-      if (!res.ok) throw new Error('댓글 전송 실패');
-
-    } else {
-      // 새 이슈 생성
-      const res = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/issues`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `token ${pat}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: `[작업실] ${message.substring(0, 50)}`,
-            body: message
-          })
-        }
-      );
-
-      if (!res.ok) throw new Error('이슈 생성 실패');
-    }
-
-    // 성공 - 입력창 비우고 채팅 새로고침
-    input.value = '';
-    await loadChatRoom();
-
-  } catch (error) {
-    showToast('전송 실패: ' + error.message);
-  } finally {
-    input.disabled = false;
-    sendBtn.textContent = '전송';
+  if (currentIssueNumber) {
+    // 기존 이슈에 댓글 추가
+    window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
+    showToast('GitHub에서 댓글을 붙여넣기 하세요');
+  } else {
+    // 새 이슈 생성
+    const title = encodeURIComponent(`[작업실] ${message.substring(0, 50)}`);
+    const body = encodeURIComponent(message);
+    window.open(`https://github.com/${owner}/${repo}/issues/new?title=${title}&body=${body}`, '_blank');
   }
+
+  input.value = '';
 }
 
-// PR 발행 (Issue Close) - 대화 완료 후 새 대화 시작
-async function closeChat() {
+// PR 발행 (Issue Close) - GitHub에서 닫기
+function closeChat() {
   if (!currentIssueNumber) {
     showToast('닫을 대화가 없습니다');
     return;
   }
 
-  // PAT 가져오기
-  const pat = getChatPat();
-
-  if (!pat) {
-    showToast('🔑 버튼을 눌러 PAT를 설정해주세요');
-    togglePatPanel();
-    return;
-  }
-
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
 
-  // 확인
-  if (!confirm('이 대화를 완료하고 아카이브로 보내시겠습니까?')) {
-    return;
-  }
-
-  const prBtn = document.getElementById('chatPrBtn');
-  prBtn.textContent = '...';
-  prBtn.disabled = true;
-
-  try {
-    // Issue Close
-    const res = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `token ${pat}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ state: 'closed' })
-      }
-    );
-
-    if (!res.ok) throw new Error('PR 발행 실패');
-
-    showToast('PR 완료! 새 대화를 시작하세요');
-    currentIssueNumber = null;
-    await loadChatRoom();
-
-  } catch (error) {
-    showToast('PR 실패: ' + error.message);
-  } finally {
-    prBtn.textContent = 'PR';
-    prBtn.disabled = false;
-  }
+  // GitHub Issue 페이지로 이동 (Close Issue 버튼 사용)
+  window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
+  showToast('GitHub에서 Close Issue를 눌러 PR 완료');
 }
 
 // =====================
@@ -3199,7 +2957,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRepoGrid();
   renderStoreLinks();
   renderQuickLinks();
-  updatePatStatus(); // PAT 상태 체크
   loadChatRoom(); // 채팅방 로드
 });
 
