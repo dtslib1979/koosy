@@ -2161,7 +2161,7 @@
           <div class="kakao-chat">
             <!-- 채팅방 헤더 -->
             <div class="kakao-chat-header">
-              <span class="kakao-room-title" id="chatRoomTitle">대화방</span>
+              <span class="kakao-room-title" id="chatRoomTitle">HQ 작업실</span>
               <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
             </div>
 
@@ -2172,21 +2172,14 @@
 
             <!-- 입력 영역 -->
             <div class="kakao-input-area">
-              <a href="#" id="chatReplyLink" target="_blank" class="kakao-input-box">
-                <span class="kakao-input-placeholder">메시지를 입력하세요...</span>
+              <a href="https://github.com/dtslib1979/koosy/issues" id="chatReplyLink" target="_blank" class="kakao-input-box">
+                <span class="kakao-input-placeholder">메시지 보내기...</span>
               </a>
-              <div class="kakao-input-buttons">
-                <a href="#" id="chatPrLink" target="_blank" class="kakao-pr-btn" title="대화 완료 (아카이브로)">
-                  <span>PR</span>
-                </a>
-              </div>
+              <a href="https://github.com/dtslib1979/koosy/issues" id="chatPrLink" target="_blank" class="kakao-pr-btn" title="PR 발행 (대화 완료)">
+                <span>PR</span>
+              </a>
             </div>
           </div>
-
-          <!-- 새 대화 시작 -->
-          <a href="https://github.com/dtslib1979/koosy/issues/new?title=새 세션&body=새로운 대화 세션을 시작합니다." target="_blank" class="kakao-new-chat" id="newChatLink">
-            <span>+ 새 세션 시작</span>
-          </a>
         </div>
       </div>
 
@@ -2666,14 +2659,16 @@ async function loadChatRoom() {
     const issues = await issuesRes.json();
 
     if (issues.length === 0) {
+      // 대화 없으면 새 Issue 생성 유도
       container.innerHTML = `
         <div class="kakao-empty">
           <div class="kakao-empty-icon">💬</div>
-          <div class="kakao-empty-text">진행중인 대화가 없습니다<br>아래에서 새 대화를 시작하세요</div>
+          <div class="kakao-empty-text">새 대화를 시작하세요</div>
         </div>
       `;
-      titleEl.textContent = '새 대화를 시작하세요';
-      replyLink.href = '#';
+      titleEl.textContent = 'HQ 작업실';
+      replyLink.href = `https://github.com/${CHAT_GITHUB_OWNER}/${CHAT_GITHUB_REPO}/issues/new?title=새 대화&body=`;
+      replyLink.querySelector('span').textContent = '새 대화 시작';
       prLink.style.display = 'none';
       return;
     }
@@ -2681,22 +2676,16 @@ async function loadChatRoom() {
     const issue = issues[0];
     currentIssueNumber = issue.number;
 
-    // 세션 넘버 표시 (#1, #2, ...)
-    titleEl.textContent = `세션 #${issue.number}`;
+    // 헤더: HQ 작업실 #번호
+    titleEl.textContent = `HQ 작업실 #${issue.number}`;
 
-    // 메시지 입력 = GitHub Issue 댓글 페이지로
+    // 메시지 보내기 = GitHub Issue 페이지 (댓글 달기)
     replyLink.href = issue.html_url;
+    replyLink.querySelector('span').textContent = '메시지 보내기...';
 
-    // PR 버튼 = Issue Close (세션 종료)
+    // PR 버튼 = Issue 페이지로 (Close 하러)
     prLink.style.display = 'flex';
-    prLink.href = `${issue.html_url}`;
-    prLink.onclick = function(e) {
-      if (confirm('이 세션을 완료하고 아카이브로 보내시겠습니까?\\n(GitHub에서 Issue를 Close 해주세요)')) {
-        return true;
-      }
-      e.preventDefault();
-      return false;
-    };
+    prLink.href = issue.html_url;
 
     // 해당 Issue의 Comments 가져오기
     const commentsRes = await fetch(
