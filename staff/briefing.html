@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0F1F15" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>HQ 브리핑 | KOOSY</title>
+  <style>
+    :root {
+      --bg: #0a0f0c;
+      --bg-elevated: #141f18;
+      --bg-card: #1a2b20;
+      --gold: #f0c850;
+      --gold-dim: rgba(240,200,80,.2);
+      --text: #ffffff;
+      --text-secondary: rgba(255,255,255,.85);
+      --text-muted: rgba(255,255,255,.6);
+      --border: rgba(255,255,255,.15);
+      --border-gold: rgba(240,200,80,.5);
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      border-color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .page-title-wrap {
+      flex: 1;
+    }
+
+    .page-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: linear-gradient(135deg, var(--gold), #C9A227);
+      color: var(--bg);
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* Carousel */
+    .carousel-container {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      padding: 8px 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel-item {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .carousel-item:hover {
+      border-color: var(--gold);
+    }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 177.78%; /* 9:16 for shorts */
+      background: #000;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      cursor: pointer;
+    }
+
+    .video-placeholder-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .video-placeholder-text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .carousel-info {
+      padding: 16px;
+    }
+
+    .carousel-info-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .carousel-info-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Carousel Navigation */
+    .carousel-nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--border);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .carousel-dot.active {
+      width: 24px;
+      background: var(--gold);
+    }
+
+    /* Video List */
+    .video-list {
+      margin-top: 32px;
+    }
+
+    .video-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .video-list-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .video-list-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .video-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .video-item:hover {
+      border-color: var(--gold);
+      background: var(--bg-card);
+    }
+
+    .video-item.active {
+      border-color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .video-thumb {
+      width: 60px;
+      height: 80px;
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .video-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .video-meta-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .video-meta-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .video-meta-tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      background: var(--gold-dim);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+    }
+
+    /* YouTube Link */
+    .youtube-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding: 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .youtube-link:hover {
+      border-color: #FF0000;
+      background: rgba(255,0,0,0.1);
+    }
+
+    .youtube-icon {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <a href="index.html" class="back-btn">←</a>
+      <div class="page-title-wrap">
+        <span class="page-badge">HQ BRIEFING</span>
+        <h1 class="page-title">튜토리얼</h1>
+      </div>
+    </header>
+
+    <!-- Carousel -->
+    <div class="carousel-container">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Video 1 -->
+        <div class="carousel-item" data-index="0">
+          <div class="video-embed">
+            <div class="video-placeholder" onclick="loadVideo(this, 'ex50PdCReRc')">
+              <span class="video-placeholder-icon">🔐</span>
+              <span class="video-placeholder-text">탭하여 재생</span>
+            </div>
+          </div>
+          <div class="carousel-info">
+            <div class="carousel-info-title">시작 브리핑</div>
+            <div class="carousel-info-desc">스태프 포털 접속 및 초기 설정 가이드</div>
+          </div>
+        </div>
+
+        <!-- Video 2 (Placeholder) -->
+        <div class="carousel-item" data-index="1">
+          <div class="video-embed">
+            <div class="video-placeholder" onclick="loadVideo(this, '')">
+              <span class="video-placeholder-icon">📋</span>
+              <span class="video-placeholder-text">준비 중</span>
+            </div>
+          </div>
+          <div class="carousel-info">
+            <div class="carousel-info-title">작업 요청 방법</div>
+            <div class="carousel-info-desc">GitHub Issues를 통한 작업 요청 프로세스</div>
+          </div>
+        </div>
+
+        <!-- Video 3 (Placeholder) -->
+        <div class="carousel-item" data-index="2">
+          <div class="video-embed">
+            <div class="video-placeholder" onclick="loadVideo(this, '')">
+              <span class="video-placeholder-icon">💬</span>
+              <span class="video-placeholder-text">준비 중</span>
+            </div>
+          </div>
+          <div class="carousel-info">
+            <div class="carousel-info-title">HQ 작업실 사용법</div>
+            <div class="carousel-info-desc">실시간 협업 및 커뮤니케이션 가이드</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-nav" id="carouselNav">
+        <div class="carousel-dot active" data-index="0"></div>
+        <div class="carousel-dot" data-index="1"></div>
+        <div class="carousel-dot" data-index="2"></div>
+      </div>
+    </div>
+
+    <!-- Video List -->
+    <div class="video-list">
+      <div class="video-list-header">
+        <span class="video-list-title">전체 브리핑 목록</span>
+        <span class="video-list-count">3개</span>
+      </div>
+
+      <div class="video-item active" onclick="scrollToVideo(0)">
+        <div class="video-thumb">🔐</div>
+        <div class="video-meta">
+          <div class="video-meta-title">시작 브리핑</div>
+          <div class="video-meta-desc">스태프 포털 접속 및 초기 설정</div>
+          <span class="video-meta-tag">필수</span>
+        </div>
+      </div>
+
+      <div class="video-item" onclick="scrollToVideo(1)">
+        <div class="video-thumb">📋</div>
+        <div class="video-meta">
+          <div class="video-meta-title">작업 요청 방법</div>
+          <div class="video-meta-desc">GitHub Issues 활용 가이드</div>
+          <span class="video-meta-tag">준비 중</span>
+        </div>
+      </div>
+
+      <div class="video-item" onclick="scrollToVideo(2)">
+        <div class="video-thumb">💬</div>
+        <div class="video-meta">
+          <div class="video-meta-title">HQ 작업실 사용법</div>
+          <div class="video-meta-desc">협업 및 커뮤니케이션</div>
+          <span class="video-meta-tag">준비 중</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- YouTube Channel Link -->
+    <a href="https://youtube.com/@dtslib" target="_blank" class="youtube-link">
+      <span class="youtube-icon">▶</span>
+      <span>YouTube 채널에서 더 보기</span>
+    </a>
+  </div>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const items = document.querySelectorAll('.video-item');
+
+    // Carousel scroll handler
+    track.addEventListener('scroll', () => {
+      const scrollLeft = track.scrollLeft;
+      const itemWidth = track.offsetWidth;
+      const index = Math.round(scrollLeft / itemWidth);
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+
+      items.forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+      });
+    });
+
+    // Dot click handler
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.dataset.index);
+        scrollToVideo(index);
+      });
+    });
+
+    function scrollToVideo(index) {
+      const itemWidth = track.offsetWidth + 16; // width + gap
+      track.scrollTo({
+        left: index * itemWidth,
+        behavior: 'smooth'
+      });
+    }
+
+    function loadVideo(placeholder, videoId) {
+      if (!videoId) {
+        alert('영상이 준비 중입니다.');
+        return;
+      }
+
+      const embed = placeholder.parentElement;
+      embed.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    }
+  </script>
+</body>
+</html>

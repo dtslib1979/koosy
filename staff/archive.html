@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0F1F15" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>아카이브 | KOOSY</title>
+  <style>
+    :root {
+      --bg: #0a0f0c;
+      --bg-elevated: #141f18;
+      --bg-card: #1a2b20;
+      --gold: #f0c850;
+      --gold-dim: rgba(240,200,80,.2);
+      --text: #ffffff;
+      --text-secondary: rgba(255,255,255,.85);
+      --text-muted: rgba(255,255,255,.6);
+      --border: rgba(255,255,255,.15);
+      --border-gold: rgba(240,200,80,.5);
+      --success: #5fd068;
+      --info: #5bc0eb;
+      --warning: #ffa62f;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      border-color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .page-title-wrap {
+      flex: 1;
+    }
+
+    .page-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: linear-gradient(135deg, var(--gold), #C9A227);
+      color: var(--bg);
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 4px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 12px;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .tab:not(.active):hover {
+      color: var(--text);
+      background: var(--bg-card);
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Project Milestones */
+    .milestone-section {
+      margin-bottom: 24px;
+    }
+
+    .milestone-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .milestone-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .milestone-progress {
+      font-size: 12px;
+      color: var(--gold);
+      background: var(--gold-dim);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .milestone-timeline {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .milestone-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .milestone-item {
+      position: relative;
+      padding: 12px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+
+    .milestone-item:hover {
+      border-color: var(--border-gold);
+    }
+
+    .milestone-item::before {
+      content: '';
+      position: absolute;
+      left: -21px;
+      top: 18px;
+      width: 12px;
+      height: 12px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 50%;
+    }
+
+    .milestone-item.completed::before {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .milestone-item.current::before {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+    }
+
+    .milestone-item.upcoming::before {
+      background: var(--bg-card);
+      border-color: var(--border);
+    }
+
+    .milestone-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .milestone-item-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .milestone-item-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .milestone-item-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .milestone-item-status {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+    }
+
+    .milestone-item.completed .milestone-item-status {
+      background: rgba(95,208,104,.15);
+      color: var(--success);
+    }
+
+    .milestone-item.current .milestone-item-status {
+      background: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .milestone-item.upcoming .milestone-item-status {
+      background: var(--bg-card);
+      color: var(--text-muted);
+    }
+
+    /* Mailbox */
+    .mailbox-empty {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--bg-elevated);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .mailbox-empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .mailbox-empty-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .mailbox-empty-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .mail-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mail-item:hover {
+      border-color: var(--gold);
+      background: var(--bg-card);
+    }
+
+    .mail-item.unread {
+      border-left: 3px solid var(--gold);
+    }
+
+    .mail-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gold-dim);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .mail-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .mail-from {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .mail-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .mail-subject {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mail-preview {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Posts */
+    .post-item {
+      padding: 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+
+    .post-item:hover {
+      border-color: var(--border-gold);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .post-avatar {
+      width: 36px;
+      height: 36px;
+      background: var(--gold);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--bg);
+    }
+
+    .post-meta {
+      flex: 1;
+    }
+
+    .post-author {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .post-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .post-tag {
+      padding: 3px 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .post-tag.notice {
+      background: var(--gold-dim);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .post-tag.update {
+      background: rgba(91,192,235,.15);
+      border-color: var(--info);
+      color: var(--info);
+    }
+
+    .post-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .post-body {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .post-action {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .post-action:hover {
+      color: var(--gold);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--bg-elevated);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Add Button */
+    .add-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--gold), #C9A227);
+      border: none;
+      border-radius: var(--radius-full);
+      font-size: 24px;
+      color: var(--bg);
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(240,200,80,.4);
+      transition: all 0.2s;
+    }
+
+    .add-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 24px rgba(240,200,80,.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <a href="index.html" class="back-btn">←</a>
+      <div class="page-title-wrap">
+        <span class="page-badge">ARCHIVE</span>
+        <h1 class="page-title">전체 아카이브</h1>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('milestones')">마일스톤</button>
+      <button class="tab" onclick="switchTab('mailbox')">사서함</button>
+      <button class="tab" onclick="switchTab('posts')">게시판</button>
+    </div>
+
+    <!-- Milestones Tab -->
+    <div class="tab-content active" id="tab-milestones">
+      <div class="milestone-section">
+        <div class="milestone-header">
+          <span class="milestone-title">비즈니스 프로젝트 단계</span>
+          <span class="milestone-progress">2/5 완료</span>
+        </div>
+
+        <div class="milestone-timeline">
+          <div class="milestone-item completed">
+            <div class="milestone-item-header">
+              <span class="milestone-item-title">1단계: 시스템 구축</span>
+              <span class="milestone-item-date">2026.01.10</span>
+            </div>
+            <p class="milestone-item-desc">스태프 포털 세팅 및 기본 인프라 구성 완료</p>
+            <span class="milestone-item-status">완료</span>
+          </div>
+
+          <div class="milestone-item completed">
+            <div class="milestone-item-header">
+              <span class="milestone-item-title">2단계: 브랜드 정립</span>
+              <span class="milestone-item-date">2026.01.12</span>
+            </div>
+            <p class="milestone-item-desc">KOOSY 브랜딩 및 비주얼 아이덴티티 확립</p>
+            <span class="milestone-item-status">완료</span>
+          </div>
+
+          <div class="milestone-item current">
+            <div class="milestone-item-header">
+              <span class="milestone-item-title">3단계: 콘텐츠 제작</span>
+              <span class="milestone-item-date">진행 중</span>
+            </div>
+            <p class="milestone-item-desc">튜토리얼 영상 및 가이드 문서 제작</p>
+            <span class="milestone-item-status">진행 중</span>
+          </div>
+
+          <div class="milestone-item upcoming">
+            <div class="milestone-item-header">
+              <span class="milestone-item-title">4단계: 파트너 온보딩</span>
+              <span class="milestone-item-date">예정</span>
+            </div>
+            <p class="milestone-item-desc">첫 파트너 온보딩 및 피드백 수집</p>
+            <span class="milestone-item-status">예정</span>
+          </div>
+
+          <div class="milestone-item upcoming">
+            <div class="milestone-item-header">
+              <span class="milestone-item-title">5단계: 확장 및 최적화</span>
+              <span class="milestone-item-date">예정</span>
+            </div>
+            <p class="milestone-item-desc">시스템 개선 및 추가 기능 개발</p>
+            <span class="milestone-item-status">예정</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mailbox Tab -->
+    <div class="tab-content" id="tab-mailbox">
+      <div class="mail-item unread">
+        <div class="mail-icon">📬</div>
+        <div class="mail-content">
+          <div class="mail-header">
+            <span class="mail-from">HQ</span>
+            <span class="mail-date">오늘</span>
+          </div>
+          <div class="mail-subject">환영합니다! KOOSY 시스템 안내</div>
+          <p class="mail-preview">KOOSY 파트너가 되신 것을 환영합니다. 이 메일에서는 시스템 사용법과 주요 기능에 대해 안내드립니다...</p>
+        </div>
+      </div>
+
+      <div class="mail-item">
+        <div class="mail-icon">📋</div>
+        <div class="mail-content">
+          <div class="mail-header">
+            <span class="mail-from">System</span>
+            <span class="mail-date">2026.01.12</span>
+          </div>
+          <div class="mail-subject">시스템 세팅 완료 알림</div>
+          <p class="mail-preview">스태프 포털 초기 세팅이 완료되었습니다. 모든 기능이 정상적으로 활성화되었습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Posts Tab -->
+    <div class="tab-content" id="tab-posts">
+      <div class="post-item">
+        <div class="post-header">
+          <div class="post-avatar">HQ</div>
+          <div class="post-meta">
+            <div class="post-author">KOOSY HQ</div>
+            <div class="post-date">2026.01.15</div>
+          </div>
+          <span class="post-tag notice">공지</span>
+        </div>
+        <div class="post-title">HOTLINE HQ 기능 업데이트 안내</div>
+        <p class="post-body">새로운 HOTLINE HQ 섹션이 추가되었습니다. GitHub Issues를 통해 HQ와 직접 소통할 수 있으며, 모든 대화 기록이 자동으로 아카이빙됩니다.</p>
+        <div class="post-actions">
+          <span class="post-action">👍 좋아요</span>
+          <span class="post-action">💬 댓글</span>
+          <span class="post-action">🔗 공유</span>
+        </div>
+      </div>
+
+      <div class="post-item">
+        <div class="post-header">
+          <div class="post-avatar">HQ</div>
+          <div class="post-meta">
+            <div class="post-author">KOOSY HQ</div>
+            <div class="post-date">2026.01.12</div>
+          </div>
+          <span class="post-tag update">업데이트</span>
+        </div>
+        <div class="post-title">Galaxy Express 999 네비게이션 적용</div>
+        <p class="post-body">KOOSY = 구씨 = 999 컨셉에 맞춰 Galaxy Express 999 테마의 네비게이션이 적용되었습니다. 우주 열차가 타원 궤도를 따라 움직이는 애니메이션을 확인해보세요.</p>
+        <div class="post-actions">
+          <span class="post-action">👍 좋아요</span>
+          <span class="post-action">💬 댓글</span>
+          <span class="post-action">🔗 공유</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://github.com/dtslib1979/koosy/issues/new?template=proposal.md" target="_blank" class="add-btn">+</a>
+
+  <script>
+    function switchTab(tabName) {
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      // Update tab content
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+  </script>
+</body>
+</html>
