@@ -559,10 +559,61 @@
       overflow: hidden;
     }
 
+    .kakao-chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #8aacbf;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .kakao-room-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2c4a5e;
+    }
+
+    .kakao-refresh-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #4a6a7a;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .kakao-refresh-btn:hover {
+      color: #2c4a5e;
+    }
+
     .kakao-chat-messages {
       padding: 16px;
+      min-height: 200px;
       max-height: 350px;
       overflow-y: auto;
+    }
+
+    .kakao-loading {
+      text-align: center;
+      padding: 40px;
+      color: #5a7a8a;
+      font-size: 13px;
+    }
+
+    .kakao-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #5a7a8a;
+    }
+
+    .kakao-empty-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .kakao-empty-text {
+      font-size: 13px;
     }
 
     .chat-date-divider {
@@ -621,6 +672,8 @@
     .kakao-text {
       font-size: 13px;
       line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .kakao-time {
@@ -631,57 +684,72 @@
 
     .kakao-input-area {
       background: #eff2f5;
-      padding: 12px;
-    }
-
-    .kakao-actions {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .kakao-action-btn {
+      padding: 10px;
       display: flex;
-      flex-direction: column;
+      gap: 8px;
       align-items: center;
-      gap: 4px;
-      padding: 12px 8px;
+    }
+
+    .kakao-input-box {
+      flex: 1;
+      padding: 10px 14px;
       background: #ffffff;
-      border-radius: 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .kakao-input-placeholder {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .kakao-input-box:hover {
+      background: #f5f5f5;
+    }
+
+    .kakao-input-buttons {
+      display: flex;
+      gap: 6px;
+    }
+
+    .kakao-pr-btn {
+      width: 40px;
+      height: 40px;
+      background: #F9E000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a1a1a;
+      transition: all 0.2s;
+    }
+
+    .kakao-pr-btn:hover {
+      background: #e6cf00;
+      transform: scale(1.1);
+    }
+
+    .kakao-new-chat {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      margin-top: 10px;
+      background: var(--bg-elevated);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 13px;
       text-decoration: none;
       transition: all 0.2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
-    .kakao-action-btn span:first-child {
-      font-size: 20px;
-    }
-
-    .kakao-action-btn span:last-child {
-      font-size: 11px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .kakao-action-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-
-    .kakao-action-btn.request:hover {
-      background: #fff3cd;
-    }
-
-    .kakao-action-btn.meeting:hover {
-      background: #d4edda;
-    }
-
-    .kakao-action-btn.proposal:hover {
-      background: #cce5ff;
-    }
-
-    .kakao-action-btn.history:hover {
-      background: #e2e3e5;
+    .kakao-new-chat:hover {
+      border-color: var(--gold);
+      color: var(--gold);
     }
 
     .hotline-btn {
@@ -2091,67 +2159,34 @@
         <div class="accordion-content">
           <!-- 카톡 스타일 채팅방 -->
           <div class="kakao-chat">
+            <!-- 채팅방 헤더 -->
+            <div class="kakao-chat-header">
+              <span class="kakao-room-title" id="chatRoomTitle">대화방</span>
+              <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+            </div>
+
+            <!-- 메시지 영역 (GitHub Issues에서 로드) -->
             <div class="kakao-chat-messages" id="kakaoMessages">
-              <!-- 날짜 구분 -->
-              <div class="chat-date-divider">2026년 1월 15일</div>
-
-              <!-- HQ 메시지 (노란색, 오른쪽) -->
-              <div class="kakao-bubble-wrap hq">
-                <div class="kakao-bubble">
-                  <span class="kakao-sender">HQ</span>
-                  <span class="kakao-text">안녕하세요! KOOSY 작업실에 오신 것을 환영합니다.</span>
-                </div>
-                <span class="kakao-time">오후 2:30</span>
-              </div>
-
-              <div class="kakao-bubble-wrap hq">
-                <div class="kakao-bubble">
-                  <span class="kakao-sender">HQ</span>
-                  <span class="kakao-text">여기서 작업 요청, 회의, 제안을 주고받을 수 있어요. 모든 대화는 GitHub에 자동 저장됩니다.</span>
-                </div>
-                <span class="kakao-time">오후 2:30</span>
-              </div>
-
-              <!-- Partner 메시지 (회색, 왼쪽) -->
-              <div class="kakao-bubble-wrap partner">
-                <span class="kakao-time">오후 2:31</span>
-                <div class="kakao-bubble">
-                  <span class="kakao-sender">Partner</span>
-                  <span class="kakao-text">확인했습니다! 아래 버튼으로 새 요청을 보내면 되는 거죠?</span>
-                </div>
-              </div>
-
-              <div class="kakao-bubble-wrap hq">
-                <div class="kakao-bubble">
-                  <span class="kakao-sender">HQ</span>
-                  <span class="kakao-text">네 맞아요! 요청/회의/제안 버튼 중 선택해서 보내시면 됩니다 👍</span>
-                </div>
-                <span class="kakao-time">오후 2:32</span>
-              </div>
+              <div class="kakao-loading">대화 불러오는 중...</div>
             </div>
 
             <!-- 입력 영역 -->
             <div class="kakao-input-area">
-              <div class="kakao-actions">
-                <a href="https://github.com/dtslib1979/koosy/issues/new?template=request.md&title=[요청] " target="_blank" class="kakao-action-btn request">
-                  <span>📋</span>
-                  <span>요청</span>
-                </a>
-                <a href="https://github.com/dtslib1979/koosy/issues/new?template=meeting.md&title=[회의] " target="_blank" class="kakao-action-btn meeting">
-                  <span>🤝</span>
-                  <span>회의</span>
-                </a>
-                <a href="https://github.com/dtslib1979/koosy/issues/new?template=proposal.md&title=[제안] " target="_blank" class="kakao-action-btn proposal">
-                  <span>💡</span>
-                  <span>제안</span>
-                </a>
-                <a href="https://github.com/dtslib1979/koosy/issues" target="_blank" class="kakao-action-btn history">
-                  <span>📁</span>
-                  <span>기록</span>
+              <a href="#" id="chatReplyLink" target="_blank" class="kakao-input-box">
+                <span class="kakao-input-placeholder">메시지를 입력하세요...</span>
+              </a>
+              <div class="kakao-input-buttons">
+                <a href="#" id="chatPrLink" target="_blank" class="kakao-pr-btn" title="대화 완료 (아카이브로)">
+                  <span>PR</span>
                 </a>
               </div>
             </div>
           </div>
+
+          <!-- 새 대화 시작 -->
+          <a href="https://github.com/dtslib1979/koosy/issues/new?title=새 세션&body=새로운 대화 세션을 시작합니다." target="_blank" class="kakao-new-chat" id="newChatLink">
+            <span>+ 새 세션 시작</span>
+          </a>
         </div>
       </div>
 
@@ -2604,6 +2639,137 @@ function showToast(msg = '복사되었습니다') {
 }
 
 // =====================
+// GitHub Chat Room
+// =====================
+const CHAT_GITHUB_OWNER = 'dtslib1979';
+const CHAT_GITHUB_REPO = 'koosy';
+let currentIssueNumber = null;
+
+async function loadChatRoom() {
+  const container = document.getElementById('kakaoMessages');
+  const titleEl = document.getElementById('chatRoomTitle');
+  const replyLink = document.getElementById('chatReplyLink');
+  const prLink = document.getElementById('chatPrLink');
+
+  if (!container) return;
+
+  container.innerHTML = '<div class="kakao-loading">대화 불러오는 중...</div>';
+
+  try {
+    // 가장 최근 Open Issue 가져오기
+    const issuesRes = await fetch(
+      `https://api.github.com/repos/${CHAT_GITHUB_OWNER}/${CHAT_GITHUB_REPO}/issues?state=open&per_page=1&sort=updated`
+    );
+
+    if (!issuesRes.ok) throw new Error('Failed to fetch issues');
+
+    const issues = await issuesRes.json();
+
+    if (issues.length === 0) {
+      container.innerHTML = `
+        <div class="kakao-empty">
+          <div class="kakao-empty-icon">💬</div>
+          <div class="kakao-empty-text">진행중인 대화가 없습니다<br>아래에서 새 대화를 시작하세요</div>
+        </div>
+      `;
+      titleEl.textContent = '새 대화를 시작하세요';
+      replyLink.href = '#';
+      prLink.style.display = 'none';
+      return;
+    }
+
+    const issue = issues[0];
+    currentIssueNumber = issue.number;
+
+    // 세션 넘버 표시 (#1, #2, ...)
+    titleEl.textContent = `세션 #${issue.number}`;
+
+    // 메시지 입력 = GitHub Issue 댓글 페이지로
+    replyLink.href = issue.html_url;
+
+    // PR 버튼 = Issue Close (세션 종료)
+    prLink.style.display = 'flex';
+    prLink.href = `${issue.html_url}`;
+    prLink.onclick = function(e) {
+      if (confirm('이 세션을 완료하고 아카이브로 보내시겠습니까?\\n(GitHub에서 Issue를 Close 해주세요)')) {
+        return true;
+      }
+      e.preventDefault();
+      return false;
+    };
+
+    // 해당 Issue의 Comments 가져오기
+    const commentsRes = await fetch(
+      `https://api.github.com/repos/${CHAT_GITHUB_OWNER}/${CHAT_GITHUB_REPO}/issues/${issue.number}/comments`
+    );
+
+    const comments = commentsRes.ok ? await commentsRes.json() : [];
+
+    // 메시지 렌더링 (Issue body + Comments)
+    let html = '';
+
+    // Issue 본문 = 첫 메시지
+    const issueDate = new Date(issue.created_at);
+    html += `<div class="chat-date-divider">${issueDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>`;
+    html += renderBubble(issue.user.login, issue.body || '(내용 없음)', issue.created_at);
+
+    // Comments = 이어지는 메시지
+    let lastDate = issueDate.toDateString();
+    comments.forEach(comment => {
+      const commentDate = new Date(comment.created_at);
+      if (commentDate.toDateString() !== lastDate) {
+        html += `<div class="chat-date-divider">${commentDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>`;
+        lastDate = commentDate.toDateString();
+      }
+      html += renderBubble(comment.user.login, comment.body, comment.created_at);
+    });
+
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
+
+  } catch (error) {
+    container.innerHTML = `
+      <div class="kakao-empty">
+        <div class="kakao-empty-icon">⚠️</div>
+        <div class="kakao-empty-text">불러오기 실패<br>새로고침 해주세요</div>
+      </div>
+    `;
+  }
+}
+
+function renderBubble(user, text, createdAt) {
+  const isHQ = user === CHAT_GITHUB_OWNER;
+  const time = new Date(createdAt).toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit' });
+  const sender = isHQ ? 'HQ' : 'Partner';
+  const side = isHQ ? 'hq' : 'partner';
+
+  // 간단한 마크다운 처리 (줄바꿈)
+  const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  if (isHQ) {
+    return `
+      <div class="kakao-bubble-wrap ${side}">
+        <div class="kakao-bubble">
+          <span class="kakao-sender">${sender}</span>
+          <span class="kakao-text">${safeText}</span>
+        </div>
+        <span class="kakao-time">${time}</span>
+      </div>
+    `;
+  } else {
+    return `
+      <div class="kakao-bubble-wrap ${side}">
+        <span class="kakao-time">${time}</span>
+        <div class="kakao-bubble">
+          <span class="kakao-sender">${sender}</span>
+          <span class="kakao-text">${safeText}</span>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// =====================
 // Repository Network
 // =====================
 const REPO_CONFIG_KEY = 'koosy_repo_config';
@@ -2614,6 +2780,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRepoGrid();
   renderStoreLinks();
   renderQuickLinks();
+  loadChatRoom(); // 채팅방 로드
 });
 
 function loadRepoConfig() {
