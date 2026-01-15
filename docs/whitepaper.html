@@ -5,661 +5,1371 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dtslib.com Mobile-first AI Builder</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        :root {
+            --dark-green: #0a1f1a;
+            --deep-green: #0d2b24;
+            --accent-green: #1a4d40;
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --gold-dark: #b8860b;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.7;
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: var(--dark-green);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Particle Background */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-100px) translateX(50px); opacity: 0.6; }
+            50% { transform: translateY(-200px) translateX(-30px); opacity: 0.3; }
+            75% { transform: translateY(-100px) translateX(-50px); opacity: 0.6; }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            z-index: 1000;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.3);
+        }
+
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(26, 77, 64, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(13, 43, 36, 0.8) 0%, var(--dark-green) 100%);
+            z-index: -1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--dark-green);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .typewriter {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--gold);
+            height: 2em;
+            overflow: hidden;
+        }
+
+        .typewriter-text {
+            border-right: 3px solid var(--gold);
+            padding-right: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: var(--gold); }
+            50% { border-color: transparent; }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--gold);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Sections */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
         }
 
-        h1 {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-bottom: 10px;
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
             text-align: center;
+            margin-bottom: 60px;
+            position: relative;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #a0a0a0;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+        .section-title span {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .branch-tag {
-            text-align: center;
-            color: #4ecdc4;
-            margin-bottom: 40px;
-            font-weight: bold;
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 20px auto 0;
         }
 
-        h2 {
+        /* Three Key Points */
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, var(--deep-green), var(--accent-green));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .key-point.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .key-point::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+        }
+
+        .key-point:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+        }
+
+        .key-point-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .key-point h3 {
             font-size: 1.5rem;
-            color: #4ecdc4;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4ecdc4;
+            color: var(--gold);
+            margin-bottom: 20px;
         }
 
-        h3 {
-            font-size: 1.2rem;
-            color: #ffd700;
-            margin: 25px 0 15px;
+        .key-point-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
         }
 
-        p {
-            margin-bottom: 15px;
+        .key-point-content code {
+            display: block;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.85rem;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            color: var(--gold-light);
         }
 
-        .summary-box {
-            background: rgba(78, 205, 196, 0.1);
-            border: 1px solid #4ecdc4;
+        /* Counter Animation */
+        .counter-section {
+            background: linear-gradient(135deg, var(--accent-green), var(--deep-green));
+            padding: 80px 20px;
+            margin: 60px 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .counters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .counter-item {
+            padding: 20px;
+        }
+
+        .counter-value {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+            line-height: 1;
+        }
+
+        .counter-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        /* Pipeline Visualization */
+        .pipeline {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .pipeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--deep-green);
             border-radius: 12px;
-            padding: 25px;
-            margin: 30px 0;
+            border-left: 4px solid var(--gold);
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 0.5s ease;
         }
 
-        .value-table {
+        .pipeline-step.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .pipeline-step-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .pipeline-step-content h4 {
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .pipeline-step-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pipeline-arrow {
+            text-align: center;
+            color: var(--gold);
+            font-size: 2rem;
+            animation: arrowPulse 1.5s infinite;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(5px); }
+        }
+
+        /* Comparison Table */
+        .comparison-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .value-table th,
-        .value-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #333;
-        }
-
-        .value-table th {
-            background: rgba(255, 215, 0, 0.1);
-            color: #ffd700;
-        }
-
-        .value-table tr:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .code-block {
-            background: #0d1117;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15px 0;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            white-space: pre;
-            color: #c9d1d9;
-        }
-
-        .highlight {
-            color: #ffd700;
-            font-weight: bold;
-        }
-
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .comparison-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .comparison-box.old {
-            border-left: 3px solid #ff6b6b;
-        }
-
-        .comparison-box.new {
-            border-left: 3px solid #4ecdc4;
-        }
-
-        .comparison-box h4 {
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        ul {
-            margin: 15px 0;
-            padding-left: 25px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        .roadmap-phase {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-
-        .roadmap-phase h4 {
-            color: #4ecdc4;
-            margin-bottom: 10px;
-        }
-
-        .roadmap-phase.current {
-            border: 1px solid #4ecdc4;
-        }
-
-        .check {
-            color: #4ecdc4;
-        }
-
-        .vision-box {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(78, 205, 196, 0.1));
+            margin: 40px 0;
+            background: var(--deep-green);
             border-radius: 12px;
-            padding: 30px;
-            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--dark-green);
+            padding: 20px;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .comparison-table .highlight {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .comparison-table .old {
+            color: #ff6b6b;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold), var(--gold-dark), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: var(--deep-green);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transform: translateX(30px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .timeline-item.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .timeline-item.completed::before {
+            background: #4ecdc4;
+            box-shadow: 0 0 20px #4ecdc4;
+        }
+
+        .timeline-item h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .timeline-item li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .timeline-item li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        .timeline-item.completed li::before {
+            content: '✓';
+            color: #4ecdc4;
+        }
+
+        /* CTA Section */
+        .cta-section {
             text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--deep-green), var(--accent-green));
+            position: relative;
+            overflow: hidden;
         }
 
-        .vision-box p {
-            font-size: 1.1rem;
-            margin: 10px 0;
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
         }
 
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 20px;
+        }
+
+        .cta-highlight {
+            display: block;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+        }
+
+        .cta-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Final Summary */
+        .final-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, var(--deep-green), var(--accent-green));
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+        }
+
+        .summary-card-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .summary-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .summary-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
         .footer {
             text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid #333;
-            color: #666;
+            padding: 60px 20px;
+            background: var(--dark-green);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 1.6rem; }
-            h2 { font-size: 1.3rem; }
-            .comparison-grid { grid-template-columns: 1fr; }
-            .container { padding: 20px 15px; }
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .footer-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                top: auto;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .key-points {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .timeline-item::before {
+                left: -23px;
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Glow effect for important text */
+        .glow {
+            text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold), 0 0 30px var(--gold);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>dtslib.com Mobile-first AI Builder</h1>
-        <p class="subtitle">스마트폰 하나로 1인 IT 기업을 구축하는 보일러플레이트 시스템</p>
-        <p class="branch-tag">첫 번째 구현: KOOSY (콘텐츠 비즈니스)</p>
+    <!-- Particle Background -->
+    <div id="particles-container"></div>
 
-        <div class="summary-box">
-            <h3>Executive Summary</h3>
-            <p><strong>dtslib.com Mobile-first AI Builder</strong>는 비개발자가 스마트폰만으로 완전한 IT 인프라를 구축할 수 있게 해주는 <strong>보일러플레이트 시스템</strong>입니다.</p>
-            <p>GitHub 6개 레포 네트워크 + Claude Code + Termux 조합으로, PC 없이도 풀스택 개발부터 앱 배포까지 가능합니다.</p>
-            <p><strong>KOOSY</strong>는 이 시스템의 첫 번째 브랜치 구현으로, 1인 콘텐츠 크리에이터를 위한 서버리스 인프라입니다.</p>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
 
-            <table class="value-table">
-                <tr>
-                    <th>레벨</th>
-                    <th>가치</th>
-                    <th>결과</th>
-                </tr>
-                <tr>
-                    <td><strong>인프라</strong></td>
-                    <td>서버 0원, 월 4,000원 운영</td>
-                    <td>비용 장벽 제거</td>
-                </tr>
-                <tr>
-                    <td><strong>속도</strong></td>
-                    <td>콘텐츠 생산 10배 빠름</td>
-                    <td>경쟁 우위</td>
-                </tr>
-                <tr>
-                    <td><strong>축적</strong></td>
-                    <td>모든 경험 → 구조화 데이터</td>
-                    <td>디지털 자아</td>
-                </tr>
-                <tr>
-                    <td><strong>확장</strong></td>
-                    <td>브랜치 복제 → 계열사</td>
-                    <td>홀딩 컴퍼니</td>
-                </tr>
-            </table>
+    <!-- Navigation Dots -->
+    <nav class="nav" id="navDots">
+        <div class="nav-dot active" data-section="hero" title="Home"></div>
+        <div class="nav-dot" data-section="key-points" title="핵심 차별점"></div>
+        <div class="nav-dot" data-section="speed" title="10배 속도"></div>
+        <div class="nav-dot" data-section="digital-self" title="디지털 자아"></div>
+        <div class="nav-dot" data-section="roadmap" title="로드맵"></div>
+        <div class="nav-dot" data-section="conclusion" title="결론"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-badge">FIRST IMPLEMENTATION: KOOSY</div>
+        <h1>dtslib.com</h1>
+        <p class="hero-subtitle">Mobile-first AI Builder</p>
+        <div class="typewriter">
+            <span class="typewriter-text" id="typewriter"></span>
         </div>
-
-        <h2>1. 제품 구조</h2>
-
-        <h3>1.1 보일러플레이트 시스템</h3>
-        <div class="code-block">dtslib.com Mobile-first AI Builder
-│
-├── 코어 인프라
-│   ├── 6개 레포 네트워크 템플릿
-│   ├── Staff Portal 프레임워크
-│   ├── PWA/APK 빌드 파이프라인
-│   └── 데이터 캡처 시스템
-│
-├── 브랜치 구현
-│   ├── KOOSY (콘텐츠 비즈니스) ← 첫 번째
-│   ├── [다음 브랜치] ← 복제 가능
-│   └── [계열사 N] ← 무한 확장
-│
-└── AI 레이어
-    ├── Claude Code 통합
-    ├── RAG 지식 검색
-    └── Fine-tuning 파이프라인</div>
-
-        <h3>1.2 왜 "보일러플레이트"인가?</h3>
-        <p><strong>복제 가능한 구조:</strong></p>
-        <ul>
-            <li><code>config.json</code> 수정만으로 새 브랜치 생성</li>
-            <li>6개 레포 Fork → 즉시 독립 운영</li>
-            <li>동일한 인프라, 다른 비즈니스</li>
-        </ul>
-
-        <table class="value-table">
-            <tr>
-                <th>브랜치</th>
-                <th>타겟</th>
-                <th>콘텐츠</th>
-            </tr>
-            <tr>
-                <td>KOOSY</td>
-                <td>중년층</td>
-                <td>경험 공유 유튜브</td>
-            </tr>
-            <tr>
-                <td>[미정]</td>
-                <td>MZ세대</td>
-                <td>취미 커뮤니티</td>
-            </tr>
-            <tr>
-                <td>[미정]</td>
-                <td>B2B</td>
-                <td>컨설팅 포털</td>
-            </tr>
-        </table>
-
-        <h2>2. 핵심 경쟁력: 생산 속도 10배</h2>
-
-        <h3>2.1 워크플로우 비교</h3>
-        <div class="comparison-grid">
-            <div class="comparison-box old">
-                <h4>기존 방식</h4>
-                <div class="code-block">경험 → 메모 정리 → PPT 제작 → 촬영 → 편집 → 업로드
-                    ↓
-              며칠 ~ 일주일</div>
-            </div>
-            <div class="comparison-box new">
-                <h4>dtslib Builder 방식</h4>
-                <div class="code-block">경험 → Parksy Capture → 웹페이지 자동 → 화면녹화 → 업로드
-                    ↓
-                수십 분</div>
-            </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
         </div>
+    </section>
 
-        <h3>2.2 단계별 속도 차이</h3>
-        <table class="value-table">
-            <tr>
-                <th>단계</th>
-                <th>기존</th>
-                <th>dtslib Builder</th>
-            </tr>
-            <tr>
-                <td>자료 정리</td>
-                <td>수동 메모</td>
-                <td>Parksy Capture 자동</td>
-            </tr>
-            <tr>
-                <td>시각 자료</td>
-                <td>PPT 수동 제작</td>
-                <td>웹페이지 자동 생성</td>
-            </tr>
-            <tr>
-                <td>촬영</td>
-                <td>카메라 세팅</td>
-                <td>화면녹화 바로 시작</td>
-            </tr>
-            <tr>
-                <td>편집</td>
-                <td><strong>수 시간</strong></td>
-                <td><strong class="highlight">없음</strong></td>
-            </tr>
-            <tr>
-                <td>다국어</td>
-                <td>자막 별도 제작</td>
-                <td>크롬 번역 자동</td>
-            </tr>
-            <tr>
-                <td>도구 필요</td>
-                <td>구매/학습</td>
-                <td>Claude로 즉시 개발</td>
-            </tr>
-        </table>
+    <!-- Key Points Section -->
+    <section id="key-points">
+        <div class="container">
+            <h2 class="section-title"><span>핵심 차별점 3가지</span></h2>
 
-        <h3>2.3 노편집 콘텐츠 파이프라인</h3>
-        <ul>
-            <li>태블릿 화면녹화 + 실시간 오버레이</li>
-            <li>와콤 스타일 판서 (손가락/펜 구분)</li>
-            <li>상황판 오버레이 (현재 위치/진행 상황)</li>
-            <li><strong>후보정 없이 바로 업로드</strong></li>
-        </ul>
-        <p><strong>결과:</strong> 남들이 1개 만들 때 10개 만들 수 있음</p>
+            <div class="key-points">
+                <div class="key-point">
+                    <div class="key-point-number">01</div>
+                    <h3>생산 속도 10배</h3>
+                    <div class="key-point-content">
+                        <code>기존: 경험 → 메모 → PPT → 촬영 → 편집 → 업로드
+시간: 며칠 ~ 일주일
 
-        <h2>3. 장기 게임: 디지털 자아 구축</h2>
+dtslib: 경험 → Parksy → 화면녹화 → 업로드
+시간: 수십 분
 
-        <h3>3.1 데이터 파이프라인</h3>
-        <div class="code-block">일상의 모든 경험/대화
+편집? 없음.
+남들이 1개 만들 때 우리는 10개.</code>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <div class="key-point-number">02</div>
+                    <h3>디지털 자아 파이프라인</h3>
+                    <div class="key-point-content">
+                        <code>Parksy Capture (일상 캡처)
         ↓
-  Parksy Capture (안드로이드 공유 기능)
+GitHub (마크다운 축적)
         ↓
-  GitHub 레포 (마크다운 자동 축적)
+   RAG + Fine-tuning
         ↓
-    ┌───┴───┐
-    ↓       ↓
-   RAG    Fine-tuning
-    ↓       ↓
-지식 검색   나만의 LLM
-    ↓       ↓
-    └───┬───┘
+    나만의 LLM
         ↓
-   "나" 복제 가능</div>
+   "나" 복제 가능</code>
+                    </div>
+                </div>
 
-        <h3>3.2 3단계 게임</h3>
-        <table class="value-table">
-            <tr>
-                <th>단계</th>
-                <th>목표</th>
-                <th>결과</th>
-            </tr>
-            <tr>
-                <td><strong>단기</strong></td>
-                <td>콘텐츠 빠르게 생산</td>
-                <td>YouTube 수익</td>
-            </tr>
-            <tr>
-                <td><strong>중기</strong></td>
-                <td>지식 베이스 축적</td>
-                <td>RAG 검색 가능</td>
-            </tr>
-            <tr>
-                <td><strong>장기</strong></td>
-                <td>Fine-tuning</td>
-                <td>나만의 LLM, 자아 복제</td>
-            </tr>
-        </table>
-
-        <h3>3.3 왜 이게 중요한가?</h3>
-        <ul>
-            <li><strong>휘발되지 않음:</strong> 모든 경험이 구조화된 데이터로 남음</li>
-            <li><strong>검색 가능:</strong> RAG로 과거의 나에게 질문 가능</li>
-            <li><strong>학습 가능:</strong> Fine-tuning으로 나처럼 생각하는 AI</li>
-            <li><strong>복제 가능:</strong> 멀티태스킹, 스케일 가능</li>
-            <li><strong>양도 가능:</strong> Exit 시 데이터와 모델 가져갈 수 있음</li>
-        </ul>
-
-        <h2>4. 시스템 아키텍처</h2>
-
-        <h3>4.1 6개 레포지토리 네트워크</h3>
-        <table class="value-table">
-            <tr>
-                <th>레포</th>
-                <th>용도</th>
-                <th>호스팅</th>
-            </tr>
-            <tr>
-                <td><strong>main-branch</strong></td>
-                <td>랜딩페이지 + Staff Portal</td>
-                <td>GitHub Pages</td>
-            </tr>
-            <tr>
-                <td><strong>posts</strong></td>
-                <td>HTML 블로그</td>
-                <td>GitHub Pages</td>
-            </tr>
-            <tr>
-                <td><strong>logs</strong></td>
-                <td>Parksy Capture 데이터</td>
-                <td>GitHub API</td>
-            </tr>
-            <tr>
-                <td><strong>media</strong></td>
-                <td>이미지/음원</td>
-                <td>jsDelivr CDN</td>
-            </tr>
-            <tr>
-                <td><strong>pwa</strong></td>
-                <td>프로그레시브 웹앱</td>
-                <td>Vercel</td>
-            </tr>
-            <tr>
-                <td><strong>apk-lab</strong></td>
-                <td>안드로이드 APK</td>
-                <td>GitHub Actions</td>
-            </tr>
-        </table>
-
-        <h3>4.2 서버리스 vs 기존</h3>
-        <div class="comparison-grid">
-            <div class="comparison-box old">
-                <h4>기존 방식</h4>
-                <p>사용자 → 서버 → DB → 응답</p>
-                <p>월 수만원 비용, 서버 관리 필요</p>
-            </div>
-            <div class="comparison-box new">
-                <h4>dtslib Builder</h4>
-                <p>사용자 → GitHub Pages → 즉시 응답</p>
-                <p>비용 0원, 관리 불필요</p>
+                <div class="key-point">
+                    <div class="key-point-number">03</div>
+                    <h3>월 5,000원 풀스택</h3>
+                    <div class="key-point-content">
+                        <p>서버 비용: <span class="old">30,000원+</span> → <strong style="color: var(--gold)">0원</strong></p>
+                        <p>DB 비용: <span class="old">20,000원+</span> → <strong style="color: var(--gold)">0원</strong></p>
+                        <p>CDN 비용: <span class="old">10,000원+</span> → <strong style="color: var(--gold)">0원</strong></p>
+                        <p style="margin-top: 15px; font-size: 1.2rem;">총: <span class="old">60,000원+</span> → <strong style="color: var(--gold); font-size: 1.5rem;">5,000원</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <h3>4.3 모바일 퍼스트 개발</h3>
-        <ul>
-            <li><strong>Termux + Claude Code</strong> = 스마트폰에서 풀스택 개발</li>
-            <li><strong>Parksy Capture</strong> = 어디서든 데이터 캡처</li>
-            <li><strong>화면녹화</strong> = 태블릿에서 바로 콘텐츠 제작</li>
-            <li><strong>PC 없이 모든 작업 가능</strong></li>
-        </ul>
-
-        <h2>5. 비용 구조</h2>
-
-        <h3>5.1 월간 운영 비용</h3>
-        <table class="value-table">
-            <tr>
-                <th>항목</th>
-                <th>비용</th>
-            </tr>
-            <tr>
-                <td>GitHub Pro (Private 레포)</td>
-                <td>4,000원</td>
-            </tr>
-            <tr>
-                <td>도메인 (연간/12)</td>
-                <td>~800원</td>
-            </tr>
-            <tr>
-                <td>서버</td>
-                <td>0원</td>
-            </tr>
-            <tr>
-                <td>CDN</td>
-                <td>0원 (jsDelivr)</td>
-            </tr>
-            <tr>
-                <td>CI/CD</td>
-                <td>0원 (GitHub Actions)</td>
-            </tr>
-            <tr>
-                <td><strong>총계</strong></td>
-                <td><strong class="highlight">~5,000원/월</strong></td>
-            </tr>
-        </table>
-
-        <h3>5.2 비용 비교</h3>
-        <table class="value-table">
-            <tr>
-                <th>항목</th>
-                <th>기존 스택</th>
-                <th>dtslib Builder</th>
-            </tr>
-            <tr>
-                <td>서버</td>
-                <td>30,000원+</td>
-                <td>0원</td>
-            </tr>
-            <tr>
-                <td>데이터베이스</td>
-                <td>20,000원+</td>
-                <td>0원</td>
-            </tr>
-            <tr>
-                <td>CDN</td>
-                <td>10,000원+</td>
-                <td>0원</td>
-            </tr>
-            <tr>
-                <td><strong>총 월 비용</strong></td>
-                <td>60,000원+</td>
-                <td><strong class="highlight">5,000원</strong></td>
-            </tr>
-        </table>
-        <p><strong>연간 절감액: 약 660,000원</strong></p>
-
-        <h2>6. 비즈니스 모델</h2>
-
-        <h3>6.1 Collaborator 모델</h3>
-        <div class="code-block">본사 (dtslib.com)
-│
-├── Collaborator로 멤버 등록
-├── 인프라 제공 (6개 레포 세팅)
-├── AI 개발 지원
-├── 데이터 파이프라인 구축
-│
-└── Exit 시: 누적 수익의 30%로 독립
-    - 모든 레포 Fork
-    - 축적된 데이터 가져감
-    - 독립 개발 가이드 제공</div>
-
-        <h3>6.2 왜 턴키가 아닌 Collaborator인가?</h3>
-        <p><strong>실제 테스트 결과:</strong></p>
-        <ul>
-            <li>비개발자에게 턴키로 전달 시도 → <strong>실패</strong></li>
-            <li>GitHub, Termux, Claude Code 체인 중 하나만 막혀도 끝</li>
-            <li>가르쳐서 혼자 하게 하는 건 <strong>불가능</strong></li>
-        </ul>
-        <p><strong>결론:</strong> Collaborator로 같이 키우고, Exit 시 30%로 독립</p>
-
-        <table class="value-table">
-            <tr>
-                <th>턴키 모델</th>
-                <th>Collaborator 모델</th>
-            </tr>
-            <tr>
-                <td>가르쳐서 혼자 하게 함</td>
-                <td>같이 키움</td>
-            </tr>
-            <tr>
-                <td>기술 허들 높음</td>
-                <td>기술 허들 없음</td>
-            </tr>
-            <tr>
-                <td>유지보수 본인 책임</td>
-                <td>본사가 관리</td>
-            </tr>
-            <tr>
-                <td>실패 확률 높음</td>
-                <td>성공 확률 높음</td>
-            </tr>
-        </table>
-
-        <h2>7. 확장 로드맵</h2>
-
-        <div class="roadmap-phase current">
-            <h4>Phase 1: 1인 인프라 (현재)</h4>
-            <ul>
-                <li><span class="check">✓</span> 6개 레포 네트워크</li>
-                <li><span class="check">✓</span> Staff Portal</li>
-                <li><span class="check">✓</span> PWA/APK 빌드 파이프라인</li>
-                <li><span class="check">✓</span> Parksy Capture 연동</li>
-                <li><span class="check">✓</span> KOOSY 브랜치 구현</li>
-            </ul>
-        </div>
-
-        <div class="roadmap-phase">
-            <h4>Phase 2: 계열사 복제</h4>
-            <ul>
-                <li>브랜치 템플릿 표준화</li>
-                <li>온보딩 자동화</li>
-                <li>수익 트래킹 대시보드</li>
-                <li>Exit 프로세스 자동화</li>
-            </ul>
-        </div>
-
-        <div class="roadmap-phase">
-            <h4>Phase 3: AI 고도화</h4>
-            <ul>
-                <li>RAG 검색 시스템</li>
-                <li>Fine-tuning 파이프라인</li>
-                <li>나만의 LLM 생성</li>
-            </ul>
-        </div>
-
-        <div class="roadmap-phase">
-            <h4>Phase 4: 홀딩 구조</h4>
-            <ul>
-                <li>서버 LLM 24/7 운영</li>
-                <li>온톨로지 기반 지식 그래프</li>
-                <li>확률적 데이터셋 구축</li>
-                <li>계열사 네트워크 통합 관리</li>
-            </ul>
-        </div>
-
-        <h2>8. 최종 비전</h2>
-
-        <h3>8.1 개인 IT 역량의 진화</h3>
-        <div class="code-block">취미 레벨 → dtslib Builder → 1인 IT 기업
-                ↓
-        브랜치 복제 → 계열사 네트워크
-                ↓
-        서버 LLM → 온톨로지 → 자아 복제</div>
-
-        <h3>8.2 AI 시대 패러다임</h3>
-        <div class="comparison-grid">
-            <div class="comparison-box old">
-                <h4>과거</h4>
-                <p>회사 = 정규직 팀 + 사무실 + 협업 도구 + 고정비</p>
+    <!-- Counter Section -->
+    <div class="counter-section">
+        <div class="container">
+            <div class="counters">
+                <div class="counter-item">
+                    <span class="counter-value" data-target="10">0</span>
+                    <div class="counter-label">배 빠른 생산 속도</div>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="6">0</span>
+                    <div class="counter-label">개 레포지토리 네트워크</div>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="5000">0</span>
+                    <div class="counter-label">원/월 운영비</div>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="0">0</span>
+                    <div class="counter-label">원 서버 비용</div>
+                </div>
             </div>
-            <div class="comparison-box new">
-                <h4>현재 (AI 시대)</h4>
-                <p>1인 + Claude = 풀스택 개발</p>
-                <p>필요시 용역 계약</p>
-                <p>고정비 최소화</p>
-                <p>데이터 축적 → 자기만의 AI</p>
-            </div>
-        </div>
-
-        <div class="vision-box">
-            <h3>dtslib.com의 위치</h3>
-            <p>dtslib.com은 단순한 도구가 아닙니다.</p>
-            <p><strong>취미 수준의 개인 IT 역량</strong>을</p>
-            <p><strong>완전한 1인 IT 기업 수준</strong>으로 끌어올리는</p>
-            <p><strong class="highlight">Mobile-first AI Builder</strong> 플랫폼입니다.</p>
-            <p style="margin-top: 20px; color: #4ecdc4;">KOOSY는 그 첫 번째 증명입니다.</p>
-        </div>
-
-        <div class="footer">
-            <p>문서 버전: 3.0</p>
-            <p>최종 업데이트: 2026-01-15</p>
-            <p>작성: dtslib.com</p>
         </div>
     </div>
+
+    <!-- Speed Section -->
+    <section id="speed">
+        <div class="container">
+            <h2 class="section-title"><span>왜 10배 빠른가?</span></h2>
+
+            <div class="pipeline">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--text-secondary);">기존 콘텐츠 제작 플로우</h3>
+                <div class="pipeline-steps">
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">1</div>
+                        <div class="pipeline-step-content">
+                            <h4>경험/아이디어 발생</h4>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">2</div>
+                        <div class="pipeline-step-content">
+                            <h4>메모장에 정리</h4>
+                            <p>30분 소요</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">3</div>
+                        <div class="pipeline-step-content">
+                            <h4>PPT/자료 제작</h4>
+                            <p>2-3시간 소요</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: #ff6b6b;">
+                        <div class="pipeline-step-icon" style="background: linear-gradient(135deg, #ff6b6b, #ee5a5a);">6</div>
+                        <div class="pipeline-step-content">
+                            <h4 style="color: #ff6b6b;">편집 (3-5시간)</h4>
+                            <p style="color: #ff6b6b;">← 여기서 죽음</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-icon">9</div>
+                        <div class="pipeline-step-content">
+                            <h4>업로드</h4>
+                            <p style="color: #ff6b6b; font-weight: bold;">총 소요: 1-3일</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pipeline" style="border: 2px solid var(--gold);">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--gold);">dtslib Builder 플로우</h3>
+                <div class="pipeline-steps">
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">1</div>
+                        <div class="pipeline-step-content">
+                            <h4>경험/아이디어 발생</h4>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">2</div>
+                        <div class="pipeline-step-content">
+                            <h4>Parksy Capture</h4>
+                            <p>실시간 캡처</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">3</div>
+                        <div class="pipeline-step-content">
+                            <h4>웹페이지 자동 생성</h4>
+                            <p>즉시</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: #4ecdc4;">
+                        <div class="pipeline-step-icon" style="background: linear-gradient(135deg, #4ecdc4, #3dbdb5);">4</div>
+                        <div class="pipeline-step-content">
+                            <h4 style="color: #4ecdc4;">화면녹화 + 오버레이</h4>
+                            <p style="color: #4ecdc4;">편집? 없음!</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">5</div>
+                        <div class="pipeline-step-content">
+                            <h4>바로 업로드</h4>
+                            <p style="color: var(--gold); font-weight: bold;">총 소요: 1-2시간</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fade-in" style="margin-top: 60px;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>병목</th>
+                            <th>기존 해결법</th>
+                            <th>dtslib 해결법</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PPT 제작</td>
+                            <td>수동 작업</td>
+                            <td class="highlight">웹페이지 자동 생성</td>
+                        </tr>
+                        <tr>
+                            <td>편집</td>
+                            <td class="old">프리미어/다빈치</td>
+                            <td class="highlight">편집 안 함 (화면녹화)</td>
+                        </tr>
+                        <tr>
+                            <td>자막</td>
+                            <td>수동/AI 자막</td>
+                            <td class="highlight">크롬 번역 자동</td>
+                        </tr>
+                        <tr>
+                            <td>새 도구 필요</td>
+                            <td class="old">구매/학습</td>
+                            <td class="highlight">Claude로 즉시 개발</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Digital Self Section -->
+    <section id="digital-self">
+        <div class="container">
+            <h2 class="section-title"><span>디지털 자아 = 장기 게임</span></h2>
+
+            <div class="pipeline" style="border: 2px solid var(--gold);">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--gold);">데이터 파이프라인</h3>
+                <div class="pipeline-steps">
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">📱</div>
+                        <div class="pipeline-step-content">
+                            <h4>일상의 모든 경험/대화</h4>
+                            <p>스마트폰으로 캡처</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">📸</div>
+                        <div class="pipeline-step-content">
+                            <h4>Parksy Capture</h4>
+                            <p>안드로이드 공유 기능으로 즉시 캡처</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">📁</div>
+                        <div class="pipeline-step-content">
+                            <h4>GitHub 레포</h4>
+                            <p>마크다운으로 자동 축적</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: #4ecdc4;">
+                        <div class="pipeline-step-icon" style="background: linear-gradient(135deg, #4ecdc4, #3dbdb5);">🔍</div>
+                        <div class="pipeline-step-content">
+                            <h4 style="color: #4ecdc4;">RAG 시스템</h4>
+                            <p>"내가 예전에 뭐라고 했지?" → 검색 가능</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold);">
+                        <div class="pipeline-step-icon">🧠</div>
+                        <div class="pipeline-step-content">
+                            <h4>Fine-tuning</h4>
+                            <p>나만의 LLM 생성</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow">↓</div>
+                    <div class="pipeline-step" style="border-left-color: var(--gold); border-width: 4px;">
+                        <div class="pipeline-step-icon" style="font-size: 2rem;">👤</div>
+                        <div class="pipeline-step-content">
+                            <h4 style="font-size: 1.3rem;">"나" 복제 가능</h4>
+                            <p>디지털 자아 완성</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points" style="margin-top: 60px;">
+                <div class="key-point fade-in">
+                    <h3>단기 (지금)</h3>
+                    <div class="key-point-content">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 10px 0;">→ 콘텐츠 빠르게 찍어냄</li>
+                            <li style="padding: 10px 0;">→ YouTube 수익화</li>
+                            <li style="padding: 10px 0;">→ 포기하지 않고 버틸 수 있는 구조</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point fade-in">
+                    <h3>중기 (1-2년)</h3>
+                    <div class="key-point-content">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 10px 0;">→ Parksy로 쌓인 마크다운 데이터</li>
+                            <li style="padding: 10px 0;">→ RAG 시스템 구축</li>
+                            <li style="padding: 10px 0;">→ 과거의 나에게 질문 가능</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="key-point fade-in">
+                    <h3>장기 (3년+)</h3>
+                    <div class="key-point-content">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 10px 0;">→ 축적된 데이터로 Fine-tuning</li>
+                            <li style="padding: 10px 0;">→ 나만의 LLM 생성</li>
+                            <li style="padding: 10px 0;">→ <strong style="color: var(--gold);">디지털 자아 복제</strong></li>
+                            <li style="padding: 10px 0;">→ 멀티 에이전트로 분신술</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fade-in" style="background: rgba(0,0,0,0.3); padding: 40px; border-radius: 16px; margin-top: 60px;">
+                <h3 style="color: var(--gold); margin-bottom: 20px; text-align: center;">왜 이게 중요한가?</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div style="padding: 20px; background: rgba(255,107,107,0.1); border-radius: 12px; border-left: 4px solid #ff6b6b;">
+                        <h4 style="color: #ff6b6b; margin-bottom: 10px;">일반 유튜버</h4>
+                        <p style="color: var(--text-secondary);">영상만 남음<br>지식은 휘발</p>
+                    </div>
+                    <div style="padding: 20px; background: rgba(212,175,55,0.1); border-radius: 12px; border-left: 4px solid var(--gold);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">dtslib 유저</h4>
+                        <p style="color: var(--text-secondary);">
+                            모든 경험이 구조화된 데이터로 영구 축적<br>
+                            → 검색 가능<br>
+                            → 학습 가능<br>
+                            → 복제 가능<br>
+                            → <strong style="color: var(--gold);">양도 가능 (Exit 시 가져감)</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap">
+        <div class="container">
+            <h2 class="section-title"><span>확장 로드맵</span></h2>
+
+            <div class="timeline">
+                <div class="timeline-item completed">
+                    <h4>Phase 1: 1인 인프라 ✅ (현재)</h4>
+                    <ul>
+                        <li>6개 레포 네트워크</li>
+                        <li>Staff Portal</li>
+                        <li>PWA/APK 빌드 파이프라인</li>
+                        <li>Parksy Capture 연동</li>
+                        <li>KOOSY 브랜치 구현</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 2: 계열사 복제</h4>
+                    <ul>
+                        <li>브랜치 템플릿 표준화</li>
+                        <li>온보딩 자동화</li>
+                        <li>수익 트래킹 대시보드</li>
+                        <li>Exit 프로세스 자동화</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 3: AI 고도화</h4>
+                    <ul>
+                        <li>RAG 검색 시스템</li>
+                        <li>Fine-tuning 파이프라인</li>
+                        <li>나만의 LLM 생성</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 4: 홀딩 구조</h4>
+                    <ul>
+                        <li>서버 LLM 24/7 운영</li>
+                        <li>온톨로지 기반 지식 그래프</li>
+                        <li>확률적 데이터셋 구축</li>
+                        <li>계열사 네트워크 통합 관리</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section id="conclusion" class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">dtslib.com Mobile-first AI Builder는</h2>
+            <span class="cta-highlight">3가지를 제공합니다</span>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="final-summary">
+                <div class="summary-card">
+                    <div class="summary-card-number">01</div>
+                    <h3>속도 10배</h3>
+                    <p>남들이 1개 만들 때<br><strong style="color: var(--gold);">우리는 10개</strong></p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-number">02</div>
+                    <h3>디지털 자아</h3>
+                    <p>모든 경험 → RAG → Fine-tuning<br><strong style="color: var(--gold);">→ 나 복제</strong></p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-number">03</div>
+                    <h3>월 5,000원</h3>
+                    <p>서버 없이<br><strong style="color: var(--gold);">풀스택 인프라</strong></p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 80px 0;">
+                <p style="font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 20px;">단순한 도구가 아닙니다.</p>
+                <p style="font-size: 2rem; font-weight: 900; color: var(--gold); margin-bottom: 40px;">디지털 자아를 구축하는 시스템입니다.</p>
+                <p style="font-size: 1.2rem; color: var(--text-muted);">KOOSY는 그 첫 번째 증명입니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">dtslib.com</div>
+        <div class="footer-info">
+            <p>문서 버전: 3.0</p>
+            <p>최종 업데이트: 2026-01-15</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle System
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Progress Bar
+        function updateProgressBar() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Typewriter Effect
+        const typewriterTexts = [
+            '스마트폰 하나로 1인 IT 기업을 구축하세요',
+            '생산 속도 10배, 편집은 없음',
+            '모든 경험이 디지털 자아로 축적됩니다',
+            '월 5,000원으로 풀스택 인프라',
+            'KOOSY는 첫 번째 증명입니다'
+        ];
+
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriterEl = document.getElementById('typewriter');
+
+        function typeWriter() {
+            const currentText = typewriterTexts[textIndex];
+
+            if (isDeleting) {
+                typewriterEl.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterEl.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let delay = isDeleting ? 30 : 80;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                delay = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % typewriterTexts.length;
+                delay = 500;
+            }
+
+            setTimeout(typeWriter, delay);
+        }
+        typeWriter();
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter-value');
+            const speed = 200;
+
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(() => animateCounters(), 1);
+                } else {
+                    counter.innerText = target.toLocaleString();
+                }
+            });
+        }
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Start counter animation when counter section is visible
+                    if (entry.target.closest('.counter-section')) {
+                        animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animatable elements
+        document.querySelectorAll('.key-point, .pipeline-step, .timeline-item, .fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Also observe counter section
+        const counterSection = document.querySelector('.counter-section');
+        if (counterSection) {
+            observer.observe(counterSection);
+        }
+
+        // Navigation Dots
+        const navDots = document.querySelectorAll('.nav-dot');
+        const sections = ['hero', 'key-points', 'speed', 'digital-self', 'roadmap', 'conclusion'];
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const sectionId = dot.getAttribute('data-section');
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update active nav dot on scroll
+        function updateActiveNavDot() {
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+            sections.forEach((sectionId, index) => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[index].classList.add('active');
+                    }
+                }
+            });
+        }
+        window.addEventListener('scroll', updateActiveNavDot);
+
+        // Smooth reveal for pipeline steps with delay
+        const pipelineSteps = document.querySelectorAll('.pipeline-step');
+        const pipelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        pipelineSteps.forEach(step => pipelineObserver.observe(step));
+
+        // Timeline items with staggered animation
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        timelineItems.forEach(item => timelineObserver.observe(item));
+
+        // Key points staggered animation
+        const keyPoints = document.querySelectorAll('.key-point');
+        const keyPointObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        keyPoints.forEach(point => keyPointObserver.observe(point));
+
+        // Parallax effect for hero background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroBg = document.querySelector('.hero-bg');
+            if (heroBg && scrolled < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add hover glow effect to summary cards
+        document.querySelectorAll('.summary-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 0 60px rgba(212, 175, 55, 0.4), inset 0 0 30px rgba(212, 175, 55, 0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '';
+            });
+        });
+    </script>
 </body>
 </html>
