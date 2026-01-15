@@ -386,6 +386,21 @@
       font-weight: 600;
     }
 
+    .exit-guide-section {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .exit-guide-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
     .section-title { font-size: 18px; font-weight: 700; }
 
     /* APK List */
@@ -1351,272 +1366,6 @@
       </div>
     </div>
 
-    <!-- Step 1: 홈페이지 구성하기 -->
-    <div class="accordion" id="accordion1">
-      <button class="accordion-header" onclick="toggleAccordion('accordion1')">
-        <span class="accordion-step">1</span>
-        <div class="accordion-info">
-          <div class="accordion-title">홈페이지 구성하기</div>
-          <div class="accordion-desc">브랜드 기초 세팅 6단계</div>
-        </div>
-        <span class="accordion-toggle">▼</span>
-      </button>
-      <div class="accordion-content">
-        <div class="step-list">
-          <a href="https://www.canva.com/create/logos/" target="_blank" class="step-item">
-            <span class="step-number">1</span>
-            <div class="step-content">
-              <p class="step-name">로고 만들기</p>
-              <p class="step-desc">Canva에서 브랜드 로고 제작</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://workspace.google.com/" target="_blank" class="step-item">
-            <span class="step-number">2</span>
-            <div class="step-content">
-              <p class="step-name">회사 이메일 만들기</p>
-              <p class="step-desc">Google Workspace</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://github.com/signup" target="_blank" class="step-item">
-            <span class="step-number">3</span>
-            <div class="step-content">
-              <p class="step-name">GitHub 계정 만들기</p>
-              <p class="step-desc">코드 저장소 & 웹호스팅</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://www.youtube.com/create_channel" target="_blank" class="step-item">
-            <span class="step-number">4</span>
-            <div class="step-content">
-              <p class="step-name">YouTube 채널 만들기</p>
-              <p class="step-desc">영상 콘텐츠 채널</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://www.tistory.com/" target="_blank" class="step-item">
-            <span class="step-number">5</span>
-            <div class="step-content">
-              <p class="step-name">티스토리 가입</p>
-              <p class="step-desc">카카오 계정으로 로그인</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://www.tistory.com/manage/newpost/" target="_blank" class="step-item">
-            <span class="step-number">6</span>
-            <div class="step-content">
-              <p class="step-name">티스토리 글쓰기</p>
-              <p class="step-desc">HTML 모드 에디터</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 2: 레포지토리 만들기 -->
-    <div class="accordion" id="accordion2">
-      <button class="accordion-header" onclick="toggleAccordion('accordion2')">
-        <span class="accordion-step">2</span>
-        <div class="accordion-info">
-          <div class="accordion-title">레포지토리 만들기</div>
-          <div class="accordion-desc">프로젝트별 저장소 구축</div>
-        </div>
-        <span class="accordion-toggle">▼</span>
-      </button>
-      <div class="accordion-content">
-        <div class="step-list">
-          <a href="https://github.com/new" target="_blank" class="step-item">
-            <span class="step-number">1</span>
-            <div class="step-content">
-              <p class="step-name">메인 레포 만들기</p>
-              <p class="step-desc">username.github.io/project-name</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://github.com/new/import" target="_blank" class="step-item">
-            <span class="step-number">2</span>
-            <div class="step-content">
-              <p class="step-name">이 템플릿 Import</p>
-              <p class="step-desc">GitHub Import로 복제</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://docs.github.com/en/pages" target="_blank" class="step-item">
-            <span class="step-number">3</span>
-            <div class="step-content">
-              <p class="step-name">GitHub Pages 활성화</p>
-              <p class="step-desc">Settings → Pages → Deploy</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://github.com/settings/tokens" target="_blank" class="step-item">
-            <span class="step-number">4</span>
-            <div class="step-content">
-              <p class="step-name">Personal Access Token</p>
-              <p class="step-desc">API 연동용 토큰 생성</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-          <a href="https://vercel.com/new" target="_blank" class="step-item">
-            <span class="step-number">5</span>
-            <div class="step-content">
-              <p class="step-name">Vercel 연결 (선택)</p>
-              <p class="step-desc">고급 배포 & 대시보드</p>
-            </div>
-            <span class="step-arrow">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 3: Claude Code 인스트럭션 -->
-    <div class="accordion" id="accordion3">
-      <button class="accordion-header" onclick="toggleAccordion('accordion3')">
-        <span class="accordion-step">3</span>
-        <div class="accordion-info">
-          <div class="accordion-title">Claude Code 인스트럭션</div>
-          <div class="accordion-desc">6개 레포 자동 구축 프롬프트</div>
-        </div>
-        <span class="accordion-toggle">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p class="network-desc">레포 선택 후 인스트럭션을 복사해서 Termux의 Claude Code에 붙여넣으면 자동 구축됩니다.</p>
-
-        <!-- 레포 선택 탭 -->
-        <div class="instruction-tabs" id="instructionTabs">
-          <button class="inst-tab active" onclick="showInstruction('main')">🌐 메인</button>
-          <button class="inst-tab" onclick="showInstruction('blog')">📝 블로그</button>
-          <button class="inst-tab" onclick="showInstruction('logs')">📋 로그</button>
-          <button class="inst-tab" onclick="showInstruction('pwa')">⚡ PWA</button>
-          <button class="inst-tab" onclick="showInstruction('apk')">📱 APK</button>
-          <button class="inst-tab" onclick="showInstruction('media')">🖼️ 미디어</button>
-        </div>
-
-        <div class="prompt-box">
-          <div class="prompt-label" id="promptLabel">📋 메인 레포 구축 인스트럭션</div>
-          <button class="prompt-copy-btn" onclick="copyCurrentInstruction()">복사</button>
-          <div class="prompt-content" id="promptContent">## 메인 레포지토리 (branch) 구축
-
-GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해주세요.
-
-### 구조
-```
-{username}-branch/
-├── index.html          # 랜딩페이지
-├── config.json         # 사이트 설정
-├── sw.js               # Service Worker (PWA)
-├── robots.txt          # SEO
-├── sitemap.xml         # 사이트맵
-├── .nojekyll           # Jekyll 비활성화
-├── CLAUDE.md           # Claude Code 가이드
-├── assets/
-│   ├── manifest.json   # PWA 매니페스트
-│   └── icons/
-│       └── logo.png    # 앱 아이콘
-├── staff/
-│   └── index.html      # Staff Portal (비밀번호: 1126)
-└── tools/
-    ├── html-poster.html    # HTML 포스팅 도구
-    └── webpage-prompt.html # 웹페이지 프롬프트 생성기
-```
-
-### 디자인 시스템
-- 다크 테마: 배경 #0a0f0c, 골드 #f0c850
-- 모바일 퍼스트 (max-width: 500px)
-- PWA 지원 (오프라인 캐싱)
-
-### 필수 기능
-1. 랜딩페이지: 명함 카드, GitHub Pages 패널, 링크트리
-2. Staff Portal: 비밀번호 게이트, 레포 네트워크 대시보드
-3. HTML 포스터: GitHub API로 블로그 레포에 HTML 배포
-
-### GitHub Pages 설정
-- Settings → Pages → Deploy from main branch
-- .nojekyll 파일로 Jekyll 비활성화
-
-이 구조로 레포지토리를 생성하고 커밋해주세요.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 4: 레포지토리 네트워크 -->
-    <div class="accordion" id="accordion4">
-      <button class="accordion-header" onclick="toggleAccordion('accordion4')">
-        <span class="accordion-step">4</span>
-        <div class="accordion-info">
-          <div class="accordion-title">레포지토리 네트워크</div>
-          <div class="accordion-desc">6개 레포 설정 및 연동 확인</div>
-        </div>
-        <span class="accordion-toggle">▼</span>
-      </button>
-      <div class="accordion-content">
-        <!-- Repo Setup Form -->
-        <div class="repo-input-group">
-          <div class="repo-input-row">
-            <span class="repo-input-label">GitHub</span>
-            <input type="text" class="repo-input" id="inputGithubId" placeholder="username" />
-            <span class="repo-input-status" id="statusGithub">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">메인</span>
-            <input type="text" class="repo-input" id="inputMainRepo" placeholder="my-branch" />
-            <span class="repo-input-status" id="statusMain">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">블로그</span>
-            <input type="text" class="repo-input" id="inputBlogRepo" placeholder="my-posts" />
-            <span class="repo-input-status" id="statusBlog">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">로그</span>
-            <input type="text" class="repo-input" id="inputLogsRepo" placeholder="my-logs" />
-            <span class="repo-input-status" id="statusLogs">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">PWA</span>
-            <input type="text" class="repo-input" id="inputPwaRepo" placeholder="my-pwa" />
-            <span class="repo-input-status" id="statusPwa">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">APK</span>
-            <input type="text" class="repo-input" id="inputApkRepo" placeholder="my-apk-lab" />
-            <span class="repo-input-status" id="statusApk">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">미디어</span>
-            <input type="text" class="repo-input" id="inputMediaRepo" placeholder="my-media" />
-            <span class="repo-input-status" id="statusMedia">🔒</span>
-          </div>
-          <div class="repo-input-row">
-            <span class="repo-input-label">PAT</span>
-            <input type="password" class="repo-input" id="inputPat" placeholder="ghp_xxxx" />
-            <span class="repo-input-status" id="statusPat">🔒</span>
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:14px;">
-          <button class="repo-save-btn" onclick="saveRepoConfig()" style="flex:1;">💾 저장</button>
-          <button class="repo-save-btn" onclick="checkRepoConnections()" style="flex:1;background:var(--info);">🔍 체크</button>
-        </div>
-
-        <!-- Dynamic Repo Grid -->
-        <div class="repo-grid" id="repoGrid"></div>
-
-        <!-- Connection Map -->
-        <div class="connection-map">
-          <div class="connection-title">데이터 흐름</div>
-          <div class="connection-flow" id="connectionFlow">
-            <span class="connection-node">✍️ 포스터</span>
-            <span class="connection-arrow">→</span>
-            <span class="connection-node" id="flowBlog">📝 블로그</span>
-            <span class="connection-arrow">→</span>
-            <span class="connection-node">⚡ Pages</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- 생산성 도구 APK (고정) -->
     <section class="section">
       <div class="section-header">
@@ -1876,7 +1625,7 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
           <div class="exit-content">
             <p>이 공간은 당신을 붙잡기 위해 존재하지 않습니다.</p>
 
-            <p>KOOSY는<br>
+            <p>이 시스템은<br>
             당신을 <span class="highlight">'묶는'</span> 구조가 아니라<br>
             당신이 떠나도 무너지지 않는 구조입니다.</p>
 
@@ -1885,12 +1634,283 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
             <span class="highlight">'구매'</span>하여 독립할 수 있습니다.</p>
 
             <p>그 비용은,<br>
-            KOOSY가 만들어 준 파이프라인의<br>
+            <span class="highlight">dtslib.com</span>이 만들어 준 파이프라인의<br>
             <span class="highlight">누적 수익 기준 30%</span>입니다.</p>
 
             <p>그 순간부터,<br>
             이 시스템은 당신의 것이 됩니다.<br>
             그리고 나는, 다음 버전을 만듭니다.</p>
+          </div>
+
+          <!-- 독립 세팅 가이드 -->
+          <div class="exit-guide-section">
+            <p class="exit-guide-label">독립 세팅 가이드</p>
+
+            <!-- Step 1: 홈페이지 구성하기 -->
+            <div class="accordion" id="accordion1">
+              <button class="accordion-header" onclick="toggleAccordion('accordion1')">
+                <span class="accordion-step">1</span>
+                <div class="accordion-info">
+                  <div class="accordion-title">홈페이지 구성하기</div>
+                  <div class="accordion-desc">브랜드 기초 세팅 6단계</div>
+                </div>
+                <span class="accordion-toggle">▼</span>
+              </button>
+              <div class="accordion-content">
+                <div class="step-list">
+                  <a href="https://www.canva.com/create/logos/" target="_blank" class="step-item">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                      <p class="step-name">로고 만들기</p>
+                      <p class="step-desc">Canva에서 브랜드 로고 제작</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://workspace.google.com/" target="_blank" class="step-item">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                      <p class="step-name">회사 이메일 만들기</p>
+                      <p class="step-desc">Google Workspace</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://github.com/signup" target="_blank" class="step-item">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                      <p class="step-name">GitHub 계정 만들기</p>
+                      <p class="step-desc">코드 저장소 & 웹호스팅</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://www.youtube.com/create_channel" target="_blank" class="step-item">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                      <p class="step-name">YouTube 채널 만들기</p>
+                      <p class="step-desc">영상 콘텐츠 채널</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://www.tistory.com/" target="_blank" class="step-item">
+                    <span class="step-number">5</span>
+                    <div class="step-content">
+                      <p class="step-name">티스토리 가입</p>
+                      <p class="step-desc">카카오 계정으로 로그인</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://www.tistory.com/manage/newpost/" target="_blank" class="step-item">
+                    <span class="step-number">6</span>
+                    <div class="step-content">
+                      <p class="step-name">티스토리 글쓰기</p>
+                      <p class="step-desc">HTML 모드 에디터</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: 레포지토리 만들기 -->
+            <div class="accordion" id="accordion2">
+              <button class="accordion-header" onclick="toggleAccordion('accordion2')">
+                <span class="accordion-step">2</span>
+                <div class="accordion-info">
+                  <div class="accordion-title">레포지토리 만들기</div>
+                  <div class="accordion-desc">프로젝트별 저장소 구축</div>
+                </div>
+                <span class="accordion-toggle">▼</span>
+              </button>
+              <div class="accordion-content">
+                <div class="step-list">
+                  <a href="https://github.com/new" target="_blank" class="step-item">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                      <p class="step-name">메인 레포 만들기</p>
+                      <p class="step-desc">username.github.io/project-name</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://github.com/new/import" target="_blank" class="step-item">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                      <p class="step-name">이 템플릿 Import</p>
+                      <p class="step-desc">GitHub Import로 복제</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://docs.github.com/en/pages" target="_blank" class="step-item">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                      <p class="step-name">GitHub Pages 활성화</p>
+                      <p class="step-desc">Settings → Pages → Deploy</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://github.com/settings/tokens" target="_blank" class="step-item">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                      <p class="step-name">Personal Access Token</p>
+                      <p class="step-desc">API 연동용 토큰 생성</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                  <a href="https://vercel.com/new" target="_blank" class="step-item">
+                    <span class="step-number">5</span>
+                    <div class="step-content">
+                      <p class="step-name">Vercel 연결 (선택)</p>
+                      <p class="step-desc">고급 배포 & 대시보드</p>
+                    </div>
+                    <span class="step-arrow">→</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Claude Code 인스트럭션 -->
+            <div class="accordion" id="accordion3">
+              <button class="accordion-header" onclick="toggleAccordion('accordion3')">
+                <span class="accordion-step">3</span>
+                <div class="accordion-info">
+                  <div class="accordion-title">Claude Code 인스트럭션</div>
+                  <div class="accordion-desc">6개 레포 자동 구축 프롬프트</div>
+                </div>
+                <span class="accordion-toggle">▼</span>
+              </button>
+              <div class="accordion-content">
+                <p class="network-desc">레포 선택 후 인스트럭션을 복사해서 Termux의 Claude Code에 붙여넣으면 자동 구축됩니다.</p>
+
+                <!-- 레포 선택 탭 -->
+                <div class="instruction-tabs" id="instructionTabs">
+                  <button class="inst-tab active" onclick="showInstruction('main')">🌐 메인</button>
+                  <button class="inst-tab" onclick="showInstruction('blog')">📝 블로그</button>
+                  <button class="inst-tab" onclick="showInstruction('logs')">📋 로그</button>
+                  <button class="inst-tab" onclick="showInstruction('pwa')">⚡ PWA</button>
+                  <button class="inst-tab" onclick="showInstruction('apk')">📱 APK</button>
+                  <button class="inst-tab" onclick="showInstruction('media')">🖼️ 미디어</button>
+                </div>
+
+                <div class="prompt-box">
+                  <div class="prompt-label" id="promptLabel">📋 메인 레포 구축 인스트럭션</div>
+                  <button class="prompt-copy-btn" onclick="copyCurrentInstruction()">복사</button>
+                  <div class="prompt-content" id="promptContent">## 메인 레포지토리 (branch) 구축
+
+GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해주세요.
+
+### 구조
+```
+{username}-branch/
+├── index.html          # 랜딩페이지
+├── config.json         # 사이트 설정
+├── sw.js               # Service Worker (PWA)
+├── robots.txt          # SEO
+├── sitemap.xml         # 사이트맵
+├── .nojekyll           # Jekyll 비활성화
+├── CLAUDE.md           # Claude Code 가이드
+├── assets/
+│   ├── manifest.json   # PWA 매니페스트
+│   └── icons/
+│       └── logo.png    # 앱 아이콘
+├── staff/
+│   └── index.html      # Staff Portal (비밀번호: 1126)
+└── tools/
+    ├── html-poster.html    # HTML 포스팅 도구
+    └── webpage-prompt.html # 웹페이지 프롬프트 생성기
+```
+
+### 디자인 시스템
+- 다크 테마: 배경 #0a0f0c, 골드 #f0c850
+- 모바일 퍼스트 (max-width: 500px)
+- PWA 지원 (오프라인 캐싱)
+
+### 필수 기능
+1. 랜딩페이지: 명함 카드, GitHub Pages 패널, 링크트리
+2. Staff Portal: 비밀번호 게이트, 레포 네트워크 대시보드
+3. HTML 포스터: GitHub API로 블로그 레포에 HTML 배포
+
+### GitHub Pages 설정
+- Settings → Pages → Deploy from main branch
+- .nojekyll 파일로 Jekyll 비활성화
+
+이 구조로 레포지토리를 생성하고 커밋해주세요.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: 레포지토리 네트워크 -->
+            <div class="accordion" id="accordion4">
+              <button class="accordion-header" onclick="toggleAccordion('accordion4')">
+                <span class="accordion-step">4</span>
+                <div class="accordion-info">
+                  <div class="accordion-title">레포지토리 네트워크</div>
+                  <div class="accordion-desc">6개 레포 설정 및 연동 확인</div>
+                </div>
+                <span class="accordion-toggle">▼</span>
+              </button>
+              <div class="accordion-content">
+                <!-- Repo Setup Form -->
+                <div class="repo-input-group">
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">GitHub</span>
+                    <input type="text" class="repo-input" id="inputGithubId" placeholder="username" />
+                    <span class="repo-input-status" id="statusGithub">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">메인</span>
+                    <input type="text" class="repo-input" id="inputMainRepo" placeholder="my-branch" />
+                    <span class="repo-input-status" id="statusMain">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">블로그</span>
+                    <input type="text" class="repo-input" id="inputBlogRepo" placeholder="my-posts" />
+                    <span class="repo-input-status" id="statusBlog">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">로그</span>
+                    <input type="text" class="repo-input" id="inputLogsRepo" placeholder="my-logs" />
+                    <span class="repo-input-status" id="statusLogs">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">PWA</span>
+                    <input type="text" class="repo-input" id="inputPwaRepo" placeholder="my-pwa" />
+                    <span class="repo-input-status" id="statusPwa">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">APK</span>
+                    <input type="text" class="repo-input" id="inputApkRepo" placeholder="my-apk-lab" />
+                    <span class="repo-input-status" id="statusApk">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">미디어</span>
+                    <input type="text" class="repo-input" id="inputMediaRepo" placeholder="my-media" />
+                    <span class="repo-input-status" id="statusMedia">🔒</span>
+                  </div>
+                  <div class="repo-input-row">
+                    <span class="repo-input-label">PAT</span>
+                    <input type="password" class="repo-input" id="inputPat" placeholder="ghp_xxxx" />
+                    <span class="repo-input-status" id="statusPat">🔒</span>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-bottom:14px;">
+                  <button class="repo-save-btn" onclick="saveRepoConfig()" style="flex:1;">💾 저장</button>
+                  <button class="repo-save-btn" onclick="checkRepoConnections()" style="flex:1;background:var(--info);">🔍 체크</button>
+                </div>
+
+                <!-- Dynamic Repo Grid -->
+                <div class="repo-grid" id="repoGrid"></div>
+
+                <!-- Connection Map -->
+                <div class="connection-map">
+                  <div class="connection-title">데이터 흐름</div>
+                  <div class="connection-flow" id="connectionFlow">
+                    <span class="connection-node">✍️ 포스터</span>
+                    <span class="connection-arrow">→</span>
+                    <span class="connection-node" id="flowBlog">📝 블로그</span>
+                    <span class="connection-arrow">→</span>
+                    <span class="connection-node">⚡ Pages</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
