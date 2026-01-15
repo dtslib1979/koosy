@@ -587,6 +587,88 @@
       color: #2c4a5e;
     }
 
+    .kakao-header-btns {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .kakao-key-btn {
+      background: none;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0.7;
+      transition: all 0.2s;
+    }
+
+    .kakao-key-btn:hover {
+      opacity: 1;
+    }
+
+    .kakao-key-btn.active {
+      opacity: 1;
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+
+    .kakao-key-btn.connected {
+      opacity: 1;
+    }
+
+    .kakao-pat-panel {
+      background: #7a9caf;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .kakao-pat-inner {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .kakao-pat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2c4a5e;
+      white-space: nowrap;
+    }
+
+    .kakao-pat-input {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .kakao-pat-input:focus {
+      outline: 2px solid #F9E000;
+    }
+
+    .kakao-pat-save {
+      padding: 8px 14px;
+      background: #F9E000;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .kakao-pat-save:hover {
+      background: #e6cf00;
+    }
+
+    .kakao-pat-hint {
+      margin-top: 8px;
+      font-size: 10px;
+      color: #4a6a7a;
+    }
+
     .kakao-chat-messages {
       padding: 16px;
       min-height: 200px;
@@ -682,6 +764,45 @@
       white-space: nowrap;
     }
 
+    .kakao-see-more {
+      display: block;
+      margin-top: 6px;
+      background: none;
+      border: none;
+      color: #3a6a8a;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .kakao-see-more:hover {
+      text-decoration: underline;
+    }
+
+    .kakao-bubble-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      align-items: center;
+    }
+
+    .kakao-download-btn,
+    .kakao-copy-btn {
+      background: rgba(0,0,0,0.05);
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .kakao-download-btn:hover,
+    .kakao-copy-btn:hover {
+      background: rgba(0,0,0,0.1);
+    }
+
     .kakao-input-area {
       background: #eff2f5;
       padding: 10px;
@@ -724,14 +845,15 @@
       width: 40px;
       height: 40px;
       background: #F9E000;
+      border: none;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
       font-size: 11px;
       font-weight: 700;
       color: #1a1a1a;
+      cursor: pointer;
       transition: all 0.2s;
     }
 
@@ -2169,7 +2291,20 @@
             <!-- 채팅방 헤더 -->
             <div class="kakao-chat-header">
               <span class="kakao-room-title" id="chatRoomTitle">HQ 작업실</span>
-              <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+              <div class="kakao-header-btns">
+                <button class="kakao-key-btn" onclick="togglePatPanel()" id="patKeyBtn" title="인증 설정">🔑</button>
+                <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+              </div>
+            </div>
+
+            <!-- PAT 설정 패널 -->
+            <div class="kakao-pat-panel" id="patPanel" style="display:none;">
+              <div class="kakao-pat-inner">
+                <span class="kakao-pat-label">GitHub PAT</span>
+                <input type="password" id="patInput" class="kakao-pat-input" placeholder="ghp_xxxx...">
+                <button onclick="savePat()" class="kakao-pat-save">저장</button>
+              </div>
+              <div class="kakao-pat-hint">GitHub → Settings → Developer settings → Personal access tokens</div>
             </div>
 
             <!-- 메시지 영역 (GitHub Issues에서 로드) -->
@@ -2181,9 +2316,7 @@
             <div class="kakao-input-area">
               <input type="text" id="chatInput" class="kakao-input" placeholder="메시지를 입력하세요..." onkeypress="if(event.key==='Enter')sendMessage()">
               <button onclick="sendMessage()" class="kakao-send-btn">전송</button>
-              <a href="https://github.com/dtslib1979/koosy/issues" id="chatPrLink" target="_blank" class="kakao-pr-btn" title="PR 발행">
-                <span>PR</span>
-              </a>
+              <button onclick="closeChat()" id="chatPrBtn" class="kakao-pr-btn" title="PR 발행 (대화 완료)">PR</button>
             </div>
           </div>
         </div>
@@ -2642,12 +2775,72 @@ function showToast(msg = '복사되었습니다') {
 // =====================
 const CHAT_GITHUB_OWNER = 'dtslib1979';
 const CHAT_GITHUB_REPO = 'koosy';
+const CHAT_PAT_KEY = 'koosy_chat_pat';
 let currentIssueNumber = null;
+
+// PAT 패널 토글
+function togglePatPanel() {
+  const panel = document.getElementById('patPanel');
+  const btn = document.getElementById('patKeyBtn');
+  const input = document.getElementById('patInput');
+
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    btn.classList.add('active');
+    // 기존 PAT 있으면 마스킹해서 보여주기
+    const saved = localStorage.getItem(CHAT_PAT_KEY);
+    if (saved) {
+      input.value = saved;
+    }
+    input.focus();
+  } else {
+    panel.style.display = 'none';
+    btn.classList.remove('active');
+  }
+}
+
+// PAT 저장
+function savePat() {
+  const input = document.getElementById('patInput');
+  const pat = input.value.trim();
+
+  if (!pat) {
+    localStorage.removeItem(CHAT_PAT_KEY);
+    showToast('PAT가 삭제되었습니다');
+  } else {
+    localStorage.setItem(CHAT_PAT_KEY, pat);
+    showToast('PAT가 저장되었습니다');
+  }
+
+  updatePatStatus();
+  togglePatPanel();
+}
+
+// PAT 상태 업데이트 (키 아이콘)
+function updatePatStatus() {
+  const btn = document.getElementById('patKeyBtn');
+  const pat = localStorage.getItem(CHAT_PAT_KEY);
+
+  if (pat) {
+    btn.textContent = '🔓';
+    btn.classList.add('connected');
+    btn.title = '인증됨 (클릭하여 변경)';
+  } else {
+    btn.textContent = '🔑';
+    btn.classList.remove('connected');
+    btn.title = '인증 설정';
+  }
+}
+
+// PAT 가져오기 (채팅용)
+function getChatPat() {
+  return localStorage.getItem(CHAT_PAT_KEY);
+}
 
 async function loadChatRoom() {
   const container = document.getElementById('kakaoMessages');
   const titleEl = document.getElementById('chatRoomTitle');
-  const prLink = document.getElementById('chatPrLink');
+  const prBtn = document.getElementById('chatPrBtn');
 
   if (!container) return;
 
@@ -2673,7 +2866,7 @@ async function loadChatRoom() {
         </div>
       `;
       titleEl.textContent = 'HQ 작업실';
-      prLink.style.display = 'none';
+      prBtn.style.display = 'none';
       return;
     }
 
@@ -2683,9 +2876,8 @@ async function loadChatRoom() {
     // 헤더: HQ 작업실 #번호
     titleEl.textContent = `HQ 작업실 #${issue.number}`;
 
-    // PR 버튼 = Issue 페이지로 (Close 하러)
-    prLink.style.display = 'flex';
-    prLink.href = issue.html_url;
+    // PR 버튼 표시
+    prBtn.style.display = 'flex';
 
     // 해당 Issue의 Comments 가져오기
     const commentsRes = await fetch(
@@ -2726,21 +2918,54 @@ async function loadChatRoom() {
   }
 }
 
+const BUBBLE_MAX_LENGTH = 300; // 더보기 기준 글자수
+let bubbleIdCounter = 0;
+const bubbleDataStore = {}; // 원본 텍스트 저장
+
 function renderBubble(user, text, createdAt) {
   const isHQ = user === CHAT_GITHUB_OWNER;
-  const time = new Date(createdAt).toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit' });
+  const dateObj = new Date(createdAt);
+  const time = dateObj.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit' });
   const sender = isHQ ? 'HQ' : 'Partner';
   const side = isHQ ? 'hq' : 'partner';
 
   // 간단한 마크다운 처리 (줄바꿈)
   const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const isLong = safeText.length > BUBBLE_MAX_LENGTH;
+  const bubbleId = `bubble-${bubbleIdCounter++}`;
+
+  // 원본 저장 (다운로드용)
+  bubbleDataStore[bubbleId] = {
+    text: text,
+    sender: sender,
+    user: user,
+    date: dateObj.toISOString()
+  };
+
+  let textHtml;
+  if (isLong) {
+    const truncated = safeText.substring(0, BUBBLE_MAX_LENGTH) + '...';
+    textHtml = `
+      <span class="kakao-text">
+        <span id="${bubbleId}-short">${truncated}</span>
+        <span id="${bubbleId}-full" style="display:none;">${safeText}</span>
+        <div class="kakao-bubble-actions">
+          <button class="kakao-see-more" onclick="toggleBubble('${bubbleId}')" id="${bubbleId}-btn">더보기</button>
+          <button class="kakao-download-btn" onclick="downloadBubble('${bubbleId}')" title="마크다운 저장">⬇</button>
+          <button class="kakao-copy-btn" onclick="copyBubble('${bubbleId}')" title="복사">📋</button>
+        </div>
+      </span>
+    `;
+  } else {
+    textHtml = `<span class="kakao-text">${safeText}</span>`;
+  }
 
   if (isHQ) {
     return `
       <div class="kakao-bubble-wrap ${side}">
         <div class="kakao-bubble">
           <span class="kakao-sender">${sender}</span>
-          <span class="kakao-text">${safeText}</span>
+          ${textHtml}
         </div>
         <span class="kakao-time">${time}</span>
       </div>
@@ -2751,15 +2976,89 @@ function renderBubble(user, text, createdAt) {
         <span class="kakao-time">${time}</span>
         <div class="kakao-bubble">
           <span class="kakao-sender">${sender}</span>
-          <span class="kakao-text">${safeText}</span>
+          ${textHtml}
         </div>
       </div>
     `;
   }
 }
 
-// 메시지 전송 (카톡처럼)
-function sendMessage() {
+function toggleBubble(id) {
+  const short = document.getElementById(`${id}-short`);
+  const full = document.getElementById(`${id}-full`);
+  const btn = document.getElementById(`${id}-btn`);
+
+  if (full.style.display === 'none') {
+    short.style.display = 'none';
+    full.style.display = 'inline';
+    btn.textContent = '접기';
+  } else {
+    short.style.display = 'inline';
+    full.style.display = 'none';
+    btn.textContent = '더보기';
+  }
+}
+
+// 마크다운으로 다운로드
+function downloadBubble(id) {
+  const data = bubbleDataStore[id];
+  if (!data) return;
+
+  const date = new Date(data.date);
+  const dateStr = date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '-').replace('.', '');
+  const timeStr = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }).replace(':', '');
+
+  // 마크다운 형식
+  const markdown = `# HQ 작업실 메시지
+
+**보낸 사람:** ${data.sender} (${data.user})
+**날짜:** ${date.toLocaleString('ko-KR')}
+
+---
+
+${data.text}
+
+---
+*Exported from KOOSY Staff Portal*
+`;
+
+  // 다운로드
+  const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `message-${dateStr}-${timeStr}.md`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('마크다운 저장됨');
+}
+
+// 클립보드 복사
+function copyBubble(id) {
+  const data = bubbleDataStore[id];
+  if (!data) return;
+
+  navigator.clipboard.writeText(data.text).then(() => {
+    showToast('복사됨');
+  }).catch(() => {
+    // 폴백
+    const textarea = document.createElement('textarea');
+    textarea.value = data.text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('복사됨');
+  });
+}
+
+// 메시지 전송 (카톡처럼 - 백그라운드 API)
+async function sendMessage() {
   const input = document.getElementById('chatInput');
   const message = input.value.trim();
 
@@ -2767,29 +3066,125 @@ function sendMessage() {
     return;
   }
 
+  // PAT 가져오기
+  const pat = getChatPat();
+
+  if (!pat) {
+    showToast('🔑 버튼을 눌러 PAT를 설정해주세요');
+    togglePatPanel();
+    return;
+  }
+
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
 
-  if (currentIssueNumber) {
-    // 기존 이슈에 댓글 추가
-    const url = `https://github.com/${owner}/${repo}/issues/${currentIssueNumber}#issuecomment-new`;
-    // GitHub 이슈 페이지로 이동 (메시지 복사 안내)
-    navigator.clipboard.writeText(message).then(() => {
-      showToast('메시지가 복사되었습니다. GitHub에서 붙여넣기 하세요.');
-      window.open(url, '_blank');
-      input.value = '';
-    }).catch(() => {
-      // 클립보드 실패 시 직접 이동
-      window.open(url, '_blank');
-      input.value = '';
-    });
-  } else {
-    // 새 이슈 생성
-    const title = encodeURIComponent(`[작업실] ${message.substring(0, 50)}`);
-    const body = encodeURIComponent(message);
-    const url = `https://github.com/${owner}/${repo}/issues/new?title=${title}&body=${body}`;
-    window.open(url, '_blank');
+  // 전송 중 표시
+  input.disabled = true;
+  const sendBtn = document.querySelector('.kakao-send-btn');
+  sendBtn.textContent = '...';
+
+  try {
+    if (currentIssueNumber) {
+      // 기존 이슈에 댓글 추가
+      const res = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}/comments`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${pat}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ body: message })
+        }
+      );
+
+      if (!res.ok) throw new Error('댓글 전송 실패');
+
+    } else {
+      // 새 이슈 생성
+      const res = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${pat}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: `[작업실] ${message.substring(0, 50)}`,
+            body: message
+          })
+        }
+      );
+
+      if (!res.ok) throw new Error('이슈 생성 실패');
+    }
+
+    // 성공 - 입력창 비우고 채팅 새로고침
     input.value = '';
+    await loadChatRoom();
+
+  } catch (error) {
+    showToast('전송 실패: ' + error.message);
+  } finally {
+    input.disabled = false;
+    sendBtn.textContent = '전송';
+  }
+}
+
+// PR 발행 (Issue Close) - 대화 완료 후 새 대화 시작
+async function closeChat() {
+  if (!currentIssueNumber) {
+    showToast('닫을 대화가 없습니다');
+    return;
+  }
+
+  // PAT 가져오기
+  const pat = getChatPat();
+
+  if (!pat) {
+    showToast('🔑 버튼을 눌러 PAT를 설정해주세요');
+    togglePatPanel();
+    return;
+  }
+
+  const owner = CHAT_GITHUB_OWNER;
+  const repo = CHAT_GITHUB_REPO;
+
+  // 확인
+  if (!confirm('이 대화를 완료하고 아카이브로 보내시겠습니까?')) {
+    return;
+  }
+
+  const prBtn = document.getElementById('chatPrBtn');
+  prBtn.textContent = '...';
+  prBtn.disabled = true;
+
+  try {
+    // Issue Close
+    const res = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `token ${pat}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ state: 'closed' })
+      }
+    );
+
+    if (!res.ok) throw new Error('PR 발행 실패');
+
+    showToast('PR 완료! 새 대화를 시작하세요');
+    currentIssueNumber = null;
+    await loadChatRoom();
+
+  } catch (error) {
+    showToast('PR 실패: ' + error.message);
+  } finally {
+    prBtn.textContent = 'PR';
+    prBtn.disabled = false;
   }
 }
 
@@ -2804,6 +3199,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRepoGrid();
   renderStoreLinks();
   renderQuickLinks();
+  updatePatStatus(); // PAT 상태 체크
   loadChatRoom(); // 채팅방 로드
 });
 
