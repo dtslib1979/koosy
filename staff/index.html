@@ -590,8 +590,94 @@
     .kakao-chat-messages {
       padding: 16px;
       min-height: 200px;
-      max-height: 350px;
+      max-height: 450px;
       overflow-y: auto;
+    }
+
+    /* 전체화면 오버레이 */
+    .kakao-fullscreen-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    .kakao-fullscreen-overlay.active {
+      display: flex;
+    }
+
+    .kakao-fullscreen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: #8aacbf;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .kakao-fullscreen-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2c4a5e;
+    }
+
+    .kakao-fullscreen-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #2c4a5e;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .kakao-fullscreen-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #9bbbd4;
+    }
+
+    .kakao-fullscreen-input {
+      display: flex;
+      gap: 10px;
+      padding: 16px 20px;
+      background: #eff2f5;
+    }
+
+    .kakao-fullscreen-input input {
+      flex: 1;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 24px;
+      font-size: 15px;
+    }
+
+    .kakao-fullscreen-input button {
+      padding: 14px 24px;
+      background: #F9E000;
+      border: none;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .kakao-expand-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #4a6a7a;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .kakao-expand-btn:hover {
+      color: #2c4a5e;
     }
 
     .kakao-loading {
@@ -2209,7 +2295,10 @@
             <!-- 채팅방 헤더 -->
             <div class="kakao-chat-header">
               <span class="kakao-room-title" id="chatRoomTitle">HQ 작업실</span>
-              <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+              <div style="display:flex;gap:4px;">
+                <button class="kakao-expand-btn" onclick="openFullscreen()" title="전체화면">⛶</button>
+                <button class="kakao-refresh-btn" onclick="loadChatRoom()">↻</button>
+              </div>
             </div>
 
             <!-- 메시지 영역 (GitHub Issues에서 로드) -->
@@ -2900,6 +2989,75 @@ function copyBubble(id) {
     document.body.removeChild(textarea);
     showToast('복사됨');
   });
+}
+
+// 전체화면 열기
+function openFullscreen() {
+  const overlay = document.getElementById('chatFullscreen');
+  const messages = document.getElementById('kakaoMessages');
+  const fullscreenMessages = document.getElementById('fullscreenMessages');
+  const title = document.getElementById('chatRoomTitle').textContent;
+
+  // 제목 복사
+  document.getElementById('fullscreenTitle').textContent = title;
+
+  // 메시지 복사
+  fullscreenMessages.innerHTML = messages.innerHTML;
+
+  // 오버레이 표시
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // 스크롤 맨 아래로
+  fullscreenMessages.scrollTop = fullscreenMessages.scrollHeight;
+}
+
+// 전체화면 닫기
+function closeFullscreen() {
+  const overlay = document.getElementById('chatFullscreen');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+
+  // 메인 채팅 새로고침
+  loadChatRoom();
+}
+
+// 전체화면에서 메시지 전송
+function sendMessageFullscreen() {
+  const input = document.getElementById('fullscreenInput');
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  const owner = CHAT_GITHUB_OWNER;
+  const repo = CHAT_GITHUB_REPO;
+
+  navigator.clipboard.writeText(message).catch(() => {});
+
+  if (currentIssueNumber) {
+    window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
+    showToast('GitHub에서 댓글을 붙여넣기 하세요');
+  } else {
+    const title = encodeURIComponent(`[작업실] ${message.substring(0, 50)}`);
+    const body = encodeURIComponent(message);
+    window.open(`https://github.com/${owner}/${repo}/issues/new?title=${title}&body=${body}`, '_blank');
+  }
+
+  input.value = '';
+}
+
+// 전체화면에서 PR (채팅 종료)
+function closeChatFullscreen() {
+  if (!currentIssueNumber) {
+    showToast('닫을 대화가 없습니다');
+    return;
+  }
+
+  const owner = CHAT_GITHUB_OWNER;
+  const repo = CHAT_GITHUB_REPO;
+
+  window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
+  showToast('GitHub에서 Close Issue를 눌러 PR 완료');
 }
 
 // 메시지 전송 - GitHub으로 이동
@@ -3607,6 +3765,22 @@ document.getElementById('htmlPostModal')?.addEventListener('click', (e) => {
   }
 })();
 </script>
+
+<!-- 전체화면 채팅 오버레이 -->
+<div class="kakao-fullscreen-overlay" id="chatFullscreen">
+  <div class="kakao-fullscreen-header">
+    <span class="kakao-fullscreen-title" id="fullscreenTitle">HQ 작업실</span>
+    <button class="kakao-fullscreen-close" onclick="closeFullscreen()">✕</button>
+  </div>
+  <div class="kakao-fullscreen-messages" id="fullscreenMessages">
+    <!-- 메시지가 여기에 복사됨 -->
+  </div>
+  <div class="kakao-fullscreen-input">
+    <input type="text" id="fullscreenInput" placeholder="메시지를 입력하세요..." onkeypress="if(event.key==='Enter')sendMessageFullscreen()">
+    <button onclick="sendMessageFullscreen()">전송</button>
+    <button onclick="closeChatFullscreen()" style="background:#ff6b6b;">PR</button>
+  </div>
+</div>
 
 </body>
 </html>
