@@ -1,21 +1,27 @@
 {
   "name": "KOOSY",
   "short_name": "KOOSY",
-  "description": "Bluffing based editing broadcasting CELEB story - EST. 2024.04.24",
+  "description": "dtslib.com Mobile-first AI Builder - EST. 2026.01.13",
   "start_url": "/koosy/",
   "display": "standalone",
-  "background_color": "#000000",
+  "background_color": "#0a1f1a",
   "theme_color": "#D4AF37",
   "icons": [
     {
-      "src": "icons/logo.jpg",
+      "src": "1.jpg",
       "sizes": "192x192",
       "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/logo.jpg",
+      "src": "1.jpg",
       "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "1.jpg",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
       "purpose": "any maskable"
     }
