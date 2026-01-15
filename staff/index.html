@@ -403,6 +403,222 @@
 
     .section-title { font-size: 18px; font-weight: 700; }
 
+    /* HOTLINE HQ Styles */
+    .section-hotline {
+      background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, transparent 50%);
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      margin-top: 20px;
+    }
+
+    .badge-hotline {
+      background: linear-gradient(135deg, #D4AF37 0%, #F0C850 100%);
+      color: var(--bg);
+      font-weight: 800;
+    }
+
+    .hq-with {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin: 0 4px;
+    }
+
+    .hotline-tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+
+    .hq-link {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .hq-link:hover {
+      text-decoration: underline;
+    }
+
+    .hotline-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .hotline-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .hotline-card-icon {
+      font-size: 20px;
+    }
+
+    .hotline-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hotline-card-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .briefing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .briefing-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .briefing-item:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .briefing-icon {
+      font-size: 24px;
+    }
+
+    .briefing-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .briefing-item:hover .briefing-label {
+      color: var(--gold);
+    }
+
+    /* 카톡 스타일 채팅 */
+    .chat-preview {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .chat-bubble {
+      max-width: 75%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .chat-bubble.hq {
+      background: #F9E076;
+      color: #1a1a1a;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-bubble.partner {
+      background: var(--bg-elevated);
+      color: var(--text);
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-sender {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      opacity: 0.7;
+    }
+
+    .chat-text {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .hotline-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-md);
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .hotline-btn:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .hotline-btn-arrow {
+      font-size: 16px;
+    }
+
+    .hotline-card-action {
+      border-color: var(--gold);
+      border-width: 2px;
+    }
+
+    .hotline-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .hotline-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .hotline-action-btn:hover {
+      border-color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .action-icon {
+      font-size: 22px;
+    }
+
+    .action-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .hotline-action-btn:hover .action-label {
+      color: var(--gold);
+    }
+
     /* APK List */
     .apk-list { display: flex; flex-direction: column; gap: 10px; }
 
@@ -1698,48 +1914,80 @@
       </div>
     </div>
 
-    <!-- KOOSY 프로젝트 안내 -->
-    <section class="section">
+    <!-- HOTLINE HQ -->
+    <section class="section section-hotline">
       <div class="section-header">
-        <span class="section-badge">About</span>
-        <h2 class="section-title">KOOSY 프로젝트</h2>
+        <span class="section-badge badge-hotline">HOTLINE</span>
+        <h2 class="section-title">KOOSY <span class="hq-with">with</span> HQ</h2>
+      </div>
+      <p class="hotline-tagline">본사 직통 기록 채널 · <a href="https://dtslib.com" target="_blank" class="hq-link">dtslib.com</a></p>
+
+      <!-- HQ 브리핑 -->
+      <div class="hotline-card">
+        <div class="hotline-card-header">
+          <span class="hotline-card-icon">📺</span>
+          <div class="hotline-card-title">HQ 브리핑</div>
+        </div>
+        <p class="hotline-card-desc">본사가 직접 전달하는 운영 지침과 전략 브리핑</p>
+        <div class="briefing-grid">
+          <a href="https://youtube.com/shorts/ex50PdCReRc" target="_blank" class="briefing-item">
+            <span class="briefing-icon">🔐</span>
+            <span class="briefing-label">시작 브리핑</span>
+          </a>
+          <a href="https://youtube.com/@dtslib" target="_blank" class="briefing-item">
+            <span class="briefing-icon">📚</span>
+            <span class="briefing-label">전체 아카이브</span>
+          </a>
+        </div>
       </div>
 
-      <!-- YouTube 튜토리얼 캐러셀 -->
-      <div class="tutorial-carousel">
-        <div class="carousel-header">
-          <span class="carousel-label">튜토리얼 영상</span>
+      <!-- HQ 작업실 (카톡 스타일 미리보기) -->
+      <div class="hotline-card">
+        <div class="hotline-card-header">
+          <span class="hotline-card-icon">💬</span>
+          <div class="hotline-card-title">HQ 작업실</div>
         </div>
-        <div class="carousel-scroll" id="tutorialCarousel">
-          <a href="https://youtube.com/shorts/ex50PdCReRc" target="_blank" class="tutorial-card">
-            <span class="tutorial-icon">▶️</span>
-            <span class="tutorial-title">시작하기</span>
-          </a>
-          <a href="https://youtube.com/@dtslib" target="_blank" class="tutorial-card">
-            <span class="tutorial-icon">📺</span>
-            <span class="tutorial-title">전체 영상</span>
-          </a>
+        <p class="hotline-card-desc">요청 · 회의 · 제안이 기록되는 공간 (카톡 대신 여기)</p>
+
+        <!-- 카톡 스타일 미리보기 -->
+        <div class="chat-preview">
+          <div class="chat-bubble hq">
+            <span class="chat-sender">HQ</span>
+            <span class="chat-text">로고 작업 요청드립니다</span>
+          </div>
+          <div class="chat-bubble partner">
+            <span class="chat-sender">Partner</span>
+            <span class="chat-text">확인했습니다. 내일까지요</span>
+          </div>
         </div>
+
+        <a href="https://github.com/dtslib1979/koosy/issues" target="_blank" class="hotline-btn">
+          <span>작업실 열기</span>
+          <span class="hotline-btn-arrow">→</span>
+        </a>
       </div>
 
-      <!-- 문서 링크 -->
-      <div class="doc-links">
-        <a href="../docs/manual.html" class="doc-item">
-          <span class="doc-icon">📖</span>
-          <div class="doc-content">
-            <p class="doc-name">사용 설명서</p>
-            <p class="doc-desc">단계별 가이드 문서</p>
-          </div>
-          <span class="doc-arrow">→</span>
-        </a>
-        <a href="mailto:dimas@dtslib.com" class="doc-item">
-          <span class="doc-icon">✉️</span>
-          <div class="doc-content">
-            <p class="doc-name">문의하기</p>
-            <p class="doc-desc">dimas@dtslib.com</p>
-          </div>
-          <span class="doc-arrow">→</span>
-        </a>
+      <!-- 핫라인 보내기 -->
+      <div class="hotline-card hotline-card-action">
+        <div class="hotline-card-header">
+          <span class="hotline-card-icon">📡</span>
+          <div class="hotline-card-title">핫라인 보내기</div>
+        </div>
+        <p class="hotline-card-desc">본사와 직접 연결 · 요청 · 질문 · 제안</p>
+        <div class="hotline-actions">
+          <a href="https://github.com/dtslib1979/koosy/issues/new?template=request.md" target="_blank" class="hotline-action-btn">
+            <span class="action-icon">📋</span>
+            <span class="action-label">요청</span>
+          </a>
+          <a href="https://github.com/dtslib1979/koosy/issues/new?template=meeting.md" target="_blank" class="hotline-action-btn">
+            <span class="action-icon">🤝</span>
+            <span class="action-label">회의</span>
+          </a>
+          <a href="https://github.com/dtslib1979/koosy/issues/new?template=proposal.md" target="_blank" class="hotline-action-btn">
+            <span class="action-icon">💡</span>
+            <span class="action-label">제안</span>
+          </a>
+        </div>
       </div>
     </section>
 
