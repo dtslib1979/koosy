@@ -361,6 +361,18 @@
       color: var(--text-muted);
     }
 
+    .badge-admin {
+      background: rgba(255,100,100,.2);
+      color: #ff6b6b;
+    }
+
+    .section-admin {
+      border: 1px dashed rgba(255,100,100,.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
     .accordion-exit .accordion-header {
       opacity: 0.6;
       transition: opacity 0.2s;
@@ -2318,50 +2330,27 @@
 
     </section>
 
-    <!-- SYSTEM: 독립과 양도 -->
-    <section class="section section-exit">
+    <!-- ADMIN: Setup (관리자 전용, 기본 숨김) -->
+    <section class="section section-admin admin-only" id="sectionAdmin" style="display:none;">
       <div class="section-header">
-        <span class="section-badge badge-system">SYSTEM</span>
-        <h2 class="section-title">Exit & Transfer</h2>
+        <span class="section-badge badge-admin">ADMIN</span>
+        <h2 class="section-title">Setup Tools</h2>
       </div>
 
-      <div class="accordion accordion-exit" id="accordionExit">
-        <button class="accordion-header" onclick="toggleAccordion('accordionExit')">
-          <span class="accordion-step">🚪</span>
+      <div class="accordion" id="accordionAdmin">
+        <button class="accordion-header" onclick="toggleAccordion('accordionAdmin')">
+          <span class="accordion-step">🔧</span>
           <div class="accordion-info">
-            <div class="accordion-title">독립과 양도</div>
-            <div class="accordion-desc">이 시스템에서 나가고 싶을 때, 당신의 과거를 가져갈 수 있는 선택지입니다.</div>
+            <div class="accordion-title">온보딩 도구</div>
+            <div class="accordion-desc">새 멤버 세팅용 관리자 도구</div>
           </div>
           <span class="accordion-toggle">▼</span>
         </button>
         <div class="accordion-content">
-          <div class="exit-content">
-            <p>이 공간은 당신을 붙잡기 위해 존재하지 않습니다.</p>
 
-            <p>이 시스템은<br>
-            당신을 <span class="highlight">'묶는'</span> 구조가 아니라<br>
-            당신이 떠나도 무너지지 않는 구조입니다.</p>
-
-            <p>언젠가 혼자 가고 싶어질 때,<br>
-            당신은 지금까지의 모든 기록과 시스템을<br>
-            <span class="highlight">'구매'</span>하여 독립할 수 있습니다.</p>
-
-            <p>그 비용은,<br>
-            <span class="highlight">dtslib.com</span>이 만들어 준 파이프라인의<br>
-            <span class="highlight">누적 수익 기준 30%</span>입니다.</p>
-
-            <p>그 순간부터,<br>
-            이 시스템은 당신의 것이 됩니다.<br>
-            그리고 나는, 다음 버전을 만듭니다.</p>
-          </div>
-
-          <!-- 독립 세팅 가이드 -->
-          <div class="exit-guide-section">
-            <p class="exit-guide-label">독립 세팅 가이드</p>
-
-            <!-- Step 1: 홈페이지 구성하기 -->
-            <div class="accordion" id="accordion1">
-              <button class="accordion-header" onclick="toggleAccordion('accordion1')">
+          <!-- Step 1: 홈페이지 구성하기 -->
+          <div class="accordion" id="adminAccordion1">
+              <button class="accordion-header" onclick="toggleAccordion('adminAccordion1')">
                 <span class="accordion-step">1</span>
                 <div class="accordion-info">
                   <div class="accordion-title">홈페이지 구성하기</div>
@@ -2423,9 +2412,9 @@
               </div>
             </div>
 
-            <!-- Step 2: 레포지토리 만들기 -->
-            <div class="accordion" id="accordion2">
-              <button class="accordion-header" onclick="toggleAccordion('accordion2')">
+          <!-- Step 2: 레포지토리 만들기 -->
+          <div class="accordion" id="adminAccordion2">
+            <button class="accordion-header" onclick="toggleAccordion('adminAccordion2')">
                 <span class="accordion-step">2</span>
                 <div class="accordion-info">
                   <div class="accordion-title">레포지토리 만들기</div>
@@ -2479,9 +2468,9 @@
               </div>
             </div>
 
-            <!-- Step 3: Claude Code 인스트럭션 -->
-            <div class="accordion" id="accordion3">
-              <button class="accordion-header" onclick="toggleAccordion('accordion3')">
+          <!-- Step 3: Claude Code 인스트럭션 -->
+          <div class="accordion" id="adminAccordion3">
+            <button class="accordion-header" onclick="toggleAccordion('adminAccordion3')">
                 <span class="accordion-step">3</span>
                 <div class="accordion-info">
                   <div class="accordion-title">Claude Code 인스트럭션</div>
@@ -2549,14 +2538,53 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
               </div>
             </div>
 
-            <!-- Step 4: 레포지토리 네트워크 -->
-            <div class="accordion" id="accordion4">
-              <button class="accordion-header" onclick="toggleAccordion('accordion4')">
-                <span class="accordion-step">4</span>
-                <div class="accordion-info">
-                  <div class="accordion-title">레포지토리 네트워크</div>
-                  <div class="accordion-desc">6개 레포 설정 및 연동 확인</div>
-                </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYSTEM: Exit & Transfer -->
+    <section class="section section-exit">
+      <div class="section-header">
+        <span class="section-badge badge-system">SYSTEM</span>
+        <h2 class="section-title">Exit & Transfer</h2>
+      </div>
+
+      <!-- 독립과 양도 메인 아코디언 -->
+      <div class="accordion accordion-exit" id="accordionExit">
+        <button class="accordion-header" onclick="toggleAccordion('accordionExit')">
+          <span class="accordion-step">🚪</span>
+          <div class="accordion-info">
+            <div class="accordion-title">독립과 양도</div>
+            <div class="accordion-desc">이 시스템에서 나가고 싶을 때, 당신의 과거를 가져갈 수 있는 선택지입니다.</div>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </button>
+        <div class="accordion-content">
+
+          <div class="exit-content">
+            <p>이 공간은 당신을 붙잡기 위해 존재하지 않습니다.</p>
+            <p>이 시스템은<br>
+            당신을 <span class="highlight">'묶는'</span> 구조가 아니라<br>
+            당신이 떠나도 무너지지 않는 구조입니다.</p>
+            <p>언젠가 혼자 가고 싶어질 때,<br>
+            당신은 지금까지의 모든 기록과 시스템을<br>
+            <span class="highlight">'구매'</span>하여 독립할 수 있습니다.</p>
+            <p>그 비용은,<br>
+            <span class="highlight">dtslib.com</span>이 만들어 준 파이프라인의<br>
+            <span class="highlight">누적 수익 기준 30%</span>입니다.</p>
+            <p>그 순간부터,<br>
+            이 시스템은 당신의 것이 됩니다.<br>
+            그리고 나는, 다음 버전을 만듭니다.</p>
+          </div>
+
+          <!-- 현재 상태 -->
+          <div class="accordion" id="exitAccordion1">
+            <button class="accordion-header" onclick="toggleAccordion('exitAccordion1')">
+              <span class="accordion-step">📊</span>
+              <div class="accordion-info">
+                <div class="accordion-title">현재 상태</div>
+                <div class="accordion-desc">레포지토리 연동 확인</div>
+              </div>
                 <span class="accordion-toggle">▼</span>
               </button>
               <div class="accordion-content">
@@ -2624,7 +2652,134 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
                 </div>
               </div>
             </div>
+
+          <!-- 독립 개발 가이드 -->
+          <div class="accordion" id="exitAccordion2">
+            <button class="accordion-header" onclick="toggleAccordion('exitAccordion2')">
+              <span class="accordion-step">🛠️</span>
+              <div class="accordion-info">
+                <div class="accordion-title">독립 개발 가이드</div>
+                <div class="accordion-desc">Claude Code로 PWA/APK 직접 개발하기</div>
+              </div>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+              <p class="network-desc">독립 후 직접 앱을 개발하고 싶다면, Claude Code를 사용하세요.</p>
+
+              <!-- Termux 설치 -->
+              <div class="accordion" id="exitAccordion2a">
+                <button class="accordion-header" onclick="toggleAccordion('exitAccordion2a')">
+                  <span class="accordion-step">1</span>
+                  <div class="accordion-info">
+                    <div class="accordion-title">Termux + Claude Code 설치</div>
+                    <div class="accordion-desc">안드로이드에서 개발 환경 구축</div>
+                  </div>
+                  <span class="accordion-toggle">▼</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="step-list">
+                    <a href="https://f-droid.org/packages/com.termux/" target="_blank" class="step-item">
+                      <span class="step-number">1</span>
+                      <div class="step-content">
+                        <p class="step-name">Termux 설치</p>
+                        <p class="step-desc">F-Droid에서 다운로드</p>
+                      </div>
+                      <span class="step-arrow">→</span>
+                    </a>
+                    <div class="step-item" onclick="copyToClipboard('pkg install nodejs-lts git -y')">
+                      <span class="step-number">2</span>
+                      <div class="step-content">
+                        <p class="step-name">Node.js & Git 설치</p>
+                        <p class="step-desc">pkg install nodejs-lts git -y</p>
+                      </div>
+                      <span class="step-arrow">📋</span>
+                    </div>
+                    <div class="step-item" onclick="copyToClipboard('npm install -g @anthropic-ai/claude-code')">
+                      <span class="step-number">3</span>
+                      <div class="step-content">
+                        <p class="step-name">Claude Code 설치</p>
+                        <p class="step-desc">npm install -g @anthropic-ai/claude-code</p>
+                      </div>
+                      <span class="step-arrow">📋</span>
+                    </div>
+                    <a href="https://console.anthropic.com/" target="_blank" class="step-item">
+                      <span class="step-number">4</span>
+                      <div class="step-content">
+                        <p class="step-name">Anthropic API Key</p>
+                        <p class="step-desc">API 키 발급받기</p>
+                      </div>
+                      <span class="step-arrow">→</span>
+                    </a>
+                    <div class="step-item" onclick="copyToClipboard('export ANTHROPIC_API_KEY=sk-ant-xxx')">
+                      <span class="step-number">5</span>
+                      <div class="step-content">
+                        <p class="step-name">환경변수 설정</p>
+                        <p class="step-desc">export ANTHROPIC_API_KEY=sk-ant-xxx</p>
+                      </div>
+                      <span class="step-arrow">📋</span>
+                    </div>
+                    <div class="step-item" onclick="copyToClipboard('claude')">
+                      <span class="step-number">6</span>
+                      <div class="step-content">
+                        <p class="step-name">Claude Code 실행</p>
+                        <p class="step-desc">claude 명령어로 시작</p>
+                      </div>
+                      <span class="step-arrow">📋</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PWA 개발 -->
+              <div class="accordion" id="exitAccordion2b">
+                <button class="accordion-header" onclick="toggleAccordion('exitAccordion2b')">
+                  <span class="accordion-step">2</span>
+                  <div class="accordion-info">
+                    <div class="accordion-title">PWA 앱 개발</div>
+                    <div class="accordion-desc">프롬프트 한 줄로 웹앱 생성</div>
+                  </div>
+                  <span class="accordion-toggle">▼</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="prompt-box">
+                    <div class="prompt-label">📋 PWA 생성 프롬프트</div>
+                    <button class="prompt-copy-btn" onclick="copyToClipboard(document.getElementById('pwaPrompt').textContent)">복사</button>
+                    <div class="prompt-content" id="pwaPrompt">이 레포에 PWA 앱을 만들어줘.
+- manifest.json, sw.js 포함
+- 오프라인 캐싱 지원
+- 다크테마 (#0a0f0c 배경, #f0c850 골드)
+- 모바일 퍼스트 반응형
+- 홈 화면 추가 가능하게</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- APK 빌드 -->
+              <div class="accordion" id="exitAccordion2c">
+                <button class="accordion-header" onclick="toggleAccordion('exitAccordion2c')">
+                  <span class="accordion-step">3</span>
+                  <div class="accordion-info">
+                    <div class="accordion-title">APK 빌드</div>
+                    <div class="accordion-desc">GitHub Actions로 자동 빌드</div>
+                  </div>
+                  <span class="accordion-toggle">▼</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="prompt-box">
+                    <div class="prompt-label">📋 APK 빌드 설정 프롬프트</div>
+                    <button class="prompt-copy-btn" onclick="copyToClipboard(document.getElementById('apkPrompt').textContent)">복사</button>
+                    <div class="prompt-content" id="apkPrompt">GitHub Actions로 Android APK 빌드 워크플로우를 만들어줘.
+- .github/workflows/build.yml 생성
+- Gradle 빌드
+- APK 아티팩트 업로드
+- nightly.link로 다운로드 링크 생성</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -2685,7 +2840,9 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
 
 <script>
 const ACCESS_CODE = '1126';
+const ADMIN_CODE = '1126admin';
 const STORAGE_KEY = 'koosy_staff_auth';
+const ADMIN_STORAGE_KEY = 'koosy_staff_admin';
 
 const loginGate = document.getElementById('loginGate');
 const portal = document.getElementById('portal');
@@ -2694,15 +2851,23 @@ const loginBtn = document.getElementById('loginBtn');
 const loginError = document.getElementById('loginError');
 const logoutBtn = document.getElementById('logoutBtn');
 const backLink = document.getElementById('backLink');
+const sectionAdmin = document.getElementById('sectionAdmin');
 
+// 세션 복원
 if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
-  showPortal();
+  const isAdmin = sessionStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
+  showPortal(isAdmin);
 }
 
-function showPortal() {
+function showPortal(isAdmin = false) {
   loginGate.style.display = 'none';
   portal.classList.add('active');
   backLink.style.display = 'none';
+
+  // Admin 모드면 ADMIN 섹션 표시
+  if (isAdmin && sectionAdmin) {
+    sectionAdmin.style.display = 'block';
+  }
 }
 
 function hidePortal() {
@@ -2711,12 +2876,26 @@ function hidePortal() {
   backLink.style.display = 'block';
   passwordInput.value = '';
   loginError.classList.remove('show');
+
+  // ADMIN 섹션 숨김
+  if (sectionAdmin) {
+    sectionAdmin.style.display = 'none';
+  }
 }
 
 function attemptLogin() {
-  if (passwordInput.value === ACCESS_CODE) {
+  const input = passwordInput.value;
+
+  if (input === ADMIN_CODE) {
+    // Admin 로그인
     sessionStorage.setItem(STORAGE_KEY, 'true');
-    showPortal();
+    sessionStorage.setItem(ADMIN_STORAGE_KEY, 'true');
+    showPortal(true);
+  } else if (input === ACCESS_CODE) {
+    // 일반 로그인
+    sessionStorage.setItem(STORAGE_KEY, 'true');
+    sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+    showPortal(false);
   } else {
     loginError.classList.add('show');
     passwordInput.value = '';
@@ -2762,6 +2941,23 @@ function showToast(msg = '복사되었습니다') {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('복사되었습니다');
+  }).catch(() => {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('복사되었습니다');
+  });
 }
 
 // =====================
