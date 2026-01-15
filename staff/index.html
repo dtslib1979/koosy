@@ -2771,6 +2771,16 @@ const CHAT_GITHUB_OWNER = 'dtslib1979';
 const CHAT_GITHUB_REPO = 'koosy';
 let currentIssueNumber = null;
 
+// PAT 가져오기 (Repository Network 설정에서)
+function getChatPat() {
+  const saved = localStorage.getItem('koosy_repo_config');
+  if (saved) {
+    const config = JSON.parse(saved);
+    return config.pat || null;
+  }
+  return null;
+}
+
 async function loadChatRoom() {
   const container = document.getElementById('kakaoMessages');
   const titleEl = document.getElementById('chatRoomTitle');
@@ -3023,85 +3033,226 @@ function closeFullscreen() {
 }
 
 // 전체화면에서 메시지 전송
-function sendMessageFullscreen() {
+async function sendMessageFullscreen() {
   const input = document.getElementById('fullscreenInput');
   const message = input.value.trim();
 
   if (!message) return;
 
+  const pat = getChatPat();
+  if (!pat) {
+    showToast('설정에서 PAT를 먼저 입력해주세요');
+    return;
+  }
+
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
 
-  navigator.clipboard.writeText(message).catch(() => {});
+  try {
+    if (currentIssueNumber) {
+      const res = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}/comments`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${pat}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ body: message })
+        }
+      );
+      if (!res.ok) throw new Error('전송 실패');
+    } else {
+      const res = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${pat}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: `[작업실] ${message.substring(0, 50)}`,
+            body: message
+          })
+        }
+      );
+      if (!res.ok) throw new Error('전송 실패');
+    }
 
-  if (currentIssueNumber) {
-    window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
-    showToast('GitHub에서 댓글을 붙여넣기 하세요');
-  } else {
-    const title = encodeURIComponent(`[작업실] ${message.substring(0, 50)}`);
-    const body = encodeURIComponent(message);
-    window.open(`https://github.com/${owner}/${repo}/issues/new?title=${title}&body=${body}`, '_blank');
+    input.value = '';
+    // 메시지 영역 새로고침
+    await loadChatRoom();
+    const fullscreenMessages = document.getElementById('fullscreenMessages');
+    fullscreenMessages.innerHTML = document.getElementById('kakaoMessages').innerHTML;
+    fullscreenMessages.scrollTop = fullscreenMessages.scrollHeight;
+
+  } catch (error) {
+    showToast('전송 실패 - 설정에서 PAT 확인해주세요');
   }
-
-  input.value = '';
 }
 
 // 전체화면에서 PR (채팅 종료)
-function closeChatFullscreen() {
+async function closeChatFullscreen() {
   if (!currentIssueNumber) {
     showToast('닫을 대화가 없습니다');
+    return;
+  }
+
+  const pat = getChatPat();
+  if (!pat) {
+    showToast('설정에서 PAT를 먼저 입력해주세요');
+    return;
+  }
+
+  if (!confirm('이 대화를 완료하고 아카이브로 보내시겠습니까?')) {
     return;
   }
 
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
 
-  window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
-  showToast('GitHub에서 Close Issue를 눌러 PR 완료');
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `token ${pat}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ state: 'closed' })
+      }
+    );
+
+    if (!res.ok) throw new Error('실패');
+
+    showToast('PR 완료!');
+    closeFullscreen();
+
+  } catch (error) {
+    showToast('PR 실패 - 설정에서 PAT 확인해주세요');
+  }
 }
 
-// 메시지 전송 - GitHub으로 이동
-function sendMessage() {
+// 메시지 전송 - GitHub API로 바로 전송
+async function sendMessage() {
   const input = document.getElementById('chatInput');
   const message = input.value.trim();
 
-  if (!message) {
+  if (!message) return;
+
+  const pat = getChatPat();
+  if (!pat) {
+    showToast('설정에서 PAT를 먼저 입력해주세요');
     return;
   }
 
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
 
-  // 메시지 클립보드에 복사
-  navigator.clipboard.writeText(message).catch(() => {});
+  // 버튼 비활성화
+  const sendBtn = document.querySelector('.kakao-send-btn');
+  sendBtn.textContent = '...';
+  sendBtn.disabled = true;
+  input.disabled = true;
 
-  if (currentIssueNumber) {
-    // 기존 이슈에 댓글 추가
-    window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
-    showToast('GitHub에서 댓글을 붙여넣기 하세요');
-  } else {
-    // 새 이슈 생성
-    const title = encodeURIComponent(`[작업실] ${message.substring(0, 50)}`);
-    const body = encodeURIComponent(message);
-    window.open(`https://github.com/${owner}/${repo}/issues/new?title=${title}&body=${body}`, '_blank');
+  try {
+    if (currentIssueNumber) {
+      // 기존 이슈에 댓글 추가
+      const res = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}/comments`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${pat}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ body: message })
+        }
+      );
+      if (!res.ok) throw new Error('전송 실패');
+    } else {
+      // 새 이슈 생성
+      const res = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${pat}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: `[작업실] ${message.substring(0, 50)}`,
+            body: message
+          })
+        }
+      );
+      if (!res.ok) throw new Error('전송 실패');
+    }
+
+    // 성공
+    input.value = '';
+    await loadChatRoom();
+
+  } catch (error) {
+    showToast('전송 실패 - 설정에서 PAT 확인해주세요');
+  } finally {
+    sendBtn.textContent = '전송';
+    sendBtn.disabled = false;
+    input.disabled = false;
   }
-
-  input.value = '';
 }
 
-// PR 발행 (Issue Close) - GitHub에서 닫기
-function closeChat() {
+// PR 발행 (Issue Close) - API로 바로 닫기
+async function closeChat() {
   if (!currentIssueNumber) {
     showToast('닫을 대화가 없습니다');
     return;
   }
 
+  const pat = getChatPat();
+  if (!pat) {
+    showToast('설정에서 PAT를 먼저 입력해주세요');
+    return;
+  }
+
+  if (!confirm('이 대화를 완료하고 아카이브로 보내시겠습니까?')) {
+    return;
+  }
+
   const owner = CHAT_GITHUB_OWNER;
   const repo = CHAT_GITHUB_REPO;
+  const prBtn = document.getElementById('chatPrBtn');
 
-  // GitHub Issue 페이지로 이동 (Close Issue 버튼 사용)
-  window.open(`https://github.com/${owner}/${repo}/issues/${currentIssueNumber}`, '_blank');
-  showToast('GitHub에서 Close Issue를 눌러 PR 완료');
+  prBtn.textContent = '...';
+  prBtn.disabled = true;
+
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/issues/${currentIssueNumber}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `token ${pat}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ state: 'closed' })
+      }
+    );
+
+    if (!res.ok) throw new Error('실패');
+
+    showToast('PR 완료! 새 대화를 시작하세요');
+    currentIssueNumber = null;
+    await loadChatRoom();
+
+  } catch (error) {
+    showToast('PR 실패 - 설정에서 PAT 확인해주세요');
+  } finally {
+    prBtn.textContent = 'PR';
+    prBtn.disabled = false;
+  }
 }
 
 // =====================
