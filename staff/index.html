@@ -2638,18 +2638,6 @@ GitHub Pages 기반 랜딩페이지 + Staff Portal 레포지토리를 구축해�
 
                 <!-- Dynamic Repo Grid -->
                 <div class="repo-grid" id="repoGrid"></div>
-
-                <!-- Connection Map -->
-                <div class="connection-map">
-                  <div class="connection-title">데이터 흐름</div>
-                  <div class="connection-flow" id="connectionFlow">
-                    <span class="connection-node">✍️ 포스터</span>
-                    <span class="connection-arrow">→</span>
-                    <span class="connection-node" id="flowBlog">📝 블로그</span>
-                    <span class="connection-arrow">→</span>
-                    <span class="connection-node">⚡ Pages</span>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -3516,12 +3504,8 @@ function renderRepoGrid() {
   const saved = localStorage.getItem(REPO_CONFIG_KEY);
   const config = saved ? JSON.parse(saved) : {};
   const grid = document.getElementById('repoGrid');
-  const flowBlog = document.getElementById('flowBlog');
 
   const g = config.githubId || '';
-
-  // 블로그 플로우 업데이트
-  flowBlog.textContent = config.blogRepo ? `📝 ${config.blogRepo}` : '📝 블로그 레포';
 
   // 6개 레포 정의
   const repos = [
