@@ -690,27 +690,34 @@
       align-items: center;
     }
 
-    .kakao-input-box {
+    .kakao-input {
       flex: 1;
       padding: 10px 14px;
       background: #ffffff;
+      border: none;
       border-radius: 20px;
-      text-decoration: none;
-      display: block;
+      font-size: 14px;
+      outline: none;
     }
 
-    .kakao-input-placeholder {
+    .kakao-input:focus {
+      box-shadow: 0 0 0 2px #F9E000;
+    }
+
+    .kakao-send-btn {
+      padding: 10px 16px;
+      background: #F9E000;
+      border: none;
+      border-radius: 20px;
       font-size: 13px;
-      color: #999;
+      font-weight: 600;
+      color: #1a1a1a;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .kakao-input-box:hover {
-      background: #f5f5f5;
-    }
-
-    .kakao-input-buttons {
-      display: flex;
-      gap: 6px;
+    .kakao-send-btn:hover {
+      background: #e6cf00;
     }
 
     .kakao-pr-btn {
@@ -2172,10 +2179,9 @@
 
             <!-- 입력 영역 -->
             <div class="kakao-input-area">
-              <a href="https://github.com/dtslib1979/koosy/issues" id="chatReplyLink" target="_blank" class="kakao-input-box">
-                <span class="kakao-input-placeholder">메시지 보내기...</span>
-              </a>
-              <a href="https://github.com/dtslib1979/koosy/issues" id="chatPrLink" target="_blank" class="kakao-pr-btn" title="PR 발행 (대화 완료)">
+              <input type="text" id="chatInput" class="kakao-input" placeholder="메시지를 입력하세요..." onkeypress="if(event.key==='Enter')sendMessage()">
+              <button onclick="sendMessage()" class="kakao-send-btn">전송</button>
+              <a href="https://github.com/dtslib1979/koosy/issues" id="chatPrLink" target="_blank" class="kakao-pr-btn" title="PR 발행">
                 <span>PR</span>
               </a>
             </div>
@@ -2641,7 +2647,6 @@ let currentIssueNumber = null;
 async function loadChatRoom() {
   const container = document.getElementById('kakaoMessages');
   const titleEl = document.getElementById('chatRoomTitle');
-  const replyLink = document.getElementById('chatReplyLink');
   const prLink = document.getElementById('chatPrLink');
 
   if (!container) return;
@@ -2659,7 +2664,8 @@ async function loadChatRoom() {
     const issues = await issuesRes.json();
 
     if (issues.length === 0) {
-      // 대화 없으면 새 Issue 생성 유도
+      // 대화 없으면 새 대화 안내
+      currentIssueNumber = null;
       container.innerHTML = `
         <div class="kakao-empty">
           <div class="kakao-empty-icon">💬</div>
@@ -2667,8 +2673,6 @@ async function loadChatRoom() {
         </div>
       `;
       titleEl.textContent = 'HQ 작업실';
-      replyLink.href = `https://github.com/${CHAT_GITHUB_OWNER}/${CHAT_GITHUB_REPO}/issues/new?title=새 대화&body=`;
-      replyLink.querySelector('span').textContent = '새 대화 시작';
       prLink.style.display = 'none';
       return;
     }
@@ -2678,10 +2682,6 @@ async function loadChatRoom() {
 
     // 헤더: HQ 작업실 #번호
     titleEl.textContent = `HQ 작업실 #${issue.number}`;
-
-    // 메시지 보내기 = GitHub Issue 페이지 (댓글 달기)
-    replyLink.href = issue.html_url;
-    replyLink.querySelector('span').textContent = '메시지 보내기...';
 
     // PR 버튼 = Issue 페이지로 (Close 하러)
     prLink.style.display = 'flex';
@@ -2755,6 +2755,41 @@ function renderBubble(user, text, createdAt) {
         </div>
       </div>
     `;
+  }
+}
+
+// 메시지 전송 (카톡처럼)
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+
+  if (!message) {
+    return;
+  }
+
+  const owner = CHAT_GITHUB_OWNER;
+  const repo = CHAT_GITHUB_REPO;
+
+  if (currentIssueNumber) {
+    // 기존 이슈에 댓글 추가
+    const url = `https://github.com/${owner}/${repo}/issues/${currentIssueNumber}#issuecomment-new`;
+    // GitHub 이슈 페이지로 이동 (메시지 복사 안내)
+    navigator.clipboard.writeText(message).then(() => {
+      showToast('메시지가 복사되었습니다. GitHub에서 붙여넣기 하세요.');
+      window.open(url, '_blank');
+      input.value = '';
+    }).catch(() => {
+      // 클립보드 실패 시 직접 이동
+      window.open(url, '_blank');
+      input.value = '';
+    });
+  } else {
+    // 새 이슈 생성
+    const title = encodeURIComponent(`[작업실] ${message.substring(0, 50)}`);
+    const body = encodeURIComponent(message);
+    const url = `https://github.com/${owner}/${repo}/issues/new?title=${title}&body=${body}`;
+    window.open(url, '_blank');
+    input.value = '';
   }
 }
 
