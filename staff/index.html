@@ -764,6 +764,22 @@
       white-space: nowrap;
     }
 
+    .kakao-see-more {
+      display: block;
+      margin-top: 6px;
+      background: none;
+      border: none;
+      color: #3a6a8a;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .kakao-see-more:hover {
+      text-decoration: underline;
+    }
+
     .kakao-input-area {
       background: #eff2f5;
       padding: 10px;
@@ -2879,6 +2895,9 @@ async function loadChatRoom() {
   }
 }
 
+const BUBBLE_MAX_LENGTH = 300; // 더보기 기준 글자수
+let bubbleIdCounter = 0;
+
 function renderBubble(user, text, createdAt) {
   const isHQ = user === CHAT_GITHUB_OWNER;
   const time = new Date(createdAt).toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit' });
@@ -2887,13 +2906,29 @@ function renderBubble(user, text, createdAt) {
 
   // 간단한 마크다운 처리 (줄바꿈)
   const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const isLong = safeText.length > BUBBLE_MAX_LENGTH;
+  const bubbleId = `bubble-${bubbleIdCounter++}`;
+
+  let textHtml;
+  if (isLong) {
+    const truncated = safeText.substring(0, BUBBLE_MAX_LENGTH) + '...';
+    textHtml = `
+      <span class="kakao-text">
+        <span id="${bubbleId}-short">${truncated}</span>
+        <span id="${bubbleId}-full" style="display:none;">${safeText}</span>
+        <button class="kakao-see-more" onclick="toggleBubble('${bubbleId}')" id="${bubbleId}-btn">더보기</button>
+      </span>
+    `;
+  } else {
+    textHtml = `<span class="kakao-text">${safeText}</span>`;
+  }
 
   if (isHQ) {
     return `
       <div class="kakao-bubble-wrap ${side}">
         <div class="kakao-bubble">
           <span class="kakao-sender">${sender}</span>
-          <span class="kakao-text">${safeText}</span>
+          ${textHtml}
         </div>
         <span class="kakao-time">${time}</span>
       </div>
@@ -2904,10 +2939,26 @@ function renderBubble(user, text, createdAt) {
         <span class="kakao-time">${time}</span>
         <div class="kakao-bubble">
           <span class="kakao-sender">${sender}</span>
-          <span class="kakao-text">${safeText}</span>
+          ${textHtml}
         </div>
       </div>
     `;
+  }
+}
+
+function toggleBubble(id) {
+  const short = document.getElementById(`${id}-short`);
+  const full = document.getElementById(`${id}-full`);
+  const btn = document.getElementById(`${id}-btn`);
+
+  if (full.style.display === 'none') {
+    short.style.display = 'none';
+    full.style.display = 'inline';
+    btn.textContent = '접기';
+  } else {
+    short.style.display = 'inline';
+    full.style.display = 'none';
+    btn.textContent = '더보기';
   }
 }
 
