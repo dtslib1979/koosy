@@ -780,6 +780,29 @@
       text-decoration: underline;
     }
 
+    .kakao-bubble-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      align-items: center;
+    }
+
+    .kakao-download-btn,
+    .kakao-copy-btn {
+      background: rgba(0,0,0,0.05);
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .kakao-download-btn:hover,
+    .kakao-copy-btn:hover {
+      background: rgba(0,0,0,0.1);
+    }
+
     .kakao-input-area {
       background: #eff2f5;
       padding: 10px;
@@ -2897,10 +2920,12 @@ async function loadChatRoom() {
 
 const BUBBLE_MAX_LENGTH = 300; // 더보기 기준 글자수
 let bubbleIdCounter = 0;
+const bubbleDataStore = {}; // 원본 텍스트 저장
 
 function renderBubble(user, text, createdAt) {
   const isHQ = user === CHAT_GITHUB_OWNER;
-  const time = new Date(createdAt).toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit' });
+  const dateObj = new Date(createdAt);
+  const time = dateObj.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit' });
   const sender = isHQ ? 'HQ' : 'Partner';
   const side = isHQ ? 'hq' : 'partner';
 
@@ -2909,6 +2934,14 @@ function renderBubble(user, text, createdAt) {
   const isLong = safeText.length > BUBBLE_MAX_LENGTH;
   const bubbleId = `bubble-${bubbleIdCounter++}`;
 
+  // 원본 저장 (다운로드용)
+  bubbleDataStore[bubbleId] = {
+    text: text,
+    sender: sender,
+    user: user,
+    date: dateObj.toISOString()
+  };
+
   let textHtml;
   if (isLong) {
     const truncated = safeText.substring(0, BUBBLE_MAX_LENGTH) + '...';
@@ -2916,7 +2949,11 @@ function renderBubble(user, text, createdAt) {
       <span class="kakao-text">
         <span id="${bubbleId}-short">${truncated}</span>
         <span id="${bubbleId}-full" style="display:none;">${safeText}</span>
-        <button class="kakao-see-more" onclick="toggleBubble('${bubbleId}')" id="${bubbleId}-btn">더보기</button>
+        <div class="kakao-bubble-actions">
+          <button class="kakao-see-more" onclick="toggleBubble('${bubbleId}')" id="${bubbleId}-btn">더보기</button>
+          <button class="kakao-download-btn" onclick="downloadBubble('${bubbleId}')" title="마크다운 저장">⬇</button>
+          <button class="kakao-copy-btn" onclick="copyBubble('${bubbleId}')" title="복사">📋</button>
+        </div>
       </span>
     `;
   } else {
@@ -2960,6 +2997,64 @@ function toggleBubble(id) {
     full.style.display = 'none';
     btn.textContent = '더보기';
   }
+}
+
+// 마크다운으로 다운로드
+function downloadBubble(id) {
+  const data = bubbleDataStore[id];
+  if (!data) return;
+
+  const date = new Date(data.date);
+  const dateStr = date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '-').replace('.', '');
+  const timeStr = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }).replace(':', '');
+
+  // 마크다운 형식
+  const markdown = `# HQ 작업실 메시지
+
+**보낸 사람:** ${data.sender} (${data.user})
+**날짜:** ${date.toLocaleString('ko-KR')}
+
+---
+
+${data.text}
+
+---
+*Exported from KOOSY Staff Portal*
+`;
+
+  // 다운로드
+  const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `message-${dateStr}-${timeStr}.md`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('마크다운 저장됨');
+}
+
+// 클립보드 복사
+function copyBubble(id) {
+  const data = bubbleDataStore[id];
+  if (!data) return;
+
+  navigator.clipboard.writeText(data.text).then(() => {
+    showToast('복사됨');
+  }).catch(() => {
+    // 폴백
+    const textarea = document.createElement('textarea');
+    textarea.value = data.text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('복사됨');
+  });
 }
 
 // 메시지 전송 (카톡처럼 - 백그라운드 API)
