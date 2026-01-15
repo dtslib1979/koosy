@@ -2184,8 +2184,8 @@
           </div>
 
           <!-- 새 대화 시작 -->
-          <a href="https://github.com/dtslib1979/koosy/issues/new?title=[작업실] 새 대화&body=새로운 대화를 시작합니다." target="_blank" class="kakao-new-chat">
-            <span>+ 새 대화 시작</span>
+          <a href="https://github.com/dtslib1979/koosy/issues/new?title=새 세션&body=새로운 대화 세션을 시작합니다." target="_blank" class="kakao-new-chat" id="newChatLink">
+            <span>+ 새 세션 시작</span>
           </a>
         </div>
       </div>
@@ -2672,17 +2672,31 @@ async function loadChatRoom() {
           <div class="kakao-empty-text">진행중인 대화가 없습니다<br>아래에서 새 대화를 시작하세요</div>
         </div>
       `;
-      titleEl.textContent = '대화방';
+      titleEl.textContent = '새 대화를 시작하세요';
       replyLink.href = '#';
-      prLink.href = '#';
+      prLink.style.display = 'none';
       return;
     }
 
     const issue = issues[0];
     currentIssueNumber = issue.number;
-    titleEl.textContent = issue.title;
-    replyLink.href = `${issue.html_url}#issuecomment-new`;
-    prLink.href = `${issue.html_url}/edit`;
+
+    // 세션 넘버 표시 (#1, #2, ...)
+    titleEl.textContent = `세션 #${issue.number}`;
+
+    // 메시지 입력 = GitHub Issue 댓글 페이지로
+    replyLink.href = issue.html_url;
+
+    // PR 버튼 = Issue Close (세션 종료)
+    prLink.style.display = 'flex';
+    prLink.href = `${issue.html_url}`;
+    prLink.onclick = function(e) {
+      if (confirm('이 세션을 완료하고 아카이브로 보내시겠습니까?\\n(GitHub에서 Issue를 Close 해주세요)')) {
+        return true;
+      }
+      e.preventDefault();
+      return false;
+    };
 
     // 해당 Issue의 Comments 가져오기
     const commentsRes = await fetch(
