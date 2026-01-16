@@ -2,7 +2,7 @@
   "name": "KOOSY",
   "short_name": "KOOSY",
   "description": "KOOSY ≡ Built on Gold. Measured in Silver.",
-  "start_url": "/koosy/",
+  "start_url": "/",
   "display": "browser",
   "background_color": "#0a1f1a",
   "theme_color": "#D4AF37",
