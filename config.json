@@ -2,7 +2,7 @@
   "site": {
     "name": "KOOSY",
     "shortName": "KOOSY",
-    "domain": "koosy.com",
+    "domain": "koosy.kr",
     "url": "https://dtslib1979.github.io/koosy/",
     "description": "Bluffing based editing broadcasting CELEB story",
     "tagline": "Real Money, Real World",
@@ -39,10 +39,10 @@
     "organization": "KOOSY",
     "tagline": "Real Money, Real World",
     "quote": "EST. 2026.01.13",
-    "email": "koosy@koosy.com",
+    "email": "koosy@koosy.kr",
     "phone": "",
-    "website": "https://koosy.com",
-    "cardUrl": "https://koosy.com/card/",
+    "website": "https://koosy.kr",
+    "cardUrl": "https://koosy.kr/card/",
     "ogImage": "https://dtslib1979.github.io/koosy/assets/icons/profile.jpg",
     "contactButtonLabel": "CONTACT",
     "theme": "gold"
