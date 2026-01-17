@@ -594,6 +594,89 @@
       color: var(--gold);
     }
 
+    /* HQ Branch Network */
+    .branch-network {
+      margin-top: 16px;
+    }
+
+    .branch-network-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .branch-network-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .branch-network-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .branch-card-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .branch-card-mini:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .branch-card-mini.current {
+      border-color: var(--gold);
+      background: rgba(212,175,55,0.08);
+    }
+
+    .branch-avatar-mini {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+
+    .branch-card-mini:hover .branch-avatar-mini,
+    .branch-card-mini.current .branch-avatar-mini {
+      border-color: var(--gold);
+    }
+
+    .branch-info-mini {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .branch-name-mini {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .branch-status-mini {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .branch-status-mini.active {
+      color: var(--green);
+    }
+
+    .branch-status-mini.incubation {
+      color: var(--purple);
+    }
+
     /* 카톡 스타일 채팅 */
     .chat-preview {
       background: var(--bg);
@@ -2350,22 +2433,14 @@
           <span class="accordion-toggle">▼</span>
         </button>
         <div class="accordion-content">
-          <!-- 공지사항 -->
+          <!-- 공지사항 (HQ에서 동적 로드) -->
           <div class="notice-board" id="noticeBoard">
             <div class="notice-header">
-              <span class="notice-title">📢 공지사항</span>
+              <span class="notice-title">📢 HQ 공지사항</span>
             </div>
             <div class="notice-list" id="noticeList">
-              <a href="../docs/design-philosophy.html" class="notice-item" target="_blank">
-                <span class="notice-badge new">NEW</span>
-                <span class="notice-text">KOOSY Design Philosophy — 10x Production System</span>
-                <span class="notice-date">2026-01-15</span>
-              </a>
-              <a href="../docs/whitepaper.html" class="notice-item" target="_blank">
-                <span class="notice-badge">v3.0</span>
-                <span class="notice-text">dtslib.com Mobile-first AI Builder 백서</span>
-                <span class="notice-date">2026-01-15</span>
-              </a>
+              <!-- HQ에서 동적 로드 -->
+              <div style="padding:12px;color:var(--text-muted);font-size:12px;">공지사항 로딩 중...</div>
             </div>
           </div>
 
@@ -2378,6 +2453,17 @@
               <span class="briefing-icon">📚</span>
               <span class="briefing-label">전체 아카이브</span>
             </a>
+          </div>
+
+          <!-- HQ Branch Network -->
+          <div class="branch-network">
+            <div class="branch-network-header">
+              <span>🌐</span>
+              <span class="branch-network-title">DTSLIB 계열사 네트워크</span>
+            </div>
+            <div class="branch-network-grid" id="branchNetworkGrid">
+              <!-- HQ에서 동적 로드 -->
+            </div>
           </div>
         </div>
       </div>
@@ -3531,6 +3617,96 @@ async function closeChat() {
 }
 
 // =====================
+// =====================
+// HQ Bridge Integration
+// =====================
+const HQ_API_BASE = 'https://dtslib1979.github.io/dtslib-branch/hq/api';
+const HQ_NOTICES_URL = 'https://dtslib1979.github.io/dtslib-branch/hq/notices/notices.json';
+const CURRENT_BRANCH = 'koosy';
+
+async function loadHQNotices() {
+  const noticeList = document.getElementById('noticeList');
+  if (!noticeList) return;
+
+  try {
+    const res = await fetch(HQ_NOTICES_URL + '?t=' + Date.now());
+    const data = await res.json();
+    const notices = data.notices || [];
+
+    // 현재 브랜치에 해당하는 공지만 필터
+    const myNotices = notices.filter(n =>
+      n.branches.includes(CURRENT_BRANCH) &&
+      new Date(n.expiresAt) > new Date()
+    );
+
+    if (myNotices.length === 0) {
+      noticeList.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px;text-align:center;">현재 공지사항이 없습니다</div>';
+      return;
+    }
+
+    const typeIcons = { info: 'ℹ️', warning: '⚠️', success: '✅', urgent: '🚨' };
+    const typeBadges = { info: 'INFO', warning: 'WARN', success: 'OK', urgent: '긴급' };
+
+    noticeList.innerHTML = myNotices.map(notice => {
+      const date = new Date(notice.createdAt).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
+      return `
+        <div class="notice-item" style="cursor:default;">
+          <span class="notice-badge ${notice.type === 'urgent' ? 'new' : ''}">${typeBadges[notice.type] || 'NEW'}</span>
+          <span class="notice-text">${typeIcons[notice.type] || ''} ${notice.title} — ${notice.content}</span>
+          <span class="notice-date">${date}</span>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    noticeList.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px;">공지사항을 불러올 수 없습니다</div>';
+  }
+}
+
+async function loadBranchNetwork() {
+  const grid = document.getElementById('branchNetworkGrid');
+  if (!grid) return;
+
+  try {
+    const res = await fetch(HQ_API_BASE + '/manifest.json?t=' + Date.now());
+    const manifest = await res.json();
+    const branches = manifest.branches || [];
+
+    // HQ도 추가
+    const allBranches = [
+      {
+        id: 'hq',
+        name: 'DTSLIB HQ',
+        url: 'https://dtslib1979.github.io/dtslib-branch/',
+        avatar: 'https://dtslib1979.github.io/dtslib-branch/assets/icons/1768353694540.jpg',
+        status: 'operational',
+        tagline: '본사'
+      },
+      ...branches
+    ];
+
+    grid.innerHTML = allBranches.map(branch => {
+      const isCurrent = branch.id === CURRENT_BRANCH;
+      const statusClass = branch.status === 'active' || branch.status === 'operational' ? 'active' : branch.status;
+      const statusText = branch.status === 'operational' ? 'HQ' :
+                         branch.status === 'active' ? '운영중' :
+                         branch.status === 'incubation' ? '인큐베이팅' : branch.status;
+
+      return `
+        <a href="${branch.url}" class="branch-card-mini ${isCurrent ? 'current' : ''}" target="${isCurrent ? '_self' : '_blank'}">
+          <img src="${branch.avatar}" alt="${branch.name}" class="branch-avatar-mini">
+          <div class="branch-info-mini">
+            <div class="branch-name-mini">${branch.name}${isCurrent ? ' (현재)' : ''}</div>
+            <div class="branch-status-mini ${statusClass}">${statusText}</div>
+          </div>
+        </a>
+      `;
+    }).join('');
+  } catch (e) {
+    grid.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:12px;">브랜치 목록을 불러올 수 없습니다</div>';
+  }
+}
+
+// =====================
 // Repository Network
 // =====================
 const REPO_CONFIG_KEY = 'koosy_repo_config';
@@ -3542,6 +3718,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderStoreLinks();
   renderQuickLinks();
   loadChatRoom(); // 채팅방 로드
+  loadHQNotices(); // HQ 공지 로드
+  loadBranchNetwork(); // 계열사 네트워크 로드
 });
 
 function loadRepoConfig() {
