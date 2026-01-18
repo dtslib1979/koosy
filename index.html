@@ -2427,13 +2427,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Border stroke on top of image
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = n.color;
-        ctx.lineWidth = border * 2;
+        ctx.strokeStyle = '#D4AF37';
+        ctx.lineWidth = border * 2.5;
+        ctx.stroke();
+        // Gold outer glow
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius + border, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+        ctx.lineWidth = 2;
         ctx.stroke();
       } else {
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        ctx.fillStyle = n.color;
+        ctx.fillStyle = '#D4AF37';
         ctx.fill();
         ctx.fillStyle = '#0F1F15';
         ctx.font = (i === 0 ? 'bold 14px' : 'bold 12px') + ' system-ui, sans-serif';
