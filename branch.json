@@ -1,0 +1,50 @@
+{
+  "id": "koosy",
+  "name": "KOOSY",
+  "tagline": "Celebrity Story Editing Broadcasting",
+  "hq": "dtslib1979/dtslib-branch",
+  "version": "1.0",
+  "status": "active",
+  "visibility": "public",
+  "area": "content",
+  "tier": "standard",
+  "theme": {
+    "primary": "#FF6B6B",
+    "accent": "#4ECDC4",
+    "bg": "#1a1a2e",
+    "text": "#f5f5f5"
+  },
+  "subscriptions": [
+    {
+      "feedId": "parksy-gallery",
+      "publisher": "parksy",
+      "autoSync": true,
+      "target": "assets/feeds/parksy"
+    },
+    {
+      "feedId": "parksy-templates",
+      "publisher": "parksy",
+      "autoSync": true,
+      "target": "assets/feeds/templates"
+    },
+    {
+      "feedId": "eae-courses",
+      "publisher": "eae",
+      "autoSync": true,
+      "target": "assets/feeds/eae"
+    },
+    {
+      "feedId": "hq-notices",
+      "publisher": "hq",
+      "autoSync": true,
+      "target": null
+    },
+    {
+      "feedId": "hq-sdk",
+      "publisher": "hq",
+      "autoSync": true,
+      "target": "assets/js"
+    }
+  ],
+  "features": ["celeb-story", "bluffing-edit"]
+}
