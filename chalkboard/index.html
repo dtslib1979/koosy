@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOOSY Chalkboard</title>
+  <style>
+    :root {
+      --accent: #4ECDC4;
+      --bg: #1a1a2e;
+      --surface: #16213e;
+      --text: #f5f5f5;
+      --text-sub: #888888;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 420px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 20px 16px;
+    }
+
+    /* Header */
+    #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #333;
+    }
+
+    #day-count {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #board-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    #branch-name {
+      font-size: 11px;
+      color: var(--text-sub);
+      background: var(--surface);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    /* Chalkboard Cards */
+    #chalkboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+
+    /* Topic */
+    #topic {
+      background: linear-gradient(135deg, var(--surface), #1f2b4d);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+      border-left: 3px solid var(--accent);
+    }
+
+    #topic-label {
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    #topic-text {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* REC Button */
+    #btn-rec {
+      width: 100%;
+      min-height: 64px;
+      background: linear-gradient(135deg, #FF6B6B, #ee5a5a);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #btn-rec:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.4);
+    }
+
+    #btn-rec:active {
+      transform: scale(0.98);
+    }
+
+    .rec-dot {
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Quick Access */
+    #quick-access {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    #quick-access a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 8px;
+      background: var(--surface);
+      border-radius: 8px;
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 10px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    #quick-access a:hover {
+      color: var(--text);
+      background: #1f2b4d;
+    }
+
+    #quick-access .icon {
+      font-size: 18px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-sub);
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <span id="day-count">Day 1</span>
+    <h1 id="board-title">Today's Chalkboard</h1>
+    <span id="branch-name">KOOSY</span>
+  </header>
+
+  <!-- Chalkboard Cards -->
+  <section id="chalkboard">
+    <!-- Rendered by JS from board.json -->
+  </section>
+
+  <!-- Today's Topic -->
+  <section id="topic">
+    <p id="topic-label">Today's Topic</p>
+    <p id="topic-text">셀럽 스토리 편집 — 오늘의 주제</p>
+  </section>
+
+  <!-- REC Button -->
+  <button id="btn-rec">
+    <span class="rec-dot"></span>
+    REC
+  </button>
+
+  <!-- Quick Access -->
+  <nav id="quick-access">
+    <a id="link-archive" href="https://github.com/dtslib1979/koosy">
+      <span class="icon">📁</span>
+      Archive
+    </a>
+    <a id="link-engine" href="https://dtslib1979.github.io/dtslib-branch/staff/">
+      <span class="icon">⚙️</span>
+      Engine
+    </a>
+    <a id="link-github" href="https://github.com/dtslib1979/koosy">
+      <span class="icon">🔗</span>
+      GitHub
+    </a>
+    <a id="link-guide" href="https://dtslib1979.github.io/koosy/docs/">
+      <span class="icon">📖</span>
+      Guide
+    </a>
+  </nav>
+
+  <div class="footer">
+    <p>Chalkboard Pack v1 · <a href="https://github.com/dtslib1979/dtslib-branch">DTSLIB HQ</a></p>
+  </div>
+
+  <script>
+    // Load board.json
+    async function loadBoard() {
+      try {
+        const res = await fetch('board.json');
+        const data = await res.json();
+        renderBoard(data);
+      } catch (e) {
+        console.log('Static mode - using defaults');
+        renderStaticCards();
+      }
+    }
+
+    function renderBoard(data) {
+      // Update header
+      document.getElementById('day-count').textContent = `Day ${data.board.day}`;
+      document.getElementById('board-title').textContent = data.board.title;
+      document.getElementById('branch-name').textContent = data.branch.name;
+
+      // Update accent color
+      document.documentElement.style.setProperty('--accent', data.branch.accent);
+
+      // Update topic
+      document.getElementById('topic-text').textContent = data.topic;
+
+      // Render cards
+      const chalkboard = document.getElementById('chalkboard');
+      chalkboard.innerHTML = data.cards.map(card => `
+        <div class="card" data-link="${card.link}">
+          <div class="card-icon">${card.icon}</div>
+          <div class="card-title">${card.title}</div>
+          ${card.subtitle ? `<div class="card-subtitle">${card.subtitle}</div>` : ''}
+        </div>
+      `).join('');
+
+      // Update quick access
+      if (data.quickAccess) {
+        document.getElementById('link-archive').href = data.quickAccess.archive || '#';
+        document.getElementById('link-engine').href = data.quickAccess.engine || '#';
+        document.getElementById('link-github').href = data.quickAccess.github || '#';
+        document.getElementById('link-guide').href = data.quickAccess.guide || '#';
+      }
+
+      // Re-attach card click handlers
+      attachCardHandlers();
+    }
+
+    function renderStaticCards() {
+      const staticCards = [
+        { icon: '📺', title: 'YouTube Studio', subtitle: '영상 업로드', link: 'https://studio.youtube.com' },
+        { icon: '✂️', title: 'Edit Draft', subtitle: '편집 작업', link: '#' },
+        { icon: '📝', title: 'Script', subtitle: '스크립트', link: '#' },
+        { icon: '🎙️', title: 'Voice Memo', subtitle: '음성 메모', link: '#' }
+      ];
+
+      const chalkboard = document.getElementById('chalkboard');
+      chalkboard.innerHTML = staticCards.map(card => `
+        <div class="card" data-link="${card.link}">
+          <div class="card-icon">${card.icon}</div>
+          <div class="card-title">${card.title}</div>
+          <div class="card-subtitle">${card.subtitle}</div>
+        </div>
+      `).join('');
+
+      attachCardHandlers();
+    }
+
+    function attachCardHandlers() {
+      document.querySelectorAll('.card').forEach(card => {
+        card.onclick = () => {
+          const link = card.dataset.link;
+          if (link && link !== '#') {
+            window.open(link, '_blank');
+          }
+        };
+      });
+    }
+
+    // REC button scroll
+    document.getElementById('btn-rec').onclick = () => {
+      document.getElementById('chalkboard').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    };
+
+    // Initialize
+    loadBoard();
+  </script>
+</body>
+</html>

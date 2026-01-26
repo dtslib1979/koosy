@@ -1,0 +1,59 @@
+{
+  "$schema": "chalkboard-pack-v1",
+  "version": "1.0",
+  "branch": {
+    "id": "koosy",
+    "name": "KOOSY",
+    "accent": "#4ECDC4"
+  },
+  "board": {
+    "day": 1,
+    "title": "Today's Chalkboard",
+    "date": "2026-01-26"
+  },
+  "topic": "셀럽 스토리 편집 — 오늘의 주제",
+  "cards": [
+    {
+      "icon": "📺",
+      "title": "YouTube Studio",
+      "subtitle": "영상 업로드 / 분석",
+      "link": "https://studio.youtube.com"
+    },
+    {
+      "icon": "✂️",
+      "title": "Edit Draft",
+      "subtitle": "블러핑 편집 작업",
+      "link": "#"
+    },
+    {
+      "icon": "📝",
+      "title": "Script",
+      "subtitle": "스크립트 초안",
+      "link": "#"
+    },
+    {
+      "icon": "🎙️",
+      "title": "Voice Memo",
+      "subtitle": "음성 메모 확인",
+      "link": "#"
+    },
+    {
+      "icon": "📊",
+      "title": "Analytics",
+      "subtitle": "채널 성과",
+      "link": "https://studio.youtube.com/channel/UC/analytics"
+    },
+    {
+      "icon": "🗂️",
+      "title": "Archive",
+      "subtitle": "지난 콘텐츠",
+      "link": "https://github.com/dtslib1979/koosy/tree/main/articles"
+    }
+  ],
+  "quickAccess": {
+    "archive": "https://github.com/dtslib1979/koosy",
+    "engine": "https://dtslib1979.github.io/dtslib-branch/staff/",
+    "github": "https://github.com/dtslib1979/koosy",
+    "guide": "https://dtslib1979.github.io/koosy/docs/"
+  }
+}
