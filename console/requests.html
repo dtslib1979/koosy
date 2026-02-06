@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PR 요청 관리 | KOOSY 콘솔</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #D4AF37;
+      --accent: #22c55e;
+      --bg: #0a0a14;
+      --card-bg: #1a1a2e;
+      --text: #f5f5f5;
+      --text-dim: #a0a0a0;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--card-bg);
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 20px;
+    }
+
+    .back-btn {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dim);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #0a0a14;
+    }
+
+    .request-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .request-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .request-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .request-id {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .request-status {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .request-status.pending {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+
+    .request-status.completed {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--success);
+    }
+
+    .request-status.cancelled {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+    }
+
+    .request-body {
+      padding: 20px;
+    }
+
+    .request-meta {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meta-icon {
+      font-size: 16px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .request-content {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .request-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+    }
+
+    .action-btn:hover {
+      opacity: 0.8;
+    }
+
+    .action-btn.complete {
+      background: var(--success);
+      color: white;
+    }
+
+    .action-btn.cancel {
+      background: var(--danger);
+      color: white;
+    }
+
+    .action-btn.contact {
+      background: var(--primary);
+      color: #0a0a14;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+    }
+
+    .empty-state h2 {
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+    }
+
+    .stat-item {
+      flex: 1;
+      text-align: center;
+    }
+
+    .stat-item .value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .stat-item .label {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>📋 PR 요청 관리</h1>
+      <a href="index.html" class="back-btn">← 콘솔</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="value" id="totalCount">0</div>
+        <div class="label">전체</div>
+      </div>
+      <div class="stat-item">
+        <div class="value" style="color: var(--warning)" id="pendingCount">0</div>
+        <div class="label">대기</div>
+      </div>
+      <div class="stat-item">
+        <div class="value" style="color: var(--success)" id="completedCount">0</div>
+        <div class="label">완료</div>
+      </div>
+      <div class="stat-item">
+        <div class="value" style="color: var(--primary)" id="revenueEstimate">₩0</div>
+        <div class="label">예상 수익</div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">전체</button>
+      <button class="filter-btn" data-filter="pending">대기 중</button>
+      <button class="filter-btn" data-filter="completed">완료</button>
+      <button class="filter-btn" data-filter="cancelled">취소</button>
+    </div>
+
+    <div class="request-list" id="requestList"></div>
+
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <h2>요청이 없습니다</h2>
+      <p>아직 PR 요청이 들어오지 않았습니다</p>
+    </div>
+  </main>
+
+  <script>
+    class RequestsManager {
+      constructor() {
+        this.storageKey = 'koosy_pr_requests';
+        this.requests = this.loadRequests();
+        this.currentFilter = 'all';
+        this.types = {
+          edit: { name: '페이지 수정', price: 10000, emoji: '✏️' },
+          pwa: { name: 'PWA/APK 제작', price: 50000, emoji: '📱' },
+          content: { name: '콘텐츠 제작', price: 30000, emoji: '📝' },
+          design: { name: '디자인 변경', price: 20000, emoji: '🎨' },
+          lesson: { name: '수업 자료', price: 15000, emoji: '📚' },
+          custom: { name: '기타 요청', price: 0, emoji: '💬' }
+        };
+        this.init();
+      }
+
+      init() {
+        this.renderStats();
+        this.renderRequests();
+        this.bindEvents();
+      }
+
+      loadRequests() {
+        const stored = localStorage.getItem(this.storageKey);
+        return stored ? JSON.parse(stored) : [];
+      }
+
+      saveRequests() {
+        localStorage.setItem(this.storageKey, JSON.stringify(this.requests));
+      }
+
+      renderStats() {
+        const total = this.requests.length;
+        const pending = this.requests.filter(r => r.status === 'pending').length;
+        const completed = this.requests.filter(r => r.status === 'completed').length;
+
+        const revenue = this.requests
+          .filter(r => r.status === 'completed')
+          .reduce((sum, r) => sum + (this.types[r.type]?.price || 0), 0);
+
+        document.getElementById('totalCount').textContent = total;
+        document.getElementById('pendingCount').textContent = pending;
+        document.getElementById('completedCount').textContent = completed;
+        document.getElementById('revenueEstimate').textContent = `₩${revenue.toLocaleString()}`;
+      }
+
+      renderRequests() {
+        const list = document.getElementById('requestList');
+        const emptyState = document.getElementById('emptyState');
+
+        let filtered = this.requests;
+        if (this.currentFilter !== 'all') {
+          filtered = this.requests.filter(r => r.status === this.currentFilter);
+        }
+
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        if (filtered.length === 0) {
+          list.innerHTML = '';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+        list.innerHTML = filtered.map(r => this.renderRequestCard(r)).join('');
+      }
+
+      renderRequestCard(request) {
+        const type = this.types[request.type] || this.types.custom;
+        const date = new Date(request.createdAt);
+        const dateStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+
+        return `
+          <div class="request-card" data-id="${request.id}">
+            <div class="request-header">
+              <span class="request-id">#${request.id}</span>
+              <span class="request-status ${request.status}">${this.getStatusLabel(request.status)}</span>
+            </div>
+            <div class="request-body">
+              <div class="request-meta">
+                <div class="meta-item">
+                  <span class="meta-icon">${type.emoji}</span>
+                  <div>
+                    <div class="meta-label">유형</div>
+                    <div class="meta-value">${type.name}</div>
+                  </div>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-icon">📍</span>
+                  <div>
+                    <div class="meta-label">슬롯</div>
+                    <div class="meta-value">${request.slot}</div>
+                  </div>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-icon">💰</span>
+                  <div>
+                    <div class="meta-label">비용</div>
+                    <div class="meta-value">${type.price > 0 ? `${(type.price/10000)}만원` : '협의'}</div>
+                  </div>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-icon">🕐</span>
+                  <div>
+                    <div class="meta-label">요청 시간</div>
+                    <div class="meta-value">${dateStr}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="request-content">${request.content}</div>
+
+              ${request.contact ? `<p style="font-size: 13px; color: var(--text-dim); margin-bottom: 15px;">연락처: ${request.contact}</p>` : ''}
+
+              ${request.status === 'pending' ? `
+                <div class="request-actions">
+                  <button class="action-btn complete" data-action="complete">✓ 완료 처리</button>
+                  <button class="action-btn cancel" data-action="cancel">✕ 취소</button>
+                  ${request.contact ? `<button class="action-btn contact" data-action="contact">연락하기</button>` : ''}
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      getStatusLabel(status) {
+        const labels = {
+          pending: '대기 중',
+          completed: '완료',
+          cancelled: '취소됨'
+        };
+        return labels[status] || status;
+      }
+
+      bindEvents() {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.currentFilter = btn.dataset.filter;
+            this.renderRequests();
+          });
+        });
+
+        document.getElementById('requestList').addEventListener('click', (e) => {
+          const actionBtn = e.target.closest('.action-btn');
+          if (!actionBtn) return;
+
+          const card = actionBtn.closest('.request-card');
+          const requestId = card.dataset.id;
+          const action = actionBtn.dataset.action;
+
+          if (action === 'complete') {
+            this.updateStatus(requestId, 'completed');
+          } else if (action === 'cancel') {
+            if (confirm('이 요청을 취소하시겠습니까?')) {
+              this.updateStatus(requestId, 'cancelled');
+            }
+          } else if (action === 'contact') {
+            const request = this.requests.find(r => r.id === requestId);
+            if (request?.contact) {
+              alert(`연락처: ${request.contact}`);
+            }
+          }
+        });
+      }
+
+      updateStatus(requestId, status) {
+        const request = this.requests.find(r => r.id === requestId);
+        if (request) {
+          request.status = status;
+          request.updatedAt = new Date().toISOString();
+          this.saveRequests();
+          this.renderStats();
+          this.renderRequests();
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new RequestsManager();
+    });
+  </script>
+</body>
+</html>

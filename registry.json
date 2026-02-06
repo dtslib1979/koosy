@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "name": "KOOSY 과외 길드",
+    "description": "AI 쓰는 과외 선생 12슬롯 길드",
+    "industry": "education",
+    "totalSlots": 12,
+    "version": "1.0.0",
+    "updatedAt": "2026-02-06"
+  },
+  "slots": [
+    {
+      "id": "slot01",
+      "status": "active",
+      "type": "anchor",
+      "member": {
+        "name": "수학쌤",
+        "fullName": "KOOSY 수학과외 선생님",
+        "avatar": "수",
+        "photo": "/assets/members/guildmaster.png",
+        "title": "과외 길드 길드장",
+        "tagline": "AI 활용 수학과외 전문가"
+      },
+      "contact": {
+        "phone": "",
+        "email": "koosy@koosy.kr"
+      },
+      "social": {
+        "youtube": "",
+        "blog": ""
+      },
+      "joinedAt": "2026-02-06",
+      "theme": "gold"
+    },
+    {
+      "id": "slot02",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot03",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot04",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot05",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot06",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot07",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot08",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot09",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot10",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot11",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    },
+    {
+      "id": "slot12",
+      "status": "empty",
+      "type": "paid",
+      "member": null,
+      "contact": null
+    }
+  ]
+}

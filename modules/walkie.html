@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 워키토키 | KOOSY 과외 길드</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #D4AF37;
+      --accent: #22c55e;
+      --bg: #0a0a14;
+      --card-bg: #1a1a2e;
+      --text: #f5f5f5;
+      --text-dim: #a0a0a0;
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: var(--card-bg);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header h1 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: var(--primary);
+    }
+
+    .container {
+      flex: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .instruction-box {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--primary);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .instruction-box h4 {
+      color: var(--primary);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .instruction-box ol {
+      margin-left: 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .instruction-box li {
+      margin-bottom: 5px;
+    }
+
+    .mode-tabs {
+      display: flex;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--text-dim);
+    }
+
+    .mode-tab.active {
+      background: var(--primary);
+      color: #0a0a14;
+    }
+
+    .voice-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .voice-btn {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #0a0a14;
+      font-size: 40px;
+      cursor: pointer;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .voice-btn.recording {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 15px 50px rgba(212, 175, 55, 0.6); }
+    }
+
+    .voice-status {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-top: 15px;
+    }
+
+    .voice-status.recording {
+      color: var(--danger);
+    }
+
+    .transcript-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .transcript-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .transcript-header h3 {
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+
+    .transcript-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      background: rgba(212, 175, 55, 0.2);
+      border: none;
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .action-btn:hover {
+      background: rgba(212, 175, 55, 0.4);
+    }
+
+    .transcript-content {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 150px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 15px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .transcript-content.empty {
+      color: var(--text-dim);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .output-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .output-section h3 {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 15px;
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .template-btn {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .template-btn:hover {
+      border-color: var(--primary);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .template-btn h4 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .template-btn p {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .generated-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .generated-section.active {
+      display: block;
+    }
+
+    .generated-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .generated-header h3 {
+      font-size: 16px;
+    }
+
+    .generated-content {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      color: #0a0a14;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .history-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .history-section h3 {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 15px;
+    }
+
+    .history-item {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .history-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .history-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .history-preview {
+      font-size: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .powered-by {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .powered-by a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>AI 워키토키</h1>
+    <p>말하면 글이 된다</p>
+  </header>
+
+  <main class="container">
+    <div class="instruction-box">
+      <h4>사용법</h4>
+      <ol>
+        <li>마이크 버튼을 누르고 말하세요</li>
+        <li>음성이 텍스트로 변환됩니다</li>
+        <li>ChatGPT에 붙여넣기 하세요</li>
+        <li>생성된 글을 블로그에 올리세요</li>
+      </ol>
+    </div>
+
+    <div class="mode-tabs">
+      <div class="mode-tab active" data-mode="voice">음성 입력</div>
+      <div class="mode-tab" data-mode="text">텍스트 입력</div>
+    </div>
+
+    <div class="voice-section" id="voiceSection">
+      <p style="font-size: 14px; color: var(--text-dim); margin-bottom: 10px;">버튼을 누르고 말하세요</p>
+      <button class="voice-btn" id="voiceBtn">🎤</button>
+      <p class="voice-status" id="voiceStatus">대기 중</p>
+    </div>
+
+    <div class="transcript-section">
+      <div class="transcript-header">
+        <h3>음성 → 텍스트</h3>
+        <div class="transcript-actions">
+          <button class="action-btn" id="clearBtn">지우기</button>
+          <button class="action-btn" id="copyRawBtn">복사</button>
+        </div>
+      </div>
+      <div class="transcript-content empty" id="transcript">
+        음성 인식 결과가 여기에 표시됩니다
+      </div>
+    </div>
+
+    <div class="output-section">
+      <h3>ChatGPT 프롬프트 템플릿</h3>
+      <div class="template-grid">
+        <button class="template-btn" data-template="lesson">
+          <h4>수업 안내</h4>
+          <p>수업 소개글로 변환</p>
+        </button>
+        <button class="template-btn" data-template="parent">
+          <h4>학부모 안내</h4>
+          <p>학부모 소통 글로 변환</p>
+        </button>
+        <button class="template-btn" data-template="study">
+          <h4>학습 자료</h4>
+          <p>개념 설명 글로 변환</p>
+        </button>
+        <button class="template-btn" data-template="review">
+          <h4>수업 후기</h4>
+          <p>수업 리뷰 글로 변환</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="generated-section" id="generatedSection">
+      <div class="generated-header">
+        <h3>생성된 프롬프트</h3>
+        <button class="action-btn" id="regenerateBtn">다시 생성</button>
+      </div>
+      <div class="generated-content" id="generatedContent"></div>
+      <button class="copy-btn" id="copyPromptBtn">ChatGPT에 붙여넣기용 복사</button>
+    </div>
+
+    <div class="history-section">
+      <h3>최근 기록</h3>
+      <div id="historyList">
+        <p style="color: var(--text-dim); font-size: 14px; text-align: center;">아직 기록이 없습니다</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="powered-by">
+    Powered by <a href="https://koosy.kr">KOOSY</a> | AI 쓰는 과외 선생
+  </footer>
+
+  <script>
+    class AIWalkie {
+      constructor() {
+        this.recognition = null;
+        this.isRecording = false;
+        this.transcript = '';
+        this.history = [];
+        this.storageKey = 'koosy_walkie_history';
+        this.templates = {
+          lesson: `아래 내용을 과외 수업 소개글로 다듬어줘. 전문적이면서도 친근한 톤으로, 핵심 정보를 강조해서 작성해줘.
+
+---
+{content}
+---
+
+형식:
+- 제목 (관심을 끄는 제목)
+- 수업 특징 요약
+- 수업 방식 설명
+- 수강 대상
+- 문의 안내`,
+
+          parent: `아래 내용을 학부모님께 보내는 안내 메시지로 변환해줘. 정중하고 신뢰감 있게 작성해줘.
+
+---
+{content}
+---
+
+형식:
+- 인사말
+- 수업 진행 상황
+- 학생 발전 포인트
+- 다음 수업 예고
+- 마무리 인사`,
+
+          study: `아래 내용을 학생이 이해하기 쉬운 학습 자료로 변환해줘. 개념을 명확하게 설명해줘.
+
+---
+{content}
+---
+
+형식:
+- 핵심 개념 한 줄 정리
+- 단계별 설명 (3-4단계)
+- 예시 1-2개
+- 연습 문제 제안
+
+※ 중고등학생 수준으로`,
+
+          review: `아래 내용을 수업 후기/리뷰 형식으로 변환해줘. 진정성 있게 작성해줘.
+
+---
+{content}
+---
+
+형식:
+- 수업 전 상황
+- 수업 과정
+- 변화/성과
+- 추천 포인트`
+        };
+
+        this.init();
+      }
+
+      init() {
+        this.setupSpeechRecognition();
+        this.loadHistory();
+        this.bindEvents();
+        this.renderHistory();
+      }
+
+      setupSpeechRecognition() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+          document.getElementById('voiceStatus').textContent = '이 브라우저는 음성 인식을 지원하지 않습니다';
+          document.getElementById('voiceBtn').disabled = true;
+          return;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        this.recognition = new SpeechRecognition();
+        this.recognition.continuous = true;
+        this.recognition.interimResults = true;
+        this.recognition.lang = 'ko-KR';
+
+        this.recognition.onstart = () => {
+          this.isRecording = true;
+          document.getElementById('voiceBtn').classList.add('recording');
+          document.getElementById('voiceStatus').textContent = '듣는 중...';
+          document.getElementById('voiceStatus').classList.add('recording');
+        };
+
+        this.recognition.onend = () => {
+          this.isRecording = false;
+          document.getElementById('voiceBtn').classList.remove('recording');
+          document.getElementById('voiceStatus').textContent = '대기 중';
+          document.getElementById('voiceStatus').classList.remove('recording');
+        };
+
+        this.recognition.onresult = (event) => {
+          let finalTranscript = '';
+          let interimTranscript = '';
+
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+            } else {
+              interimTranscript += transcript;
+            }
+          }
+
+          if (finalTranscript) {
+            this.transcript += finalTranscript + ' ';
+          }
+
+          this.updateTranscript(this.transcript + interimTranscript);
+        };
+
+        this.recognition.onerror = (event) => {
+          console.error('Speech recognition error:', event.error);
+          document.getElementById('voiceStatus').textContent = `오류: ${event.error}`;
+        };
+      }
+
+      updateTranscript(text) {
+        const el = document.getElementById('transcript');
+        if (text.trim()) {
+          el.textContent = text;
+          el.classList.remove('empty');
+        } else {
+          el.textContent = '음성 인식 결과가 여기에 표시됩니다';
+          el.classList.add('empty');
+        }
+      }
+
+      toggleRecording() {
+        if (!this.recognition) return;
+
+        if (this.isRecording) {
+          this.recognition.stop();
+        } else {
+          this.transcript = '';
+          this.recognition.start();
+        }
+      }
+
+      generatePrompt(template) {
+        const content = this.transcript.trim();
+        if (!content) {
+          alert('먼저 음성을 입력해주세요');
+          return;
+        }
+
+        const prompt = this.templates[template].replace('{content}', content);
+
+        document.getElementById('generatedContent').textContent = prompt;
+        document.getElementById('generatedSection').classList.add('active');
+        document.getElementById('generatedSection').scrollIntoView({ behavior: 'smooth' });
+
+        this.addToHistory({
+          type: template,
+          original: content,
+          prompt: prompt,
+          date: new Date().toISOString()
+        });
+      }
+
+      copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = event.target;
+          const originalText = btn.textContent;
+          btn.textContent = '복사됨!';
+          setTimeout(() => btn.textContent = originalText, 1500);
+        });
+      }
+
+      loadHistory() {
+        const stored = localStorage.getItem(this.storageKey);
+        this.history = stored ? JSON.parse(stored) : [];
+      }
+
+      saveHistory() {
+        localStorage.setItem(this.storageKey, JSON.stringify(this.history.slice(0, 20)));
+      }
+
+      addToHistory(item) {
+        this.history.unshift(item);
+        this.saveHistory();
+        this.renderHistory();
+      }
+
+      renderHistory() {
+        const list = document.getElementById('historyList');
+
+        if (this.history.length === 0) {
+          list.innerHTML = '<p style="color: var(--text-dim); font-size: 14px; text-align: center;">아직 기록이 없습니다</p>';
+          return;
+        }
+
+        const typeNames = {
+          lesson: '수업 안내',
+          parent: '학부모 안내',
+          study: '학습 자료',
+          review: '수업 후기'
+        };
+
+        list.innerHTML = this.history.slice(0, 5).map((item, i) => {
+          const date = new Date(item.date);
+          const dateStr = `${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+          return `
+            <div class="history-item" data-index="${i}">
+              <div class="history-meta">
+                <span>${typeNames[item.type] || item.type}</span>
+                <span>${dateStr}</span>
+              </div>
+              <div class="history-preview">${item.original}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      bindEvents() {
+        document.getElementById('voiceBtn').addEventListener('click', () => {
+          this.toggleRecording();
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+          this.transcript = '';
+          this.updateTranscript('');
+          document.getElementById('generatedSection').classList.remove('active');
+        });
+
+        document.getElementById('copyRawBtn').addEventListener('click', (e) => {
+          this.copyToClipboard(this.transcript);
+        });
+
+        document.querySelectorAll('.template-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            this.generatePrompt(btn.dataset.template);
+          });
+        });
+
+        document.getElementById('copyPromptBtn').addEventListener('click', (e) => {
+          const content = document.getElementById('generatedContent').textContent;
+          this.copyToClipboard(content);
+        });
+
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const voiceSection = document.getElementById('voiceSection');
+            if (tab.dataset.mode === 'text') {
+              voiceSection.innerHTML = `
+                <textarea id="textInput" placeholder="여기에 직접 입력하세요..." style="
+                  width: 100%;
+                  min-height: 150px;
+                  background: var(--bg);
+                  border: 1px solid rgba(255,255,255,0.1);
+                  border-radius: 12px;
+                  padding: 15px;
+                  color: var(--text);
+                  font-size: 15px;
+                  resize: vertical;
+                "></textarea>
+              `;
+
+              document.getElementById('textInput').addEventListener('input', (e) => {
+                this.transcript = e.target.value;
+                this.updateTranscript(this.transcript);
+              });
+            } else {
+              voiceSection.innerHTML = `
+                <p style="font-size: 14px; color: var(--text-dim); margin-bottom: 10px;">버튼을 누르고 말하세요</p>
+                <button class="voice-btn" id="voiceBtn">🎤</button>
+                <p class="voice-status" id="voiceStatus">대기 중</p>
+              `;
+
+              document.getElementById('voiceBtn').addEventListener('click', () => {
+                this.toggleRecording();
+              });
+            }
+          });
+        });
+
+        document.getElementById('historyList').addEventListener('click', (e) => {
+          const item = e.target.closest('.history-item');
+          if (item) {
+            const index = parseInt(item.dataset.index);
+            const historyItem = this.history[index];
+            if (historyItem) {
+              this.transcript = historyItem.original;
+              this.updateTranscript(historyItem.original);
+              document.getElementById('generatedContent').textContent = historyItem.prompt;
+              document.getElementById('generatedSection').classList.add('active');
+            }
+          }
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new AIWalkie();
+    });
+  </script>
+</body>
+</html>

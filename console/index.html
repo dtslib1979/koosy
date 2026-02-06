@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관제 콘솔 | KOOSY 과외 길드</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #D4AF37;
+      --accent: #22c55e;
+      --bg: #0a0a14;
+      --card-bg: #1a1a2e;
+      --text: #f5f5f5;
+      --text-dim: #a0a0a0;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: var(--card-bg);
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header h1 span {
+      color: var(--primary);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .header-btn {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .header-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .stat-value.success { color: var(--success); }
+    .stat-value.warning { color: var(--warning); }
+    .stat-value.danger { color: var(--danger); }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .action-btn {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+    }
+
+    .action-btn:hover {
+      border-color: var(--primary);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .action-btn .icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .action-btn .label {
+      font-size: 13px;
+    }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+    }
+
+    .slot-card {
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .slot-card:hover {
+      border-color: var(--primary);
+    }
+
+    .slot-card.empty {
+      opacity: 0.5;
+    }
+
+    .slot-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #0a0a14;
+    }
+
+    .slot-card.empty .slot-avatar {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-dim);
+    }
+
+    .slot-info {
+      flex: 1;
+    }
+
+    .slot-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .slot-meta {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .slot-status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .slot-status.inactive {
+      background: var(--text-dim);
+    }
+
+    .activity-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(212, 175, 55, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-text {
+      font-size: 14px;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .auth-lock {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-box {
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 300px;
+    }
+
+    .auth-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 8px;
+      margin-bottom: 15px;
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      color: #0a0a14;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-lock" id="authLock">
+    <div class="auth-box">
+      <h2>🔐 관제 콘솔</h2>
+      <p style="color: var(--text-dim); margin-bottom: 20px; font-size: 14px;">접근 코드를 입력하세요</p>
+      <input type="password" class="auth-input" id="authInput" maxlength="4" placeholder="••••">
+      <button class="auth-btn" id="authBtn">입장</button>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="header-content">
+      <h1>🎛️ KOOSY <span>관제 콘솔</span></h1>
+      <div class="header-actions">
+        <a href="requests.html" class="header-btn">PR 요청</a>
+        <a href="billing.html" class="header-btn">정산</a>
+        <a href="../" class="header-btn">홈으로</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">활성 슬롯</div>
+        <div class="stat-value" id="activeSlots">1</div>
+        <div class="stat-sub">/ 12 슬롯</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">이번 달 수익</div>
+        <div class="stat-value success" id="monthlyRevenue">₩0</div>
+        <div class="stat-sub" id="revenueBreakdown">고정 0 + 변동 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">대기 중 PR</div>
+        <div class="stat-value warning" id="pendingPR">0</div>
+        <div class="stat-sub">건</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">이번 주 활동</div>
+        <div class="stat-value" id="weeklyActivity">0</div>
+        <div class="stat-sub">페이지뷰</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">⚡ 빠른 작업</h2>
+      <div class="quick-actions">
+        <a href="requests.html" class="action-btn">
+          <div class="icon">📋</div>
+          <div class="label">PR 요청 확인</div>
+        </a>
+        <a href="billing.html" class="action-btn">
+          <div class="icon">💰</div>
+          <div class="label">정산 관리</div>
+        </a>
+        <a href="../slots/slot01/" class="action-btn">
+          <div class="icon">🏠</div>
+          <div class="label">슬롯 방문</div>
+        </a>
+        <a href="../modules/walkie.html" class="action-btn">
+          <div class="icon">🎤</div>
+          <div class="label">워키토키</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">📊 슬롯 현황</h2>
+      <div class="slots-grid" id="slotsGrid"></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">🕐 최근 활동</h2>
+      <div class="activity-list" id="activityList"></div>
+    </div>
+  </main>
+
+  <script>
+    class ConsoleApp {
+      constructor() {
+        this.authKey = 'koosy_console_auth';
+        this.accessCode = '1126';
+        this.slots = this.loadSlots();
+        this.activities = [];
+        this.init();
+      }
+
+      init() {
+        this.checkAuth();
+        this.bindAuth();
+      }
+
+      checkAuth() {
+        const isAuthed = sessionStorage.getItem(this.authKey) === 'true';
+        if (isAuthed) {
+          document.getElementById('authLock').style.display = 'none';
+          this.loadDashboard();
+        }
+      }
+
+      bindAuth() {
+        const input = document.getElementById('authInput');
+        const btn = document.getElementById('authBtn');
+
+        btn.addEventListener('click', () => this.attemptAuth(input.value));
+        input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') this.attemptAuth(input.value);
+        });
+      }
+
+      attemptAuth(code) {
+        if (code === this.accessCode) {
+          sessionStorage.setItem(this.authKey, 'true');
+          document.getElementById('authLock').style.display = 'none';
+          this.loadDashboard();
+        } else {
+          document.getElementById('authInput').style.borderColor = '#ef4444';
+          setTimeout(() => {
+            document.getElementById('authInput').style.borderColor = '';
+            document.getElementById('authInput').value = '';
+          }, 500);
+        }
+      }
+
+      loadDashboard() {
+        this.renderStats();
+        this.renderSlots();
+        this.renderActivities();
+      }
+
+      loadSlots() {
+        const stored = localStorage.getItem('koosy_slots');
+        if (stored) return JSON.parse(stored);
+
+        return [
+          { id: 'slot01', name: '길드장', owner: '길드장', type: 'anchor', status: 'active' },
+          { id: 'slot02', name: '슬롯 02', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot03', name: '슬롯 03', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot04', name: '슬롯 04', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot05', name: '슬롯 05', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot06', name: '슬롯 06', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot07', name: '슬롯 07', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot08', name: '슬롯 08', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot09', name: '슬롯 09', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot10', name: '슬롯 10', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot11', name: '슬롯 11', owner: null, type: 'paid', status: 'empty' },
+          { id: 'slot12', name: '슬롯 12', owner: null, type: 'paid', status: 'empty' }
+        ];
+      }
+
+      renderStats() {
+        const activeSlots = this.slots.filter(s => s.status === 'active').length;
+        const paidActiveSlots = this.slots.filter(s => s.status === 'active' && s.type === 'paid').length;
+
+        const fixedRevenue = paidActiveSlots * 70000;
+        const prRequests = JSON.parse(localStorage.getItem('koosy_pr_requests') || '[]');
+        const pendingPR = prRequests.filter(r => r.status === 'pending').length;
+
+        document.getElementById('activeSlots').textContent = activeSlots;
+        document.getElementById('monthlyRevenue').textContent = `₩${fixedRevenue.toLocaleString()}`;
+        document.getElementById('revenueBreakdown').textContent = `고정 ${(fixedRevenue/10000).toFixed(0)}만 + 변동 0`;
+        document.getElementById('pendingPR').textContent = pendingPR;
+      }
+
+      renderSlots() {
+        const grid = document.getElementById('slotsGrid');
+        grid.innerHTML = this.slots.map(slot => `
+          <div class="slot-card ${slot.status === 'empty' ? 'empty' : ''}" data-slot="${slot.id}">
+            <div class="slot-avatar">${slot.owner ? slot.owner[0] : '?'}</div>
+            <div class="slot-info">
+              <div class="slot-name">${slot.owner || slot.name}</div>
+              <div class="slot-meta">${slot.id} · ${slot.type === 'anchor' ? '앵커' : '유료'}</div>
+            </div>
+            <div class="slot-status ${slot.status === 'empty' ? 'inactive' : ''}"></div>
+          </div>
+        `).join('');
+
+        grid.querySelectorAll('.slot-card').forEach(card => {
+          card.addEventListener('click', () => {
+            window.location.href = `../slots/${card.dataset.slot}/`;
+          });
+        });
+      }
+
+      renderActivities() {
+        const list = document.getElementById('activityList');
+        const prRequests = JSON.parse(localStorage.getItem('koosy_pr_requests') || '[]');
+
+        const activities = prRequests.slice(0, 10).map(pr => ({
+          icon: '📋',
+          text: `PR 요청: ${pr.type}`,
+          time: new Date(pr.createdAt).toLocaleString('ko-KR'),
+          slot: pr.slot
+        }));
+
+        if (activities.length === 0) {
+          list.innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 20px;">최근 활동이 없습니다</p>';
+          return;
+        }
+
+        list.innerHTML = activities.map(a => `
+          <div class="activity-item">
+            <div class="activity-icon">${a.icon}</div>
+            <div class="activity-content">
+              <div class="activity-text">${a.text}</div>
+              <div class="activity-time">${a.time} · ${a.slot}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new ConsoleApp();
+    });
+  </script>
+</body>
+</html>

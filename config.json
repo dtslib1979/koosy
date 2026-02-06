@@ -4,7 +4,7 @@
     "shortName": "KOOSY",
     "domain": "koosy.kr",
     "url": "https://dtslib1979.github.io/koosy/",
-    "description": "Bluffing based editing broadcasting CELEB story",
+    "description": "AI 쓰는 과외 선생 12슬롯 길드",
     "tagline": "Real Money, Real World",
     "established": "2026.01.13",
     "themeColor": "#D4AF37"
@@ -13,6 +13,15 @@
     "name": "DIMAS",
     "email": "dimas@dtslib.com",
     "location": "대한민국"
+  },
+  "guild": {
+    "enabled": true,
+    "name": "KOOSY 과외 길드",
+    "industry": "education",
+    "totalSlots": 12,
+    "registryPath": "/registry.json",
+    "masterSlot": "slot01",
+    "features": ["walkie", "card", "blog", "console"]
   },
   "service": {
     "title": "AI 업무 자동화 세팅",
