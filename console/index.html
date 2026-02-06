@@ -396,90 +396,53 @@
     </div>
   </main>
 
+  <!-- Core Modules -->
+  <script src="/core/config/loader.js"></script>
+  <script src="/core/storage/keys.js"></script>
+  <script src="/core/auth/console-gate.js"></script>
+  <script src="/core/hq/reporter.js"></script>
+
   <script>
     class ConsoleApp {
       constructor() {
-        this.authKey = 'koosy_console_auth';
-        this.accessCode = '1126';
-        this.slots = this.loadSlots();
-        this.activities = [];
+        this.gate = null;
+        this.reporter = null;
+        this.slots = [];
         this.init();
       }
 
-      init() {
-        this.checkAuth();
-        this.bindAuth();
-      }
-
-      checkAuth() {
-        const isAuthed = sessionStorage.getItem(this.authKey) === 'true';
-        if (isAuthed) {
-          document.getElementById('authLock').style.display = 'none';
-          this.loadDashboard();
-        }
-      }
-
-      bindAuth() {
-        const input = document.getElementById('authInput');
-        const btn = document.getElementById('authBtn');
-
-        btn.addEventListener('click', () => this.attemptAuth(input.value));
-        input.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') this.attemptAuth(input.value);
-        });
-      }
-
-      attemptAuth(code) {
-        if (code === this.accessCode) {
-          sessionStorage.setItem(this.authKey, 'true');
-          document.getElementById('authLock').style.display = 'none';
-          this.loadDashboard();
+      async init() {
+        if (window.GuildConfig) {
+          window.GuildConfig.onReady(() => this.setup());
         } else {
-          document.getElementById('authInput').style.borderColor = '#ef4444';
-          setTimeout(() => {
-            document.getElementById('authInput').style.borderColor = '';
-            document.getElementById('authInput').value = '';
-          }, 500);
+          this.setup();
         }
+      }
+
+      setup() {
+        this.gate = new ConsoleGate({
+          onSuccess: () => this.loadDashboard()
+        });
+        this.reporter = new HQReporter();
       }
 
       loadDashboard() {
-        this.renderStats();
-        this.renderSlots();
-        this.renderActivities();
-      }
-
-      loadSlots() {
-        const stored = localStorage.getItem('koosy_slots');
-        if (stored) return JSON.parse(stored);
-
-        return [
-          { id: 'slot01', name: '길드장', owner: '길드장', type: 'anchor', status: 'active' },
-          { id: 'slot02', name: '슬롯 02', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot03', name: '슬롯 03', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot04', name: '슬롯 04', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot05', name: '슬롯 05', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot06', name: '슬롯 06', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot07', name: '슬롯 07', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot08', name: '슬롯 08', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot09', name: '슬롯 09', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot10', name: '슬롯 10', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot11', name: '슬롯 11', owner: null, type: 'paid', status: 'empty' },
-          { id: 'slot12', name: '슬롯 12', owner: null, type: 'paid', status: 'empty' }
-        ];
+        setTimeout(() => {
+          this.slots = this.reporter.getSlotList();
+          this.renderStats();
+          this.renderSlots();
+          this.renderActivities();
+        }, 100);
       }
 
       renderStats() {
-        const activeSlots = this.slots.filter(s => s.status === 'active').length;
-        const paidActiveSlots = this.slots.filter(s => s.status === 'active' && s.type === 'paid').length;
+        const slotStats = this.reporter.getSlotStats() || { active: 1, paidActive: 0 };
+        const revenueStats = this.reporter.getRevenueStats() || { fixed: 0, variable: 0 };
+        const pendingPR = this.reporter.getPendingPRCount();
 
-        const fixedRevenue = paidActiveSlots * 70000;
-        const prRequests = JSON.parse(localStorage.getItem('koosy_pr_requests') || '[]');
-        const pendingPR = prRequests.filter(r => r.status === 'pending').length;
-
-        document.getElementById('activeSlots').textContent = activeSlots;
-        document.getElementById('monthlyRevenue').textContent = `₩${fixedRevenue.toLocaleString()}`;
-        document.getElementById('revenueBreakdown').textContent = `고정 ${(fixedRevenue/10000).toFixed(0)}만 + 변동 0`;
+        document.getElementById('activeSlots').textContent = slotStats.active;
+        document.getElementById('monthlyRevenue').textContent = `₩${revenueStats.fixed.toLocaleString()}`;
+        document.getElementById('revenueBreakdown').textContent = `고정 ${(revenueStats.fixed/10000).toFixed(0)}만 + 변동 ${(revenueStats.variable/10000).toFixed(0)}만`;
         document.getElementById('pendingPR').textContent = pendingPR;
       }
 
@@ -487,9 +450,9 @@
         const grid = document.getElementById('slotsGrid');
         grid.innerHTML = this.slots.map(slot => `
           <div class="slot-card ${slot.status === 'empty' ? 'empty' : ''}" data-slot="${slot.id}">
-            <div class="slot-avatar">${slot.owner ? slot.owner[0] : '?'}</div>
+            <div class="slot-avatar">${slot.member?.name?.[0] || slot.owner?.[0] || '?'}</div>
             <div class="slot-info">
-              <div class="slot-name">${slot.owner || slot.name}</div>
+              <div class="slot-name">${slot.member?.name || slot.owner || slot.name}</div>
               <div class="slot-meta">${slot.id} · ${slot.type === 'anchor' ? '앵커' : '유료'}</div>
             </div>
             <div class="slot-status ${slot.status === 'empty' ? 'inactive' : ''}"></div>
@@ -505,14 +468,7 @@
 
       renderActivities() {
         const list = document.getElementById('activityList');
-        const prRequests = JSON.parse(localStorage.getItem('koosy_pr_requests') || '[]');
-
-        const activities = prRequests.slice(0, 10).map(pr => ({
-          icon: '📋',
-          text: `PR 요청: ${pr.type}`,
-          time: new Date(pr.createdAt).toLocaleString('ko-KR'),
-          slot: pr.slot
-        }));
+        const activities = this.reporter.getRecentActivity(10);
 
         if (activities.length === 0) {
           list.innerHTML = '<p style="color: var(--text-dim); text-align: center; padding: 20px;">최근 활동이 없습니다</p>';

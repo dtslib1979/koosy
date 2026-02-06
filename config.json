@@ -38,6 +38,23 @@
     "accessCode": "1126",
     "storageKey": "dtslib_staff_auth"
   },
+  "console": {
+    "accessCode": "1126",
+    "storageKey": "koosy_console_auth"
+  },
+  "pr": {
+    "channel": "kakao",
+    "kakaoId": "koosy",
+    "webhookEnabled": false
+  },
+  "pricing": {
+    "entry": 500000,
+    "monthly": 100000,
+    "monthlyBreakdown": {
+      "chatgpt": 30000,
+      "guild": 70000
+    }
+  },
   "pwa": {
     "enabled": true,
     "cacheName": "koosy-v1"
