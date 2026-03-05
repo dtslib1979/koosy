@@ -1,0 +1,25 @@
+# Credentials
+automation/.credentials/
+.credentials/
+
+# Queue (orchestrator 관리)
+coupang/queue/*.json
+naver/queue/*.json
+youtube/queue/*.json
+
+# Analytics logs (append-only, 로컬 전용)
+analytics/deploy-log.jsonl
+analytics/sales-log.jsonl
+analytics/traffic-log.jsonl
+analytics/channel-performance.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+
+# Node
+node_modules/

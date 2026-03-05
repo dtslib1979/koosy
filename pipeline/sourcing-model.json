@@ -1,0 +1,35 @@
+{
+  "$schema": "sourcing.v1.0",
+  "model": "허생.exe",
+  "description": "정보 시차 거래 — 미국(Brain) + 중국(Body) + 한국(Mouth)",
+
+  "sourcing_chain": {
+    "brain": {
+      "sources": ["Reddit", "GitHub Trending", "Hackernews", "ProductHunt"],
+      "role": "트렌드 발굴 — 뜨는 메이커 프로젝트/키트 선별"
+    },
+    "body": {
+      "sources": ["1688.com", "타오바오", "AliExpress"],
+      "role": "부품 소싱 — 최저가 MOQ 50~100개 단위",
+      "typical_cost": "3,000~8,000 KRW per kit"
+    },
+    "mouth": {
+      "outputs": ["AI 프롬프트 템플릿", "영상 강의", "프로젝트 가이드"],
+      "role": "콘텐츠 번들 — 부품 + 지식 = 29,900원 상품",
+      "margin": "51.5% (키트) ~ 100% (디지털)"
+    }
+  },
+
+  "moat": {
+    "content": "키트당 강의 3편 + AI 템플릿 — 따라올 수 없는 번들",
+    "community": "12슬롯 길드 + YouTube 구독자 커뮤니티",
+    "speed": "Claude Code로 강의 자동 생성 — 경쟁사 2주 vs 1일"
+  },
+
+  "pricing_tiers": [
+    { "type": "kit", "retail": 29900, "cost": 5000, "shipping": 6500, "margin": "51.5%" },
+    { "type": "course", "retail": 19900, "cost": 0, "shipping": 0, "margin": "100%" },
+    { "type": "template", "retail": 9900, "cost": 0, "shipping": 0, "margin": "100%" },
+    { "type": "bundle", "retail": 49900, "cost": 5000, "shipping": 6500, "margin": "70.9%" }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "factory.v3.0",
+  "id": "koosy",
+  "version": "4.0.0",
+
+  "identity": {
+    "name": "KOOSY",
+    "nameKo": "쿠씨",
+    "tagline": "만들면서 배운다 — Build to Learn",
+    "type": "commerce-education",
+    "domain": "koosy.kr",
+    "github": "dtslib1979.github.io/koosy",
+    "language": "ko-KR",
+    "established": "2026-01-13",
+    "transitioned": "2026-03-05"
+  },
+
+  "architecture": {
+    "singleSourceOfTruth": "PRODUCT_CARD.json",
+    "channels": ["coupang", "naver", "youtube", "showroom"],
+    "contentTypes": ["unboxing", "tutorial", "ai_coding", "showcase"],
+    "automation": "termux-bridge CDP",
+    "rendering": "gpu/ (상세페이지 + 영상 렌더링)"
+  },
+
+  "directories": {
+    "catalog": "상품 카탈로그 (SoT)",
+    "coupang": "쿠팡 벤더 시스템",
+    "naver": "네이버 스마트스토어",
+    "youtube": "YouTube 마케팅",
+    "showroom": "koosy.kr 브랜드 쇼룸",
+    "gpu": "렌더링 엔진",
+    "automation": "GUI 자동화",
+    "pipeline": "파이프라인 JSON 컨트랙트",
+    "content": "콘텐츠 소스",
+    "analytics": "매출/트래픽 분석",
+    "core": "브랜치 표준 모듈",
+    "scripts": "운영 스크립트"
+  },
+
+  "pipeline": {
+    "flow": [
+      "PRODUCT_CARD 작성",
+      "에셋 생성 (사진/영상 촬영)",
+      "GPU 렌더링 (상세페이지 + 영상)",
+      "4채널 동시 배포",
+      "매출 추적 → 루프백"
+    ]
+  },
+
+  "businessModel": {
+    "name": "허생.exe",
+    "sourcing": "1688/타오바오 (원가 5,000원)",
+    "bundle": "하드웨어 + AI 프롬프트 + 강의 영상",
+    "retail": "29,900원 (마진 51.5%)",
+    "moat": ["콘텐츠 해자", "커뮤니티 해자", "속도 해자"]
+  },
+
+  "transition": {
+    "from": {
+      "id": "koosy (셀럽 스토리 편집 방송)",
+      "type": "legacy",
+      "model": "content-platform"
+    },
+    "to": {
+      "id": "koosy (교육 키트 커머스)",
+      "type": "commerce-education",
+      "model": "4채널 루프백 교육 커머스"
+    }
+  },
+
+  "meta": {
+    "createdAt": "2026-01-13",
+    "updatedAt": "2026-03-05",
+    "version": "4.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "categories.v1.0",
+  "updated": "2026-03-05",
+  "categories": {
+    "kit": {
+      "label": "교육 키트",
+      "labelEn": "Education Kit",
+      "subcategories": ["esp32", "arduino", "raspberry_pi", "sensor", "robot"],
+      "icon": "🔧"
+    },
+    "course": {
+      "label": "강의 패키지",
+      "labelEn": "Course",
+      "subcategories": ["beginner", "intermediate", "project", "ai_coding"],
+      "icon": "📚"
+    },
+    "template": {
+      "label": "AI 템플릿",
+      "labelEn": "Template",
+      "subcategories": ["claude", "chatgpt", "gemini", "automation"],
+      "icon": "🤖"
+    },
+    "bundle": {
+      "label": "번들 세트",
+      "labelEn": "Bundle",
+      "subcategories": ["starter", "maker", "pro"],
+      "icon": "📦"
+    }
+  }
+}

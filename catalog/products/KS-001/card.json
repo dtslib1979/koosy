@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "product_id": "KS-001",
+  "id": "KS-001",
+  "name": "ESP32 IoT 스타터 키트",
+  "name_en": "ESP32 IoT Starter Kit",
+  "brand": "koosy",
+  "state": "DRAFT",
+  "category": "kit/esp32",
+  "difficulty": "beginner",
+
+  "sourcing": {
+    "supplier": "1688.com",
+    "supplier_url": null,
+    "unit_cost_cny": 25,
+    "unit_cost_krw": 5000,
+    "moq": 50,
+    "lead_time_days": 14
+  },
+
+  "price": {
+    "cost": 5000,
+    "shipping": 6500,
+    "retail": 39900,
+    "coupang": 29900,
+    "naver": 29900,
+    "currency": "KRW"
+  },
+
+  "kit_contents": {
+    "hardware": ["ESP32 DevKit v1", "브레드보드", "점퍼선 20p", "LED 5종", "저항 세트", "온습도 센서 DHT11"],
+    "digital": ["프로젝트 가이드 PDF", "Claude 프롬프트 템플릿 3종", "회로도 SVG"],
+    "video": ["강의 영상 3편 (총 45분)"]
+  },
+
+  "projects": [
+    { "id": "P1", "name": "LED 신호등", "difficulty": "beginner", "time": "30분" },
+    { "id": "P2", "name": "온도 모니터", "difficulty": "beginner", "time": "45분" },
+    { "id": "P3", "name": "IoT 알림봇", "difficulty": "intermediate", "time": "60분" }
+  ],
+
+  "spec": {
+    "target_age": "중학생~성인",
+    "prerequisites": "없음",
+    "tools_needed": "PC (Arduino IDE 또는 브라우저)",
+    "weight": "350g",
+    "origin": "중국 (조립: 한국)"
+  },
+
+  "images": {
+    "main": "main.jpg",
+    "detail": [],
+    "lookbook": null,
+    "webtoon": null,
+    "cad": null
+  },
+
+  "tags": ["ESP32", "IoT", "아두이노", "교육키트", "메이커", "초보자"],
+
+  "content_matrix": {
+    "unboxing": { "enabled": true, "note": "키트 개봉 + 부품 소개" },
+    "tutorial": { "enabled": true, "note": "프로젝트 3개 step-by-step" },
+    "ai_coding": { "enabled": true, "note": "Claude로 코드 짜는 과정" },
+    "showcase": { "enabled": true, "note": "완성작 데모 + 확장 아이디어" }
+  },
+
+  "channels": {
+    "coupang": { "status": "pending", "detail_html": "coupang/rendered/KS-001.html" },
+    "naver": { "status": "pending", "detail_html": "naver/rendered/KS-001.html" },
+    "youtube": { "video_ids": [], "status": "pending" },
+    "showroom": { "page_url": "/showroom/lookbook/KS-001.html", "status": "pending" }
+  }
+}

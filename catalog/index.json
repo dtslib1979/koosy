@@ -1,0 +1,19 @@
+{
+  "$schema": "catalog.v1.0",
+  "updated": "2026-03-05",
+  "brand": "koosy",
+  "total_products": 1,
+  "products": [
+    {
+      "id": "KS-001",
+      "name": "ESP32 IoT 스타터 키트",
+      "name_en": "ESP32 IoT Starter Kit",
+      "category": "kit/esp32",
+      "difficulty": "beginner",
+      "price": 29900,
+      "image": "catalog/products/KS-001/main.jpg",
+      "state": "DRAFT",
+      "card": "products/KS-001/card.json"
+    }
+  ]
+}

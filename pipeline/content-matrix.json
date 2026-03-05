@@ -1,0 +1,61 @@
+{
+  "$schema": "content-matrix.v1.0",
+  "description": "콘텐츠 유형별 파이프라인 매핑 — 교육 키트 특화",
+
+  "types": {
+    "unboxing": {
+      "label": "키트 개봉기",
+      "description": "키트 실물 언박싱 + 부품 소개 + 첫인상",
+      "outputs": ["main.jpg", "detail-*.jpg", "unboxing-video.mp4"],
+      "channels": {
+        "coupang": "상품 메인/디테일 이미지",
+        "naver": "상품 메인/디테일 이미지",
+        "youtube": "시리즈 A (키트 뜯어보기)",
+        "showroom": "상품 갤러리"
+      }
+    },
+    "tutorial": {
+      "label": "만들기 강의",
+      "description": "프로젝트 step-by-step 가이드. 핵심 콘텐츠.",
+      "outputs": ["tutorial-video.mp4", "project-guide.pdf", "circuit-diagram.svg"],
+      "channels": {
+        "coupang": "강의 미리보기 상세페이지",
+        "naver": "블로그 연동 + 디지털 상품",
+        "youtube": "시리즈 B (30분 만에 IoT 완성)",
+        "showroom": "Workshop 페이지"
+      }
+    },
+    "ai_coding": {
+      "label": "AI 코딩",
+      "description": "Claude/ChatGPT로 코드 짜는 과정 시연",
+      "outputs": ["ai-coding-video.mp4", "prompt-templates.json"],
+      "channels": {
+        "coupang": "AI 활용 사례 상세",
+        "naver": "디지털 상품 (프롬프트 팩)",
+        "youtube": "시리즈 C (Claude한테 코드 시키기)",
+        "showroom": "Academy 페이지"
+      }
+    },
+    "showcase": {
+      "label": "완성작 데모",
+      "description": "완성된 프로젝트 데모 + 확장 아이디어",
+      "outputs": ["showcase-video.mp4", "demo-photos.jpg"],
+      "channels": {
+        "coupang": "상세 하단 완성샷",
+        "naver": "후기형 콘텐츠",
+        "youtube": "시리즈 D (쿠씨의 과외)",
+        "showroom": "Project 페이지"
+      }
+    }
+  },
+
+  "bgm_mapping": {
+    "source": "parksy-audio/lyria3/",
+    "categories": {
+      "unboxing": "lyria3/shorts/",
+      "tutorial": "lyria3/material/ambient/",
+      "ai_coding": "lyria3/material/texture/",
+      "showcase": "lyria3/jingle/"
+    }
+  }
+}
