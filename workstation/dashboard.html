@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>KOOSY — Workstation</title>
+<meta name="theme-color" content="#0a0f1a">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="ws-nav">
+  <div class="ws-nav__brand">
+    <a href="../">KOOSY</a>
+    <span class="ws-nav__badge">WS</span>
+  </div>
+  <div class="ws-nav__actions">
+    <a href="../" class="ws-nav__link">Home</a>
+    <a href="../showroom/" class="ws-nav__link">Showroom</a>
+    <button class="ws-nav__logout" id="logoutBtn">Logout</button>
+  </div>
+</nav>
+<main class="ws-main">
+  <div class="ws-grid">
+    <div class="ws-module reveal">
+      <div class="ws-module__header"><div class="ws-module__title"><span class="ws-module__icon">💡</span> Idea Board</div><div class="ws-module__actions"><button class="ws-module__btn" id="ideaAdd" title="Add idea">+</button></div></div>
+      <div class="ws-module__body"><textarea class="idea-input" id="ideaInput" placeholder="New idea... (Enter to add)"></textarea><div class="idea-cards" id="ideaCards"></div></div>
+    </div>
+    <div class="ws-module reveal">
+      <div class="ws-module__header"><div class="ws-module__title"><span class="ws-module__icon">📦</span> Product Tracker</div></div>
+      <div class="ws-module__body"><div class="product-list" id="productList"><div class="ws-module__empty">Loading...</div></div></div>
+    </div>
+    <div class="ws-module reveal">
+      <div class="ws-module__header"><div class="ws-module__title"><span class="ws-module__icon">📊</span> Analytics</div></div>
+      <div class="ws-module__body" id="analyticsBody"><div class="ws-module__empty">Loading...</div></div>
+    </div>
+    <div class="ws-module reveal">
+      <div class="ws-module__header"><div class="ws-module__title"><span class="ws-module__icon">📝</span> Notes</div></div>
+      <div class="ws-module__body"><textarea class="notes-area" id="notesArea" placeholder="Write anything..."></textarea></div>
+    </div>
+    <div class="ws-module reveal">
+      <div class="ws-module__header"><div class="ws-module__title"><span class="ws-module__icon">🔗</span> Quick Links</div></div>
+      <div class="ws-module__body">
+        <div class="quick-links">
+          <a href="https://wing.coupang.com" target="_blank" rel="noopener" class="quick-link"><span class="quick-link__icon">🛒</span><span class="quick-link__text">Coupang Wing</span><span class="quick-link__arrow">→</span></a>
+          <a href="https://sell.smartstore.naver.com" target="_blank" rel="noopener" class="quick-link"><span class="quick-link__icon">🟢</span><span class="quick-link__text">Naver Commerce</span><span class="quick-link__arrow">→</span></a>
+          <a href="https://studio.youtube.com" target="_blank" rel="noopener" class="quick-link"><span class="quick-link__icon">▶️</span><span class="quick-link__text">YouTube Studio</span><span class="quick-link__arrow">→</span></a>
+          <a href="https://analytics.google.com" target="_blank" rel="noopener" class="quick-link"><span class="quick-link__icon">📈</span><span class="quick-link__text">Google Analytics</span><span class="quick-link__arrow">→</span></a>
+          <a href="../console/" target="_blank" rel="noopener" class="quick-link"><span class="quick-link__icon">🖥️</span><span class="quick-link__text">KOOSY Console</span><span class="quick-link__arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="app.js"></script>
+<script>
+KOOSY.ws.initDashboard();
+document.getElementById('logoutBtn').addEventListener('click',function(){KOOSY.ws.logout();});
+</script>
+</body>
+</html>

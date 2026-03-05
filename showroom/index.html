@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Showroom — KOOSY Education Kit</title>
+<meta name="description" content="KOOSY 교육 키트 쇼룸. 만들면서 배우는 전체 컬렉션.">
+<meta name="theme-color" content="#0a0f1a">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../styles/tokens.css">
+<link rel="stylesheet" href="../styles/reset.css">
+<link rel="stylesheet" href="../styles/components.css">
+<link rel="stylesheet" href="../styles/animations.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="../" class="nav__brand">KOOSY</a>
+  <div class="nav__channels">
+    <a href="../channels/project.html" class="nav__ch" data-ch="ch1">CH1 Project</a>
+    <a href="../channels/component.html" class="nav__ch" data-ch="ch2">CH2 Component</a>
+    <a href="../channels/workshop.html" class="nav__ch" data-ch="ch3">CH3 Workshop</a>
+    <a href="../channels/academy.html" class="nav__ch" data-ch="ch4">CH4 Academy</a>
+  </div>
+  <div class="nav__actions">
+    <a href="./" class="nav__link" style="color:var(--text)">Showroom</a>
+  </div>
+</nav>
+
+<section class="section" style="padding-top:calc(var(--nav-h) + var(--sp-16));text-align:center">
+  <div class="container">
+    <div class="section__label reveal">Showroom</div>
+    <h1 class="section__title reveal" style="font-size:var(--text-hero);font-weight:var(--w-thin);letter-spacing:0.2em;text-transform:uppercase">KOOSY</h1>
+    <p style="font-size:var(--text-body);color:var(--text-2);font-weight:var(--w-light);margin-top:var(--sp-3)" class="reveal">Education Kit Collection — Build to Learn</p>
+  </div>
+</section>
+
+<section style="padding:var(--sp-8) 0">
+  <div class="container" style="display:flex;gap:var(--sp-2);justify-content:center;flex-wrap:wrap" id="filters"></div>
+</section>
+
+<section class="section--sm">
+  <div class="container">
+    <div id="productGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--sp-6)"></div>
+    <div id="emptyState" style="display:none;text-align:center;padding:var(--sp-24) 0">
+      <div style="font-size:3rem;margin-bottom:var(--sp-4)">🔧</div>
+      <p style="color:var(--text-3)">키트 준비 중</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand">KOOSY</div>
+    <p class="footer__tagline">Education Kit — Build to Learn</p>
+    <div class="footer__links">
+      <a href="../channels/project.html" class="footer__link">Project</a>
+      <a href="../channels/component.html" class="footer__link">Component</a>
+      <a href="../channels/workshop.html" class="footer__link">Workshop</a>
+      <a href="../channels/academy.html" class="footer__link">Academy</a>
+      <a href="../" class="footer__link">Home</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 KOOSY. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="page-spacer"></div>
+
+<div class="player-bar" id="playerBar" data-channel="showroom">
+  <div class="player-bar__music">
+    <div class="player-bar__art">♪</div>
+    <div class="player-bar__meta">
+      <div class="player-bar__title" id="playerTitle">Plastic Love</div>
+      <div class="player-bar__artist" id="playerArtist">Mariya Takeuchi</div>
+    </div>
+  </div>
+  <div class="player-bar__controls">
+    <button class="player-bar__btn" id="playerPrev">⏮</button>
+    <button class="player-bar__btn player-bar__btn--play" id="playerPlay">▶</button>
+    <button class="player-bar__btn" id="playerNext">⏭</button>
+  </div>
+  <div class="player-bar__product" id="playerProduct">
+    <div class="player-bar__thumb" id="playerThumb">🔧</div>
+    <a href="./" class="player-bar__buy">Shop Now</a>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/scroll-reveal.js"></script>
+<script src="../js/player-bar.js"></script>
+<script>
+(function(){
+  'use strict';
+  var CATEGORIES={kit:{label:'교육 키트',icon:'🔧'},course:{label:'강의 패키지',icon:'📚'},template:{label:'AI 템플릿',icon:'🤖'},bundle:{label:'번들 세트',icon:'📦'}};
+  var allProducts=[];
+  var currentFilter='all';
+
+  function init(){
+    if(!window.KOOSY)return;
+    window.KOOSY.getCatalog().then(function(data){
+      allProducts=data.products||[];
+      renderFilters();
+      renderGrid(allProducts);
+    }).catch(function(){
+      document.getElementById('emptyState').style.display='block';
+    });
+  }
+
+  function renderFilters(){
+    var el=document.getElementById('filters');
+    var html='<button class="btn btn--sm is-active" data-cat="all" style="border-color:var(--accent);color:var(--accent)"><span>전체</span></button>';
+    var keys=Object.keys(CATEGORIES);
+    for(var i=0;i<keys.length;i++){
+      var k=keys[i],c=CATEGORIES[k];
+      html+='<button class="btn btn--sm" data-cat="'+k+'"><span>'+c.icon+' '+c.label+'</span></button>';
+    }
+    el.innerHTML=html;
+    el.addEventListener('click',function(e){
+      var btn=e.target.closest('[data-cat]');
+      if(!btn)return;
+      currentFilter=btn.dataset.cat;
+      var btns=el.querySelectorAll('[data-cat]');
+      for(var j=0;j<btns.length;j++){btns[j].style.borderColor='';btns[j].style.color='';btns[j].classList.remove('is-active')}
+      btn.style.borderColor='var(--accent)';btn.style.color='var(--accent)';btn.classList.add('is-active');
+      var filtered=currentFilter==='all'?allProducts:allProducts.filter(function(p){return p.category.split('/')[0]===currentFilter});
+      renderGrid(filtered);
+    });
+  }
+
+  function renderGrid(products){
+    var grid=document.getElementById('productGrid');
+    var empty=document.getElementById('emptyState');
+    if(!products.length){grid.innerHTML='';empty.style.display='block';return}
+    empty.style.display='none';
+    var html='';
+    for(var i=0;i<products.length;i++){
+      var p=products[i];
+      var icon=window.KOOSY.getCatIcon(p.category);
+      html+='<a href="lookbook/'+p.id+'.html" class="card reveal" data-product-id="'+p.id+'" data-product-name="'+p.name+'" data-product-price="'+p.price+'" data-product-icon="'+icon+'">';
+      html+='<div class="card__image"><div class="card__placeholder"><span class="card__placeholder-icon">'+icon+'</span><span class="card__placeholder-text">'+p.name_en+'</span></div>';
+      html+='<span class="card__badge">'+( p.difficulty||'')+'</span></div>';
+      html+='<div class="card__info"><div class="card__category">'+p.category.replace('/',' / ')+'</div>';
+      html+='<div class="card__name">'+p.name+'</div>';
+      html+='<div class="card__price">'+window.KOOSY.formatPrice(p.price)+'</div>';
+      html+='</div></a>';
+    }
+    grid.innerHTML=html;
+  }
+
+  if(window.KOOSY)init();
+  else document.addEventListener('DOMContentLoaded',function(){setTimeout(init,100)});
+})();
+</script>
+</body>
+</html>
