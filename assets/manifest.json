@@ -1,11 +1,11 @@
 {
-  "name": "KOOSY",
+  "name": "KOOSY — AI Education Kit Commerce",
   "short_name": "KOOSY",
-  "description": "KOOSY ≡ Built on Gold. Measured in Silver.",
+  "description": "교육 키트 커머스 — AI 코딩 교육 키트 4채널 루프백",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#0a1f1a",
-  "theme_color": "#D4AF37",
+  "background_color": "#0a0f1a",
+  "theme_color": "#3b82f6",
   "icons": [
     {
       "src": "1.jpg",

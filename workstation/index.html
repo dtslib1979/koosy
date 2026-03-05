@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>KOOSY — Workstation</title>
+<meta name="theme-color" content="#0a0f1a">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="gate" id="gate">
+  <div class="gate__brand">KOOSY</div>
+  <h1 class="gate__title">Workstation</h1>
+  <p class="gate__subtitle">Private workspace</p>
+  <form class="gate__form" id="gateForm" autocomplete="off">
+    <input class="gate__input" id="gateInput" type="password" inputmode="numeric" placeholder="Enter code" maxlength="10" autocomplete="off">
+    <button class="gate__btn" type="submit">Enter</button>
+    <div class="gate__error" id="gateError"></div>
+  </form>
+</div>
+<script src="app.js"></script>
+<script>KOOSY.ws.initGate();</script>
+</body>
+</html>

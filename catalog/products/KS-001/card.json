@@ -1,0 +1,80 @@
+{
+  "id": "KS-001",
+  "name": "AI 코딩 스타터 키트",
+  "name_en": "AI Coding Starter Kit",
+  "category": "kit/basic",
+  "season": "ALL",
+  "tags": ["beginner", "ai", "coding", "python", "chatgpt"],
+  "price": {
+    "cost": 15000,
+    "retail": 39900,
+    "coupang": 35900,
+    "naver": 37900
+  },
+  "spec": {
+    "contents": [
+      "가이드북 1권 (PDF 120p)",
+      "프롬프트 템플릿 30종",
+      "실습 코드 파일 15개",
+      "노션 대시보드 템플릿 1종",
+      "슬랙 커뮤니티 초대 (30일)"
+    ],
+    "level": "beginner",
+    "duration": "2주 완성",
+    "platform": ["Windows", "Mac", "Chromebook"],
+    "requirements": "인터넷 연결, 브라우저"
+  },
+  "images": {
+    "main": "catalog/products/KS-001/main.png",
+    "detail": [
+      "catalog/products/KS-001/detail-01.png",
+      "catalog/products/KS-001/detail-02.png",
+      "catalog/products/KS-001/detail-03.png"
+    ],
+    "thumbnail": "catalog/products/KS-001/thumb.png"
+  },
+  "channels": {
+    "coupang": "DRAFT",
+    "naver": "DRAFT",
+    "youtube": "DRAFT",
+    "showroom": "DRAFT"
+  },
+  "content_matrix": {
+    "unboxing": {
+      "status": "PENDING",
+      "source": "parksy-image/render",
+      "output": "content/unboxing/KS-001/"
+    },
+    "tutorial": {
+      "status": "PENDING",
+      "source": "parksy-image/story",
+      "output": "content/tutorial/KS-001/"
+    },
+    "ai_coding": {
+      "status": "PENDING",
+      "source": "OrbitPrompt",
+      "output": "content/ai_coding/KS-001/"
+    },
+    "showcase": {
+      "status": "PENDING",
+      "source": "parksy-image/cad",
+      "output": "content/showcase/KS-001/"
+    }
+  },
+  "pipeline": {
+    "image_source": "parksy-image",
+    "audio_source": "parksy-audio",
+    "render_engine": "gpu/render/render-video.js",
+    "detail_renderer": "gpu/detail-renderer/generate-detail.js"
+  },
+  "analytics": {
+    "views": 0,
+    "sales": 0,
+    "clicks": 0,
+    "revenue": 0,
+    "conversion_rate": 0
+  },
+  "created": "2026-03-05",
+  "updated": "2026-03-05",
+  "state": "SPEC_READY"
+}

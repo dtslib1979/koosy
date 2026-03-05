@@ -1,0 +1,20 @@
+{
+  "$schema": "catalog.v1.0",
+  "updated": "2026-03-05",
+  "brand": "koosy",
+  "total_products": 1,
+  "products": [
+    {
+      "id": "KS-001",
+      "name": "AI 코딩 스타터 키트",
+      "name_en": "AI Coding Starter Kit",
+      "category": "kit/basic",
+      "season": "ALL",
+      "price": 39900,
+      "colors": [],
+      "image": "catalog/products/KS-001/main.png",
+      "state": "SPEC_READY",
+      "card": "products/KS-001/card.json"
+    }
+  ]
+}

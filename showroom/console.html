@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOOSY — Analytics Console</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0f1a;--surface:#111827;--card:#1f2937;--accent:#3b82f6;
+  --green:#2ecc71;--yellow:#f1c40f;--blue:#3498db;
+  --text:#f1f5f9;--dim:rgba(241,245,249,0.5);--border:rgba(255,255,255,0.08);
+}
+body{font-family:-apple-system,system-ui,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1rem}
+header{padding:1.5rem 0;border-bottom:1px solid var(--border);margin-bottom:2rem;display:flex;justify-content:space-between;align-items:center}
+h1{font-size:1.4rem;font-weight:800;letter-spacing:0.1em}
+h1 span{color:var(--accent)}
+.sync-info{font-size:0.7rem;color:var(--dim)}
+.grid{display:grid;gap:1rem;margin-bottom:2rem}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center}
+.kpi-value{font-size:2rem;font-weight:800;margin:0.3rem 0}
+.kpi-label{font-size:0.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:0.05em}
+.kpi-value.revenue{color:var(--green)}
+.kpi-value.orders{color:var(--blue)}
+.kpi-value.traffic{color:var(--yellow)}
+.section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.section h2{font-size:1rem;font-weight:700;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.8rem}
+th{text-align:left;color:var(--dim);font-weight:500;padding:0.5rem;border-bottom:1px solid var(--border)}
+td{padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+.status-live{color:var(--green)}
+.status-setup{color:var(--yellow)}
+.channel-bar{display:flex;align-items:center;gap:0.5rem;margin:0.5rem 0}
+.channel-bar .label{width:70px;font-size:0.75rem;color:var(--dim)}
+.channel-bar .bar{flex:1;height:20px;background:var(--card);border-radius:4px;overflow:hidden}
+.channel-bar .fill{height:100%;border-radius:4px;transition:width 0.5s}
+.fill-coupang{background:var(--accent)}
+.fill-naver{background:var(--green)}
+.fill-youtube{background:#ff0000}
+.fill-showroom{background:var(--blue)}
+.channel-bar .val{font-size:0.75rem;width:80px;text-align:right}
+.loopback{background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(16,185,129,0.1));border:1px solid var(--accent);border-radius:12px;padding:1.5rem;text-align:center}
+.loopback h3{color:var(--accent);margin-bottom:0.5rem}
+.loopback p{font-size:0.8rem;color:var(--dim)}
+footer{text-align:center;padding:2rem;color:var(--dim);font-size:0.65rem}
+</style>
+</head>
+<body>
+<header>
+  <h1><span>KOOSY</span> Analytics Console</h1>
+  <div class="sync-info" id="sync-info">loading...</div>
+</header>
+
+<div class="grid grid-4" id="kpi-grid">
+  <div class="kpi-card"><div class="kpi-label">Total Revenue</div><div class="kpi-value revenue" id="kpi-revenue">-</div></div>
+  <div class="kpi-card"><div class="kpi-label">Orders</div><div class="kpi-value orders" id="kpi-orders">-</div></div>
+  <div class="kpi-card"><div class="kpi-label">Traffic</div><div class="kpi-value traffic" id="kpi-traffic">-</div></div>
+  <div class="kpi-card"><div class="kpi-label">Products Live</div><div class="kpi-value" id="kpi-live">-</div></div>
+</div>
+
+<div class="section">
+  <h2>Channel Performance</h2>
+  <div id="channel-bars"></div>
+  <table style="margin-top:1rem">
+    <thead><tr><th>Channel</th><th>Revenue</th><th>Traffic</th><th>Status</th></tr></thead>
+    <tbody id="channel-table"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Product Status</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Name</th><th>Price</th><th>State</th></tr></thead>
+    <tbody id="product-table"></tbody>
+  </table>
+</div>
+
+<div class="loopback" id="loopback">
+  <h3>LOOPBACK STATUS</h3>
+  <div style="font-size:1.5rem;margin:0.5rem 0" id="loop-icon">⟳</div>
+  <p id="loop-text">loading...</p>
+</div>
+
+<div class="section" style="margin-top:1.5rem">
+  <h2>HQ Sync (dtslib-papyrus)</h2>
+  <table>
+    <thead><tr><th>File</th><th>Status</th><th>Last Sync</th></tr></thead>
+    <tbody id="hq-table">
+      <tr><td>state.json</td><td id="hq-state">-</td><td id="hq-state-ts">-</td></tr>
+      <tr><td>domains.json</td><td id="hq-domains">-</td><td id="hq-domains-ts">-</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>koosy Commerce — Analytics + HQ Console<br>비공개 관리 콘솔. 검색엔진 노출 차단.</footer>
+
+<script>
+(function(){
+  'use strict';
+  var dashUrl = '../analytics/dashboard.json';
+  var catalogUrl = '../catalog/index.json';
+  function fmt(n) { return n !== undefined && n !== null ? '₩' + Number(n).toLocaleString('ko-KR') : '-'; }
+  function num(n) { return n !== undefined ? Number(n).toLocaleString() : '-'; }
+
+  Promise.all([
+    fetch(dashUrl).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+    fetch(catalogUrl).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
+  ]).then(function(results) {
+    var dash = results[0]; var catalog = results[1];
+    if (!dash) { document.getElementById('sync-info').textContent = 'dashboard.json not found — run: node analytics/collector.js'; return; }
+    document.getElementById('sync-info').textContent = 'Generated: ' + new Date(dash.generated).toLocaleString('ko-KR');
+    document.getElementById('kpi-revenue').textContent = fmt(dash.kpi.total_revenue);
+    document.getElementById('kpi-orders').textContent = num(dash.kpi.total_orders);
+    document.getElementById('kpi-traffic').textContent = num(dash.kpi.total_traffic);
+    document.getElementById('kpi-live').textContent = dash.kpi.products_live + '/' + dash.kpi.products_total;
+
+    var channels = dash.channels || {};
+    var maxRev = Math.max.apply(null, Object.values(channels).map(function(c){ return c.revenue || 0; })) || 1;
+    var barsHtml = '';
+    ['coupang','naver','youtube','showroom'].forEach(function(ch){
+      var c = channels[ch] || {};
+      var pct = maxRev > 0 ? Math.round((c.revenue || 0) / maxRev * 100) : 0;
+      barsHtml += '<div class="channel-bar"><span class="label">' + ch + '</span><div class="bar"><div class="fill fill-' + ch + '" style="width:' + pct + '%"></div></div><span class="val">' + fmt(c.revenue) + '</span></div>';
+    });
+    document.getElementById('channel-bars').innerHTML = barsHtml;
+
+    var tableHtml = '';
+    ['coupang','naver','youtube','showroom'].forEach(function(ch){
+      var c = channels[ch] || {};
+      tableHtml += '<tr><td>' + ch + '</td><td>' + fmt(c.revenue) + '</td><td>' + num(c.traffic) + '</td><td class="status-live">' + (c.status || '-') + '</td></tr>';
+    });
+    document.getElementById('channel-table').innerHTML = tableHtml;
+
+    if (catalog && catalog.products) {
+      var pHtml = '';
+      catalog.products.forEach(function(p){
+        var stateClass = p.state === 'ALL_LIVE' ? 'status-live' : 'status-setup';
+        pHtml += '<tr><td>' + p.id + '</td><td>' + p.name + '</td><td>' + fmt(p.price) + '</td><td class="' + stateClass + '">' + p.state + '</td></tr>';
+      });
+      document.getElementById('product-table').innerHTML = pHtml;
+    }
+
+    var loop = dash.loopback || {};
+    document.getElementById('loop-icon').textContent = loop.ready ? '✓' : '⟳';
+    document.getElementById('loop-icon').style.color = loop.ready ? '#2ecc71' : '#f1c40f';
+    document.getElementById('loop-text').textContent = loop.ready ? '루프백 가동 중 — 매출 데이터 → 다음 PRODUCT_CARD 기획' : '매출 데이터 대기 중 — 첫 매출 발생 시 루프백 시작';
+
+    document.getElementById('hq-state').textContent = 'education-commerce line';
+    document.getElementById('hq-state-ts').textContent = dash.generated ? new Date(dash.generated).toLocaleDateString('ko-KR') : '-';
+    document.getElementById('hq-domains').textContent = 'koosy.kr';
+    document.getElementById('hq-domains-ts').textContent = dash.generated ? new Date(dash.generated).toLocaleDateString('ko-KR') : '-';
+  });
+})();
+</script>
+</body>
+</html>

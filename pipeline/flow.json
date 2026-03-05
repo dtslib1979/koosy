@@ -1,0 +1,81 @@
+{
+  "$schema": "flow.v1.0",
+  "description": "전체 워크플로우 정의 — PRODUCT_CARD → 4채널 배포",
+
+  "stages": [
+    {
+      "id": "S1_SPEC",
+      "name": "상품 기획",
+      "input": "트렌드 조사 + analytics/ 데이터 + 1688 소싱",
+      "output": "catalog/products/KS-XXX/card.json",
+      "state_transition": "→ DRAFT → SPEC_READY",
+      "manual": true,
+      "tools": []
+    },
+    {
+      "id": "S2_ASSET",
+      "name": "에셋 생성",
+      "input": "card.json + 키트 실물 촬영",
+      "output": "main.jpg + detail-*.jpg + unboxing photos",
+      "state_transition": "SPEC_READY → ASSETS_READY",
+      "manual": true,
+      "tools": [
+        "카메라 촬영",
+        "parksy-image 후보정 (선택)"
+      ]
+    },
+    {
+      "id": "S3_RENDER",
+      "name": "렌더링",
+      "input": "card.json + images + bgm",
+      "output": "coupang HTML + naver HTML + YouTube MP4",
+      "state_transition": "ASSETS_READY → RENDERED",
+      "manual": false,
+      "tools": [
+        "gpu/detail-renderer/generate-detail.js",
+        "gpu/render/render-video.js"
+      ]
+    },
+    {
+      "id": "S4_DEPLOY",
+      "name": "4채널 배포",
+      "input": "rendered HTML + MP4 + showroom page",
+      "output": "4채널 라이브",
+      "state_transition": "RENDERED → COUPANG_LIVE + NAVER_LIVE + YOUTUBE_LIVE + SHOWROOM_LIVE → ALL_LIVE",
+      "manual": false,
+      "tools": [
+        "automation/orchestrator.js",
+        "automation/adapters/coupang.js",
+        "automation/adapters/naver.js",
+        "automation/adapters/youtube.js",
+        "automation/adapters/showroom.js"
+      ]
+    },
+    {
+      "id": "S5_TRACK",
+      "name": "매출 추적 + 루프백",
+      "input": "채널 매출/트래픽 데이터",
+      "output": "analytics/reports/ + 다음 PRODUCT_CARD",
+      "state_transition": "ALL_LIVE → TRACKING → S1_SPEC (루프)",
+      "manual": true,
+      "tools": [
+        "analytics/collector.js",
+        "analytics/dashboard.json",
+        "scripts/generate-report.sh",
+        "showroom/console.html"
+      ]
+    }
+  ],
+
+  "state_machine": {
+    "states": ["DRAFT", "SPEC_READY", "ASSETS_READY", "RENDERED", "COUPANG_LIVE", "NAVER_LIVE", "YOUTUBE_LIVE", "SHOWROOM_LIVE", "ALL_LIVE", "TRACKING", "DISCONTINUED", "CANCELLED"],
+    "transitions": {
+      "DRAFT → SPEC_READY": "card.json 스펙 확정 + 소싱 정보 입력",
+      "SPEC_READY → ASSETS_READY": "키트 실물 촬영 + 에셋 생성 완료",
+      "ASSETS_READY → RENDERED": "상세페이지 + 영상 렌더링 완료",
+      "RENDERED → *_LIVE": "각 채널 등록 완료",
+      "ALL_LIVE → TRACKING": "전 채널 라이브 확인",
+      "TRACKING → DRAFT": "루프백 (매출 → 다음 기획)"
+    }
+  }
+}
