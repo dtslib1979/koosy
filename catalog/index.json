@@ -6,13 +6,14 @@
   "products": [
     {
       "id": "KS-001",
-      "name": "ESP32 IoT 스타터 키트",
-      "name_en": "ESP32 IoT Starter Kit",
-      "category": "kit/esp32",
-      "difficulty": "beginner",
-      "price": 29900,
-      "image": "catalog/products/KS-001/main.jpg",
-      "state": "DRAFT",
+      "name": "AI 코딩 스타터 키트",
+      "name_en": "AI Coding Starter Kit",
+      "category": "kit/basic",
+      "season": "ALL",
+      "price": 39900,
+      "colors": [],
+      "image": "catalog/products/KS-001/main.png",
+      "state": "SPEC_READY",
       "card": "products/KS-001/card.json"
     }
   ]
