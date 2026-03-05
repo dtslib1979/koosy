@@ -4,10 +4,10 @@
     "shortName": "KOOSY",
     "domain": "koosy.kr",
     "url": "https://dtslib1979.github.io/koosy/",
-    "description": "AI 쓰는 과외 선생 12슬롯 길드",
+    "description": "교육 키트 커머스 — AI 코딩 교육 키트 4채널 루프백",
     "tagline": "Real Money, Real World",
     "established": "2026.01.13",
-    "themeColor": "#D4AF37"
+    "themeColor": "#3b82f6"
   },
   "owner": {
     "name": "DIMAS",
@@ -22,6 +22,24 @@
     "registryPath": "/registry.json",
     "masterSlot": "slot01",
     "features": ["walkie", "card", "blog", "console"]
+  },
+  "commerce": {
+    "enabled": true,
+    "brand": "KOOSY",
+    "domain": "koosy.kr",
+    "model": "허생.exe",
+    "channels": {
+      "coupang": { "status": "pending", "adapter": "automation/adapters/coupang.js" },
+      "naver": { "status": "pending", "adapter": "automation/adapters/naver.js" },
+      "youtube": { "status": "pending", "adapter": "automation/adapters/youtube.js" },
+      "showroom": { "status": "active", "adapter": "automation/adapters/showroom.js" }
+    },
+    "categories": ["kit", "course", "template", "bundle"],
+    "contentTypes": ["unboxing", "tutorial", "ai_coding", "showcase"],
+    "sot": "catalog/products/KS-XXX/card.json",
+    "gpu": "gpu/",
+    "automation": "automation/",
+    "analytics": "analytics/"
   },
   "service": {
     "title": "AI 업무 자동화 세팅",
@@ -57,11 +75,11 @@
   },
   "pwa": {
     "enabled": true,
-    "cacheName": "koosy-v1"
+    "cacheName": "koosy-v2"
   },
   "card": {
     "name": "KOOSY",
-    "title": "Bluffing based editing broadcasting CELEB story",
+    "title": "AI Education Kit Commerce",
     "organization": "KOOSY",
     "tagline": "Real Money, Real World",
     "quote": "EST. 2026.01.13",
@@ -71,11 +89,11 @@
     "cardUrl": "https://koosy.kr/card/",
     "ogImage": "https://dtslib1979.github.io/koosy/assets/icons/profile.jpg",
     "contactButtonLabel": "CONTACT",
-    "theme": "gold"
+    "theme": "blue"
   },
   "meta": {
-    "version": "1.0.0",
-    "lastUpdated": "2026-01-14",
-    "template": "KOOSY"
+    "version": "2.0.0",
+    "lastUpdated": "2026-03-05",
+    "template": "KOOSY-COMMERCE"
   }
 }

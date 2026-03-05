@@ -1,17 +1,17 @@
 {
   "id": "koosy",
   "name": "KOOSY",
-  "tagline": "Celebrity Story Editing Broadcasting",
+  "tagline": "AI Education Kit Commerce — 4-Channel Loopback",
   "hq": "dtslib1979/dtslib-branch",
-  "version": "1.0",
+  "version": "2.0",
   "status": "active",
   "visibility": "public",
-  "area": "content",
+  "area": "commerce",
   "tier": "standard",
   "theme": {
-    "primary": "#FF6B6B",
-    "accent": "#4ECDC4",
-    "bg": "#1a1a2e",
+    "primary": "#3b82f6",
+    "accent": "#60a5fa",
+    "bg": "#0a0a0a",
     "text": "#f5f5f5"
   },
   "subscriptions": [
@@ -46,5 +46,12 @@
       "target": "assets/js"
     }
   ],
-  "features": ["celeb-story", "bluffing-edit"]
+  "features": ["education-kit", "4ch-loopback", "gpu-render", "commerce"],
+  "commerce": {
+    "model": "허생.exe",
+    "channels": ["coupang", "naver", "youtube", "showroom"],
+    "sot": "PRODUCT_CARD.json",
+    "upstream": ["parksy-image", "parksy-audio", "OrbitPrompt"],
+    "downstream": ["dtslib-papyrus", "dtslib.kr"]
+  }
 }
